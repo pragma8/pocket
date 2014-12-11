@@ -13,7 +13,7 @@ Pocket take a look at the Pocket OPEN API:
 http://readitlaterlist.com/api/
 
 Suggestions for additions to Pocket are VERY welcome.  A large number of user
-suggestions have been implemented.  Please let me know of any additional features you
+suggestions have been implemented.  Please var me know of any additional features you
 are seeking at: http://readitlaterlist.com/support/
 
 Thanks
@@ -87,12 +87,12 @@ RILofflineQueue.prototype = {
 	
 	this.makeSureQueueIsInit(resetQueue);
         
-        let item, downloadingAtLeastOneView;
+        var item, downloadingAtLeastOneView;
 	
 	// sort list so newest is first
-        let sortedList = this.APP.sortList(this.APP.LIST.list.slice());
+        var sortedList = this.APP.sortList(this.APP.LIST.list.slice());
         
-        for(let i in sortedList)
+        for(var i in sortedList)
         {
             downloadingAtLeastOneView = false;
             item = sortedList[i];
@@ -124,7 +124,7 @@ RILofflineQueue.prototype = {
     {
 	if (this.clearingOffline) return false;
 	
-        let downloader;
+        var downloader;
         
         if (type == 1)
             downloader = Components.classes["@ril.ideashower.com/riltextdownloader;1"].createInstance(Components.interfaces.nsIRILtextDownloader);
@@ -153,7 +153,7 @@ RILofflineQueue.prototype = {
     {
 	this.threads = [];
 	
-	for(let i=0; i<this.maxThreads; i++) {
+	for(var i=0; i<this.maxThreads; i++) {
 	    this.threads[i] = {
 		id : i,		
 		inUse : false
@@ -167,19 +167,19 @@ RILofflineQueue.prototype = {
     {
         // check if still online
         
-        let mainWindow = this.APP.getMainWindow();
+        var mainWindow = this.APP.getMainWindow();
         if (mainWindow && mainWindow.navigator && !mainWindow.navigator.onLine)
         {   // if it can't access the navigator, assume still online
             this.cancel();
             return;
         }
 	
-	let nextItem = this.queue[this.pointer];
+	var nextItem = this.queue[this.pointer];
 	
 	if ( nextItem )
 	{
 	    // make sure the item still exists (wasn't marked as read)
-	    let item = this.APP.LIST.itemById(nextItem.itemId);
+	    var item = this.APP.LIST.itemById(nextItem.itemId);
 	    if (!item)
 	    {
 		this.pointer++; //skip it
@@ -187,7 +187,7 @@ RILofflineQueue.prototype = {
 	    }
 	    
 	    
-	    let thread = this.getAnOpenThread();
+	    var thread = this.getAnOpenThread();
 	    
 	    if (thread) {
 		
@@ -208,7 +208,7 @@ RILofflineQueue.prototype = {
 	{	    
 	    //this.d('nothing to next');
 	    
-	    for(let i in this.threads)
+	    for(var i in this.threads)
 	    {
 		if (this.threads[i].inUse) {
                     //dump("\n\nthread still open")
@@ -228,7 +228,7 @@ RILofflineQueue.prototype = {
     getAnOpenThread : function() {
 	if (!this.threads) this.createThreads();
 	
-	for(let i in this.threads)
+	for(var i in this.threads)
 	{
 	    if (!this.threads[i].inUse) {
 		this.threads[i].inUse = true;
@@ -253,7 +253,7 @@ RILofflineQueue.prototype = {
         if (this.downloading)
 	{
 	    // make sure the item still exists (wasn't marked as read)
-	    let item = this.APP.LIST.itemById(itemId);
+	    var item = this.APP.LIST.itemById(itemId);
 	    if (item)
 	    {	    
 		//this.d("\n\nitem is done | \n threadId:" + threadId + " \nsuccess: "  + success + " \n url: " + item.url + " \n type: " + type + "\nstatusCode: " + statusCode + ' | ' + retainDomains);
@@ -283,7 +283,7 @@ RILofflineQueue.prototype = {
     {
 	this.downloading = false;
 	this.updateProgress(true);
-	for(let i in this.threads)
+	for(var i in this.threads)
 	{
             if (this.threads[i].downloader)
                 this.threads[i].downloader.cancel();
@@ -298,7 +298,7 @@ RILofflineQueue.prototype = {
     {
         if (!this.textViewDownloads) this.textViewDownloads = {};
         
-        let set = {doc: doc, delegate: delegate};
+        var set = {doc: doc, delegate: delegate};
         set.downloader = Components.classes["@ril.ideashower.com/riltextdownloader;1"].createInstance(Components.interfaces.nsIRILtextDownloader);
         this.textViewDownloads[set.downloader.init( itemId, url, 'textViewReady')] = set;
 	set.downloader.start(null);  
@@ -306,7 +306,7 @@ RILofflineQueue.prototype = {
     
     textViewReady : function(downloader)
     {
-        let set = this.textViewDownloads[ downloader.requestId ];
+        var set = this.textViewDownloads[ downloader.requestId ];
         if (set.delegate)
             set.delegate['textViewReady'].call(set.delegate, downloader, set.doc);
     },
@@ -320,7 +320,7 @@ RILofflineQueue.prototype = {
         try {
             
 	    // Create file paths
-            let file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+            var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
             file.initWithPath( path );
             
             // Create needed directories to file
@@ -347,7 +347,7 @@ RILofflineQueue.prototype = {
             else
             {
                 // Obtain a converter to convert our data to a UTF-8 encoded input stream.
-                let converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
+                var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
                                 .createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
                 converter.charset = "UTF-8";
             
@@ -371,7 +371,7 @@ RILofflineQueue.prototype = {
     asyncCopy: function (aSource, aSink, aCallback)
     {
          if (!aSource || !aSink) {
-             let exception = new Components.Exception(
+             var exception = new Components.Exception(
                  "Must have a source and a sink",
                  Cr.NS_ERROR_INVALID_ARG,
                  Components.stack.caller
@@ -407,7 +407,7 @@ RILofflineQueue.prototype = {
              observer = {
                  onStartRequest: function(aRequest, aContext) {},
                  onStopRequest: function(aRequest, aContext, aStatusCode) {
-                    let success = (Components.isSuccessCode(aStatusCode));
+                    var success = (Components.isSuccessCode(aStatusCode));
                     aCallback(success);
                  }
              }

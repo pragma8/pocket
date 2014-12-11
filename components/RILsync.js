@@ -13,7 +13,7 @@ Pocket take a look at the Pocket OPEN API:
 http://readitlaterlist.com/api/
 
 Suggestions for additions to Pocket are VERY welcome.  A large number of user
-suggestions have been implemented.  Please let me know of any additional features you
+suggestions have been implemented.  Please var me know of any additional features you
 are seeking at: http://readitlaterlist.com/support/
 
 Thanks
@@ -65,7 +65,7 @@ RILsync.prototype = {
     {	
 	if (!this.syncingEnabled()) return false;
 	
-	let statement = this.APP.DB.createStatement("REPLACE INTO sync_queue (type, url) VALUES (:type, :url)");
+	var statement = this.APP.DB.createStatement("REPLACE INTO sync_queue (type, url) VALUES (:type, :url)");
 	statement.params.type = type;
 	statement.params.url = url;
 	this.batch.push( statement );
@@ -79,7 +79,7 @@ RILsync.prototype = {
     // Remove from sync queue
     removeFromSyncQueue : function(type, url, batch)
     {
-	let statement = this.APP.DB.createStatement("DELETE FROM sync_queue WHERE type = :type AND url = :url");
+	var statement = this.APP.DB.createStatement("DELETE FROM sync_queue WHERE type = :type AND url = :url");
 	statement.params.type = type;
 	statement.params.url = url;
 	this.batch.push( statement ); 
@@ -94,7 +94,7 @@ RILsync.prototype = {
     clearSyncQueue : function(fromLastRowId)
     {
 	if (!fromLastRowId) fromLastRowId = 1000000;
-	let statement = this.APP.DB.createStatement("DELETE FROM sync_queue WHERE rowid <= :rowId");
+	var statement = this.APP.DB.createStatement("DELETE FROM sync_queue WHERE rowid <= :rowId");
 	statement.params.rowId = fromLastRowId;
 	this.batch.push( statement );     
         this.flushBatch();	
@@ -169,17 +169,17 @@ RILsync.prototype = {
         this.syncChangesTO = null;
 	
         // Get sync queue               
-	let sql, statement, row, item, i;		
+	var sql, statement, row, item, i;		
 	this.lastRowId = 0;
 	
 	// Retrieve Syncing Queue
-	let newQueue = [];
-	let readQueue = [];
-	let deleteQueue = [];
-	let titleQueue = [];
-	let tagsQueue = [];
-	let scrollQueue = [];
-	let oQueue = [];
+	var newQueue = [];
+	var readQueue = [];
+	var deleteQueue = [];
+	var titleQueue = [];
+	var tagsQueue = [];
+	var scrollQueue = [];
+	var oQueue = [];
 	sql = "SELECT rowid, type, url FROM sync_queue";	
 	statement = this.APP.DB.createStatement(sql);
 	try {
@@ -267,7 +267,7 @@ RILsync.prototype = {
 	{
 	    
 	    // Create Parameter string
-	    let params = '';
+	    var params = '';
 	    
 	    if (newQueue.length)
 		params += '&new=' + this.JSON.encode( newQueue );
@@ -336,10 +336,10 @@ RILsync.prototype = {
 	this.waitingToGet = false;
 	
 	// Params
-	let since = this.PREFS.get('since'); //this.waitingToHardSync ? '' : this.PREFS.get('since'); // disabled hard sync
+	var since = this.PREFS.get('since'); //this.waitingToHardSync ? '' : this.PREFS.get('since'); // disabled hard sync
 	this.waitingToHardSync = false;	
 	
-	let params = 'since='+since+'&tags=1&positions=1';
+	var params = 'since='+since+'&tags=1&positions=1';
 	
 	// if the user's reading list is empty, then we have no use for their read list, so save the cycles and only request unread
 	if (this.LIST.list.length == 0)
@@ -354,14 +354,14 @@ RILsync.prototype = {
 	try {
 	
 	// If there are some results, process these in a thread
-	let newItems = [];
-	let itemId;
+	var newItems = [];
+	var itemId;
 	if (request.success && !this.syncWasCancelled)
 	{
 	    //this.APP.d(request.response);
-	    let response = this.JSON.decode( request.response );
-	    let compare = false;
-	    let compareItem;
+	    var response = this.JSON.decode( request.response );
+	    var compare = false;
+	    var compareItem;
 
 	    if (response.complete)
 	    {
@@ -399,8 +399,8 @@ RILsync.prototype = {
 		    this.APP.refreshList('list');
 		
 	    
-		let getItem, i, localItem, getUrl;
-		for(let n in response.list)
+		var getItem, i, localItem, getUrl;
+		for(var n in response.list)
 		{
 		    getItem = response.list[n];
 		    localItem = this.LIST.itemByUrl( getItem.url );
@@ -548,10 +548,10 @@ RILsync.prototype = {
         }
         
         
-	let page = page ? page : 1;
+	var page = page ? page : 1;
 	
         // TODO set readFetchCount to use perPage setting and add count limit to api
-        let params = 'format=json&state=read&count='+count+'&page='+page;
+        var params = 'format=json&state=read&count='+count+'&page='+page;
         if (filter) params += '&search='+filter;
         if (sort) params += '&sort='+sort;
         if (noCache) params += '&nocache=1';
@@ -564,18 +564,18 @@ RILsync.prototype = {
         
         this.gettingRead = false;
         
-        let readList = [];
-        let iByReadItemId = {};
-        let total = 0;
+        var readList = [];
+        var iByReadItemId = {};
+        var total = 0;
         
 	if (request.success)
 	{
-	    let response = this.JSON.decode( request.response );
-	    let c = 0;
+	    var response = this.JSON.decode( request.response );
+	    var c = 0;
             
 	    if (response.status == 1 && response.list)
 	    {
-		for(let n in response.list)
+		for(var n in response.list)
 		{
 		    getItem = response.list[n];
 		    
@@ -679,18 +679,18 @@ RILsync.prototype = {
 	    return false;
 	}
         
-        let requestSet          = {delegate:delegate, selector:selector};
+        var requestSet          = {delegate:delegate, selector:selector};
         requestSet.request      = Components.classes['@ril.ideashower.com/rilapirequest;1'].createInstance(Components.interfaces.nsIRILAPIRequest);
-        let requestId           = requestSet.request.initAndStart(method, login, params, errorReporting ? errorReporting : 'all', methodDescription);
+        var requestId           = requestSet.request.initAndStart(method, login, params, errorReporting ? errorReporting : 'all', methodDescription);
         this.requests[requestId] = requestSet;
     },
     
     requestCallback : function(apiRequest, requestId)
     {
-        let requestSet = this.requests[ requestId ];
+        var requestSet = this.requests[ requestId ];
         if (requestSet)
         {            
-            let request = requestSet.request;            
+            var request = requestSet.request;            
             requestSet.delegate[ requestSet.selector ]( request, request.success, request.response );
             delete requestSet;
         }
@@ -702,10 +702,10 @@ RILsync.prototype = {
     
     flushBatch : function(callback) {
 	// grab a snapshot of the batch and then clear it
-	let batch = this.batch.slice();
+	var batch = this.batch.slice();
 	this.batch = [];
 	
-	let sizeOfBatch = batch.length;
+	var sizeOfBatch = batch.length;
         if (batch.length > 0) {            
             this.APP.DB.executeAsync( batch , batch.length, null );
         }

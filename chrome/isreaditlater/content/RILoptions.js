@@ -27,7 +27,7 @@ RILoptions.prototype = {
         this.configureDebug();
         
         // Present a the default tab
-	let defaultTab = window.arguments && window.arguments[0] ? window.arguments[0] : 'account';
+	var defaultTab = window.arguments && window.arguments[0] ? window.arguments[0] : 'account';
         this.selectTab( defaultTab );
     },
     
@@ -55,8 +55,8 @@ RILoptions.prototype = {
         try {
             
             // Old vars for compare
-            let oldStoreSecurely = RIL.APP.PREFS.getBool('storeSecurely');
-            let oldLogin = RIL.APP.getLogin();
+            var oldStoreSecurely = RIL.APP.PREFS.getBool('storeSecurely');
+            var oldLogin = RIL.APP.getLogin();
             
             
 	    // Clean/validate data
@@ -64,7 +64,7 @@ RILoptions.prototype = {
 	    
 	    
 	    // Save form controls
-            let i;
+            var i;
             for(i in this.checkmarks)
             {
                 RIL.APP.PREFS.set( i, this.checkmarks[i].checked );
@@ -82,9 +82,9 @@ RILoptions.prototype = {
 	    
 	    
 	    // Save keyboard shortcuts
-	    let listitems = RIL.xul('keyboardShortcuts').getElementsByTagName('listitem');
-	    let id, keySet, value;
-	    for(let i in listitems) {
+	    var listitems = RIL.xul('keyboardShortcuts').getElementsByTagName('listitem');
+	    var id, keySet, value;
+	    for(var i in listitems) {
 		if (listitems[i].id) {
 		    id = listitems[i].id.replace(RIL.XULnamespace + 'keyboardShortcut','');
 		    value = listitems[i].value;
@@ -122,7 +122,7 @@ RILoptions.prototype = {
     configureAccount : function()
     {
 	try {
-	    let login = RIL.APP.getLogin();
+	    var login = RIL.APP.getLogin();
 	    
 	    // Reset
 	    RIL.xul('optionsForSignedOut').hidden = 
@@ -147,7 +147,7 @@ RILoptions.prototype = {
     
     clearLocalData : function()
     {	
-	let login = RIL.APP.getLogin();
+	var login = RIL.APP.getLogin();
             
 	if (RIL.APP.PROMPT.confirm(window, 'Pocket', RIL.l('localEraseConfirm') + "\n\n" + RIL.l('noUndoable') + (login && login.username  ? " \n\n" + RIL.l('noEffectOnline') : '')))
 	{
@@ -207,17 +207,17 @@ RILoptions.prototype = {
         try {
             
         // Display folder picker
-        let nsIFilePicker = Components.interfaces.nsIFilePicker;
-        let fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+        var nsIFilePicker = Components.interfaces.nsIFilePicker;
+        var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
         fp.init(window, "Select a Folder", nsIFilePicker.modeGetFolder);
         fp.displayDirectory = RIL.APP.ASSETS.DIR_RIL;
-        let response = fp.show();
+        var response = fp.show();
         
         // New folder selected
         if (response == nsIFilePicker.returnOK)
         {
-            let oldFolder = RIL.APP.ASSETS.DIR_RIL;
-            let newFolder = fp.file;
+            var oldFolder = RIL.APP.ASSETS.DIR_RIL;
+            var newFolder = fp.file;
             
             if (oldFolder.path != newFolder.path)
             {
@@ -257,9 +257,9 @@ RILoptions.prototype = {
     configureKeyboard : function()
     {
 	try {
-	    let listitems = RIL.xul('keyboardShortcuts').getElementsByTagName('listitem');
-	    let id, keySet;
-	    for(let i in listitems) {
+	    var listitems = RIL.xul('keyboardShortcuts').getElementsByTagName('listitem');
+	    var id, keySet;
+	    for(var i in listitems) {
 		if (listitems[i].id) {
 		    id = listitems[i].id.replace(RIL.XULnamespace + 'keyboardShortcut','');
 		    keySet = RIL.APP.PREFS.get('hotkey_'+id).split('||');
@@ -281,7 +281,7 @@ RILoptions.prototype = {
     
     selectKey : function(event, forceEnabled)
     {        
-    	let value = forceEnabled ? forceEnabled : RIL.xul('keyboardShortcuts').selectedItem.value.length;
+    	var value = forceEnabled ? forceEnabled : RIL.xul('keyboardShortcuts').selectedItem.value.length;
 	RIL.xul("newKey").disabled = !value;
 	RIL.xul("setKey").disabled = !value;
 	RIL.xul("disableKey").disabled = false;
@@ -303,7 +303,7 @@ RILoptions.prototype = {
     
     keyUp : function(e)
     {
-        let i = RILoptions.keysDown.indexOf(e.keyCode);
+        var i = RILoptions.keysDown.indexOf(e.keyCode);
         if (i >= 0)
             RILoptions.keysDown.splice(i,1);
 	e.preventDefault();
@@ -333,8 +333,8 @@ RILoptions.prototype = {
 	event.preventDefault();
 	event.stopPropagation();
         
-        let keyCode = event.keyCode;
-        let altKey = event.altKey;
+        var keyCode = event.keyCode;
+        var altKey = event.altKey;
         
         RIL.APP.d( event.charCode )
         RIL.APP.d( RIL.APP.ar(RILoptions.keysDown))
@@ -350,7 +350,7 @@ RILoptions.prototype = {
             
             // now figure out what the other key was
             // work backwards assuming the last key push will be at the bottom
-            for(let i=RILoptions.keysDown.length-1; i>=0; i--)
+            for(var i=RILoptions.keysDown.length-1; i>=0; i--)
             {
                 keyCode = RILoptions.keysDown[i];
                 
@@ -365,7 +365,7 @@ RILoptions.prototype = {
         }
         
 	
-	let modifiers = '';
+	var modifiers = '';
 	if (!RIL.xul('keyboardShortcuts').selectedItem.getAttribute('singleKey'))
 	{
 	    modifiers = [];
@@ -376,7 +376,7 @@ RILoptions.prototype = {
 	    modifiers = modifiers.join(" ");
 	}
 	
-	let key = "";        
+	var key = "";        
 	if (keyCode)
 	{
             if (keyCode >= 40 && keyCode <= 90)
@@ -461,7 +461,7 @@ RILoptions.prototype = {
     validatePerPage : function()
     {
 	try{
-	    let perPage = RIL.xul('optionsPerPage').value + '';	
+	    var perPage = RIL.xul('optionsPerPage').value + '';	
 	    if (!perPage.match(/^[0-9]{1,3}$/))
 		RIL.xul('optionsPerPage').value = RIL.APP.PREFS.get('list-page');
 	} catch(e){
@@ -527,7 +527,7 @@ RILoptions.prototype = {
     
     setCheck : function(id, prefBoolId, checked)
     {
-        let checkmark = RIL.xul(id);
+        var checkmark = RIL.xul(id);
         checkmark.checked = prefBoolId ? RIL.APP.PREFS.getBool(prefBoolId) : checked;
         if (prefBoolId)
             this.checkmarks[prefBoolId] = checkmark;
@@ -535,11 +535,11 @@ RILoptions.prototype = {
     
     setDrop : function(id, prefId)
     {
-        let drop = RIL.xul(id);
-        let value = RIL.APP.PREFS.get(prefId);
-        let items = drop.getElementsByTagName('menuitem');
+        var drop = RIL.xul(id);
+        var value = RIL.APP.PREFS.get(prefId);
+        var items = drop.getElementsByTagName('menuitem');
         
-        for(let i=0; i<items.length; i++)
+        for(var i=0; i<items.length; i++)
         {
             if (items[i].value == value)
             {                
@@ -554,7 +554,7 @@ RILoptions.prototype = {
     
     setText : function(id, prefId)
     {
-        let field = RIL.xul(id);
+        var field = RIL.xul(id);
         field.value = RIL.APP.PREFS.get(prefId);
         
         if (prefId)

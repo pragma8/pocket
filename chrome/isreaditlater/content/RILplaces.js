@@ -23,8 +23,8 @@ RILplaces.prototype =
         
         if (!this.APP.showLoginPromptIfNeeded()) return;
         
-        let urlsToOpen = [];
-        let node = view.selectedNode;
+        var urlsToOpen = [];
+        var node = view.selectedNode;
         
         if (node && PlacesUtils.nodeIsContainer(node))
         {
@@ -33,8 +33,8 @@ RILplaces.prototype =
         }
         
         // else
-        let nodes = view.getSelectionNodes();
-        for (let i=0; i < nodes.length; i++)
+        var nodes = view.getSelectionNodes();
+        for (var i=0; i < nodes.length; i++)
         {
           // skip over separators and folders
             if (PlacesUtils.nodeIsURI(nodes[i]))
@@ -65,30 +65,30 @@ RILplaces.prototype =
     
     getItemsForContainerNode : function(aNode)
     {
-        let urls = [];
+        var urls = [];
      if (PlacesUtils.nodeIsFolder(aNode) && asQuery(aNode).queryOptions.excludeItems) {
        // grab manually
        var itemId = PlacesUtils.getConcreteItemId(aNode);
-       let contents = PlacesUtils.getFolderContents(itemId, false, false).root;
-       for (let i = 0; i < contents.childCount; ++i) {
-         let child = contents.getChild(i);
+       var contents = PlacesUtils.getFolderContents(itemId, false, false).root;
+       for (var i = 0; i < contents.childCount; ++i) {
+         var child = contents.getChild(i);
          if (PlacesUtils.nodeIsURI(child))
            urls.push({uri: child.uri, title:child.title, isBookmark: PlacesUtils.nodeIsBookmark(child)});
        }
      }
      else {
-       let result, oldViewer, wasOpen;
+       var result, oldViewer, wasOpen;
        try {
-         let wasOpen = aNode.containerOpen;
+         var wasOpen = aNode.containerOpen;
          result = aNode.parentResult;
          oldViewer = result.viewer;
          if (!wasOpen) {
            result.viewer = null;
            aNode.containerOpen = true;
          }
-         for (let i = 0; i < aNode.childCount; ++i) {
+         for (var i = 0; i < aNode.childCount; ++i) {
            // Include visible url nodes only
-           let child = aNode.getChild(i);
+           var child = aNode.getChild(i);
            if (PlacesUtils.nodeIsURI(child)) {
              // If the node contents is visible, add the uri only if its node is
              // visible. Otherwise follow viewer's collapseDuplicates property,

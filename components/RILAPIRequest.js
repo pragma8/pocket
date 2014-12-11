@@ -13,7 +13,7 @@ Pocket take a look at the Pocket OPEN API:
 http://readitlaterlist.com/api/
 
 Suggestions for additions to Pocket are VERY welcome.  A large number of user
-suggestions have been implemented.  Please let me know of any additional features you
+suggestions have been implemented.  Please var me know of any additional features you
 are seeking at: http://readitlaterlist.com/support/
 
 Thanks
@@ -76,7 +76,7 @@ RILAPIrequest.prototype = {
     start : function ()
     {
 	try {
-            let url;
+            var url;
             
             this.isTextView = (this.method == 'firefox');
             
@@ -86,11 +86,11 @@ RILAPIrequest.prototype = {
                 url = this.api + this.method;
 	    
 	    // Params
-	    let params = this.params;
+	    var params = this.params;
 	    if (this.keyed) params += '&apikey='+this.apikey;
 	    if (this.login)
 	    {
-		let currentLogin = this.APP.getLogin();
+		var currentLogin = this.APP.getLogin();
 		if (currentLogin)
 		    params += '&username='+this.APP.e(currentLogin.username)+'&password='+this.APP.e(currentLogin.password);
 	    }
@@ -160,7 +160,7 @@ RILAPIrequest.prototype = {
                     }
                     else
                     {
-                        let action = this.methodDescription == 'read' ? 'getting your archive' : 'syncing';
+                        var action = this.methodDescription == 'read' ? 'getting your archive' : 'syncing';
                         this.APP.genericMessage('There was a problem while ' + action + ':\n'+this.error,
                                            [
                                             {label:'Try Again', delegate:this.methodDescription == 'read' ? this.APP.getTopRIL() : this.APP.SYNC, selector: this.methodDescription == 'read' ? 'updateReadList' : 'sync'},

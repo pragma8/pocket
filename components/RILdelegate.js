@@ -13,7 +13,7 @@ Pocket take a look at the Pocket OPEN API:
 http://readitlaterlist.com/api/
 
 Suggestions for additions to Pocket are VERY welcome.  A large number of user
-suggestions have been implemented.  Please let me know of any additional features you
+suggestions have been implemented.  Please var me know of any additional features you
 are seeking at: http://readitlaterlist.com/support/
 
 Thanks
@@ -150,7 +150,7 @@ RILdelegate.prototype = {
     
     connectToDatabase : function(databaseName) {
         
-        let file = Components.classes["@mozilla.org/file/directory_service;1"]
+        var file = Components.classes["@mozilla.org/file/directory_service;1"]
                         .getService(Components.interfaces.nsIProperties)
                         .get("ProfD", Components.interfaces.nsIFile);
         file.append(databaseName);
@@ -211,10 +211,10 @@ RILdelegate.prototype = {
     dumpAndReinstallDatabase : function()
     {
 	// Drop all tables - ideally we'd just remove the file but this.DB.close() results in an error, so we do it the long way
-	let sql = "select name from sqlite_master where type = 'table'";
-	let statement = this.DB.createStatement(sql);
-	let dropStatment;
-	let drops = [];
+	var sql = "select name from sqlite_master where type = 'table'";
+	var statement = this.DB.createStatement(sql);
+	var dropStatment;
+	var drops = [];
 	try {                    
 	    while (statement.step())
 	    {		
@@ -232,7 +232,7 @@ RILdelegate.prototype = {
 	this.DB.executeSimpleSQL("VACUUM");
 	
 	// drop
-	for(let i=0; i<drops.length; i++)
+	for(var i=0; i<drops.length; i++)
 	{
 	    this.DB.executeSimpleSQL(drops[i]);
 	}
@@ -251,8 +251,8 @@ RILdelegate.prototype = {
 	
 	// -- Upgrades
 	
-	let justInstalled = false;
-        let shouldTouch = false;
+	var justInstalled = false;
+        var shouldTouch = false;
 	
 	// -- If First Run -- //
 	if (!this.PREFS.getBool('installed')) {
@@ -345,7 +345,7 @@ RILdelegate.prototype = {
 	if (!this.LIST || !this.LIST.list) return false;
 	
 	// Determine which list to use as base
-	let listSource;
+	var listSource;
 	switch(typeOfList)
         {
 	    case('current'):
@@ -375,15 +375,15 @@ RILdelegate.prototype = {
 	}
         
         // Anything to filter out?
-        let filteredList = [];
+        var filteredList = [];
         if (filter) {
         
-            let item, i=0;
-            let filterCaseIns = new RegExp(this.regexSafe(filter), 'i');
-            let tagFilter = new RegExp(this.regexSafe(filter)+'([^,]+)?($|,)', 'i');
+            var item, i=0;
+            var filterCaseIns = new RegExp(this.regexSafe(filter), 'i');
+            var tagFilter = new RegExp(this.regexSafe(filter)+'([^,]+)?($|,)', 'i');
             
-	    let c=0;
-            for( let i in listSource ) {
+	    var c=0;
+            for( var i in listSource ) {
  
                 item = listSource[i];
 		
@@ -440,12 +440,12 @@ RILdelegate.prototype = {
     },
     
     sortByDate : function(a,b) { // should update offline queue component's version of this as well
-        let r = a.timeUpdated < b.timeUpdated ? 1 : (a.timeUpdated > b.timeUpdated ? -1 : 0);
+        var r = a.timeUpdated < b.timeUpdated ? 1 : (a.timeUpdated > b.timeUpdated ? -1 : 0);
         return r * this.sortDirection;
     },
     
     sortByTitle : function(a,b) {
-        let r = a.title < b.title ? -1 : (a.title > b.title ? 1 : 0);
+        var r = a.title < b.title ? -1 : (a.title > b.title ? 1 : 0);
         return r * this.sortDirection;
     },
     
@@ -456,7 +456,7 @@ RILdelegate.prototype = {
         if (!b.urlP)
             b.urlP = b.url.replace('www.','');
         
-        let r = a.url < b.url ? -1 : (a.url > b.url ? 1 : 0);
+        var r = a.url < b.url ? -1 : (a.url > b.url ? 1 : 0);
         return r * this.sortDirection;
     },
     
@@ -492,7 +492,7 @@ RILdelegate.prototype = {
 	    nsiuri = this.uri(item.url);
 	
 	// Check if we've already looked
-	let favUrl = nsiuri.scheme+'://'+nsiuri.host+'/favicon.ico';
+	var favUrl = nsiuri.scheme+'://'+nsiuri.host+'/favicon.ico';
 	if (this.checkedFavIcons[ favUrl ]) return false;
 	this.checkedFavIcons[ favUrl ] = true;
 	
@@ -518,7 +518,7 @@ RILdelegate.prototype = {
     
     favIconUpdated : function(aURI, theItem)
     {
-		let item = theItem && theItem.itemId ? theItem : this.LIST.itemByUrl(aURI.spec);
+		var item = theItem && theItem.itemId ? theItem : this.LIST.itemByUrl(aURI.spec);
 		
 		if (item)
 		{
@@ -593,13 +593,13 @@ RILdelegate.prototype = {
     {
         if (this.PREFS.getBool('loggedOut')) return;
         
-        let storeSecurely = this.PREFS.getBool('storeSecurely');
-        let hasMasterPassword = this.hasMasterPassword();
-        let promptedAboutMasterPass = this.PREFS.getBool('promptedAboutMasterPass');
+        var storeSecurely = this.PREFS.getBool('storeSecurely');
+        var hasMasterPassword = this.hasMasterPassword();
+        var promptedAboutMasterPass = this.PREFS.getBool('promptedAboutMasterPass');
         
         if (storeSecurely && hasMasterPassword && !promptedAboutMasterPass)
         {
-            let check = {value:false};
+            var check = {value:false};
             this.PROMPT.alertCheck( this.getMainWindow(), "Master Passwords and Pocket",
                                     "Pocket stores your username and password securely in Firefox's password manager. If you have a master password enabled this means you will be prompted every time RIL auto-syncs.  You can disable this under the advanced options by opting to disable storing your RIL account login securely.",
                                     "Do not tell me again",
@@ -619,8 +619,8 @@ RILdelegate.prototype = {
         
         else
         {
-            let username = this.PREFS.get('username');
-            let password = this.PREFS.get('password');
+            var username = this.PREFS.get('username');
+            var password = this.PREFS.get('password');
             
             if (!username || !password) return;
             
@@ -642,7 +642,7 @@ RILdelegate.prototype = {
         this.justLoggedInAndWaitingToSync = true;
 	
 	// Remove login if it exists
-	let currentLogin = this.getLogin();
+	var currentLogin = this.getLogin();
 	if (currentLogin)
 		this.LOGIN.removeLogin(currentLogin);
 	
@@ -653,7 +653,7 @@ RILdelegate.prototype = {
 	
         if (this.PREFS.getBool('storeSecurely'))
         {
-            let loginInfo = new nsLoginInfo(this.loginInfo.hostname,
+            var loginInfo = new nsLoginInfo(this.loginInfo.hostname,
                                                     this.loginInfo.formSubmitURL, this.loginInfo.httprealm,
                                                     username,
                                                     password, "", "");        
@@ -753,13 +753,13 @@ RILdelegate.prototype = {
     
     resolveLink : function(itemId, url, callback)
     {
-	let listener = new this.listenerResolver(itemId, url, this, 'resolveLinkCallback', this);
+	var listener = new this.listenerResolver(itemId, url, this, 'resolveLinkCallback', this);
 	listener.start();	
     },
     
     resolveLinkCallback : function(itemId, url, newUrl)
     {
-	let item = this.LIST.itemById(itemId);
+	var item = this.LIST.itemById(itemId);
 	if (!item) return; //if item was removed during the resolving
 	
 	if (url != newUrl)
@@ -784,7 +784,7 @@ RILdelegate.prototype = {
 	    start : function()
 	    {
 		// Open connection to resolve the link
-		let request = this.request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);  
+		var request = this.request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);  
 		request.open("GET", this.url, true);        
 		request.onreadystatechange = this.APP.genericClosure(this, 'onreadystate');
 		request.send();
@@ -826,8 +826,8 @@ RILdelegate.prototype = {
     
     updateOfflineQueue : function(newItems)
     {
-	let item;
-	for(let i in newItems)
+	var item;
+	for(var i in newItems)
 	{
 	    item = this.LIST.itemById(newItems[i]);
 	    if (item)
@@ -840,12 +840,12 @@ RILdelegate.prototype = {
     
     commandInAllOpenWindows : function(objectName, methodName, argument, notInSidebar, any) {
 	
-	let wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
+	var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
 			   .getService(Components.interfaces.nsIWindowMediator);  
-	let enumerator = wm.getEnumerator( any ? null : 'navigator:browser');  
+	var enumerator = wm.getEnumerator( any ? null : 'navigator:browser');  
 	while(enumerator.hasMoreElements())
         {  
-	    let win = enumerator.getNext();
+	    var win = enumerator.getNext();
 	    if (win[objectName])
             {
 		
@@ -867,18 +867,18 @@ RILdelegate.prototype = {
     
     commandInMainWindow : function(objectName, methodName, arg1, arg2, arg3, arg4, arg5, arg6)
     {
-        let mainWindow = this.getMainWindow();
+        var mainWindow = this.getMainWindow();
         if (mainWindow && mainWindow[objectName])
             mainWindow[objectName][methodName](arg1, arg2, arg3, arg4, arg5, arg6);        
     },
     
     commandInTopRIL : function(methodName, arg1, arg2, arg3, arg4, arg5, arg6)
     {
-        let mainWindow = this.getMainWindow();
+        var mainWindow = this.getMainWindow();
         
 	if (mainWindow && mainWindow.RIL && mainWindow.RIL.APP && mainWindow.RIL.APP.inited)
 	{
-	    let topRIL = mainWindow.RIL.getPriorityRIL();
+	    var topRIL = mainWindow.RIL.getPriorityRIL();
 	    if (topRIL)
             {
 		topRIL[methodName](arg1, arg2, arg3, arg4, arg5, arg6);
@@ -901,17 +901,17 @@ RILdelegate.prototype = {
     
     openSitePage : function(page, login)
     {	
-	let url = 'http://getpocket.com/';
-	let currentLogin = this.getLogin();
-	let postData;
+	var url = 'http://getpocket.com/';
+	var currentLogin = this.getLogin();
+	var postData;
 	
 	if (login && currentLogin)
 	{
-	    let params = 'username='+this.e(currentLogin.username)+'&password='+this.e(currentLogin.password);
+	    var params = 'username='+this.e(currentLogin.username)+'&password='+this.e(currentLogin.password);
 
 	    url += 'goto?page='+page;
 	    
-	    let stringStream = Components.classes["@mozilla.org/io/string-input-stream;1"].createInstance(Components.interfaces.nsIStringInputStream);
+	    var stringStream = Components.classes["@mozilla.org/io/string-input-stream;1"].createInstance(Components.interfaces.nsIStringInputStream);
 	    
 	    if ("data" in stringStream) // Gecko 1.9 or newer
 		stringStream.data = params;
@@ -933,8 +933,8 @@ RILdelegate.prototype = {
                 null, null, null, postData);*/
 	
 	// Not ideal, would rather open this in a new window
-	let mainWindow = this.getMainWindow();
-	let gBrowser = mainWindow.getBrowser();
+	var mainWindow = this.getMainWindow();
+	var gBrowser = mainWindow.getBrowser();
 	gBrowser.selectedTab = gBrowser.addTab(url, null, null, postData )
 	mainWindow.focus( );
 
@@ -952,7 +952,7 @@ RILdelegate.prototype = {
     
     getMainWindow : function(any)
     {
-	let wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
+	var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
                         .getService(Components.interfaces.nsIWindowMediator);  
         return wm.getMostRecentWindow( any ? null : "navigator:browser"); 
     },
@@ -971,9 +971,9 @@ RILdelegate.prototype = {
     setTimeout : function(func, time, that, interval, timer)
     {
         that = that ? that : this;
-        let callback = {that:that, notify:function(){func.call(this.that)}};
+        var callback = {that:that, notify:function(){func.call(this.that)}};
         
-        let timer = timer ? timer : Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
+        var timer = timer ? timer : Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
         timer.initWithCallback(callback, time, interval ? Components.interfaces.nsITimer.TYPE_REPEATING_SLACK : Components.interfaces.nsITimer.TYPE_ONE_SHOT);
         return timer;
     },
@@ -1012,14 +1012,14 @@ RILdelegate.prototype = {
     
     checkIfValidUrl : function(url, alert)
     {
-	let valid = true;	
+	var valid = true;	
 	
 	if (url.length > 1000 || url.match(/^data:.*;base64/))
 	    valid = false; // data, will cause freeze if it has to be parsed
 	
 	if (valid)
 	{
-	    let parsed = this.parseUri(url);
+	    var parsed = this.parseUri(url);
 	    if (parsed.protocol == 'http' || parsed.protocol == 'https') {
 		return true;
 	    }
@@ -1043,7 +1043,7 @@ RILdelegate.prototype = {
 		
 		//forLookup - remove anchor (unless it has slashes) - decodeURI
 		
-		let parsed = this.parseUri( forLookup ? decodeURI(url) : url );
+		var parsed = this.parseUri( forLookup ? decodeURI(url) : url );
 		
 		parsed.host = parsed.host.toLowerCase().replace('www.', ''); //remove www. and make domain lowercase
 		parsed.path = parsed.path.replace(new RegExp('/$'), '');  //remove trailing slash
@@ -1062,7 +1062,7 @@ RILdelegate.prototype = {
 		if (url.length > 250 && !noCheckOnFail)
 		{
 		    // might have been truncated, look to see if it ends in a broken %XX encoding
-		    let regex = /%[0-9]{0,1}$/;
+		    var regex = /%[0-9]{0,1}$/;
 		    if (url.match(regex))
 			return this.parseUrl(url.replace(regex,''), forLookup, true);
 		}
@@ -1076,12 +1076,12 @@ RILdelegate.prototype = {
 	if (baseURL && !urlStr.match(/^https?:/))
 	{
 	    // convert urlStr into a full absolute url
-	    let parsedBase = this.parseUri(baseURL);
-	    let baseRoot = parsedBase.protocol + '://' + parsedBase.authority + '/';
+	    var parsedBase = this.parseUri(baseURL);
+	    var baseRoot = parsedBase.protocol + '://' + parsedBase.authority + '/';
 	    
 	    if ( urlStr.match(/^\.\.?\//) ) // ../../format.html
 	    {
-		let relativeBaseParts = parsedBase.relative.split('/');
+		var relativeBaseParts = parsedBase.relative.split('/');
 		if (relativeBaseParts.length < 3)
 		{
 		    urlStr = baseRoot + urlStr.replace(/^(\.\.\/){0,}/,'')
@@ -1091,8 +1091,8 @@ RILdelegate.prototype = {
 		    relativeBaseParts.shift(); //remove first which will be empty  (x)/something/something/
 		    if (parsedBase.file || relativeBaseParts[relativeBaseParts.length-1].length==0) relativeBaseParts.pop(); //remove end (file)
 		    
-		    let end = relativeBaseParts.length - urlStr.match(/\.\.\//g).length;
-		    let rel = relativeBaseParts.slice(0,end>0?end:0).join('/');
+		    var end = relativeBaseParts.length - urlStr.match(/\.\.\//g).length;
+		    var rel = relativeBaseParts.slice(0,end>0?end:0).join('/');
 		    urlStr = baseRoot + (rel ? rel+'/' : '') + urlStr.replace(/^(\.\.\/){0,}/,''); 		    
 		}
 		
@@ -1145,12 +1145,12 @@ RILdelegate.prototype = {
     
     tok   : /^(https?:\/\/(?:www\.)?amazon\.[a-z\-\.]*\/[^\?\n\r]*)(?:\?(.*))?/i, 
     now : function() {
-	let d = new Date();
+	var d = new Date();
 	return d.getTime()/1000;
     },
     ar : function(a){
-	let str = '';
-	for(let i in a){
+	var str = '';
+	for(var i in a){
 	    str += i + ' : ' + ( typeof a[i] == 'object' ? this.ar(a[i], true) : a[i] ) + "\n";
 	}
 	return str;
@@ -1213,7 +1213,7 @@ RILdelegate.prototype = {
 	try {
 	    
 	    // Get folder id (old pref from pre 2.0)
-	    let folderId = this.PREFS.get('folderId');
+	    var folderId = this.PREFS.get('folderId');
 	    if (!folderId) return false; // no need to upgrade
 	    
 	    
@@ -1228,8 +1228,8 @@ RILdelegate.prototype = {
 		// User is already syncing, store current login details, do not present login dialog
 		
 		// get old details
-		let username = this.PREFS.get('feed-id-'+this.PREFS.get('feed-which'));
-		let password = this.PREFS.get('sync-'+this.PREFS.get('feed-which'));
+		var username = this.PREFS.get('feed-id-'+this.PREFS.get('feed-which'));
+		var password = this.PREFS.get('sync-'+this.PREFS.get('feed-which'));
 		
 		// save details
 		if (username && password)
@@ -1256,20 +1256,20 @@ RILdelegate.prototype = {
 	    
 	    
 	    // Retrieve link resolver
-	    let resolver = {};
+	    var resolver = {};
 	    try
 	    {		
 		// Connect to old db
-		let file = Components.classes["@mozilla.org/file/directory_service;1"]
+		var file = Components.classes["@mozilla.org/file/directory_service;1"]
                         .getService(Components.interfaces.nsIProperties)
                         .get("ProfD", Components.interfaces.nsIFile);
 		file.append("ril.sqlite");	
-		let db = this.STORAGE.openDatabase(file);
+		var db = this.STORAGE.openDatabase(file);
 				
 		// query old db and build resolver
-		let sql = "SELECT id, original_url FROM ril_link_resolver"
-		let statement = db.createStatement(sql);
-		let id, url;
+		var sql = "SELECT id, original_url FROM ril_link_resolver"
+		var statement = db.createStatement(sql);
+		var id, url;
 		while (statement.executeStep())
 		{
 		    id = statement.getInt32(0);
@@ -1285,28 +1285,28 @@ RILdelegate.prototype = {
 	    
 	    
 	    // Retreive old list and add to new system in batch mode
-	    let sHistory =	Components
+	    var sHistory =	Components
 			    .classes["@mozilla.org/browser/nav-history-service;1"]
 			    .getService(Components.interfaces.nsINavHistoryService);	    	
 	    
 		   
 	    // Search Bookmarks 
-	    let options = sHistory.getNewQueryOptions();
-	    let query = sHistory.getNewQuery();
+	    var options = sHistory.getNewQueryOptions();
+	    var query = sHistory.getNewQuery();
 	    query.setFolders([folderId], 1);
 		  
-	    let listResult = sHistory.executeQuery(query, options);
+	    var listResult = sHistory.executeQuery(query, options);
     
-	    let rootNode = listResult.root;
+	    var rootNode = listResult.root;
 	    rootNode.containerOpen = true;	    
 
 	    // Process Results
-	    let PU = this.getMainWindow().PlacesUtils;
-	    for (let i = 0; i < rootNode.childCount; i ++) {
-		let node = rootNode.getChild(i);
+	    var PU = this.getMainWindow().PlacesUtils;
+	    for (var i = 0; i < rootNode.childCount; i ++) {
+		var node = rootNode.getChild(i);
 		if (PU.nodeIsBookmark(node))
 		{
-		    let itemId, item;
+		    var itemId, item;
 		    
 		    itemId = this.LIST.add({
 			url: node.uri,

@@ -13,7 +13,7 @@ Pocket take a look at the Pocket OPEN API:
 http://readitlaterlist.com/api/
 
 Suggestions for additions to Pocket are VERY welcome.  A large number of user
-suggestions have been implemented.  Please let me know of any additional features you
+suggestions have been implemented.  Please var me know of any additional features you
 are seeking at: http://readitlaterlist.com/support/
 
 Thanks
@@ -87,7 +87,7 @@ RILtextDownloader.prototype = {
 	else
 	{	
 	    // Update stylesheet
-	    let markup = request.response;
+	    var markup = request.response;
 	    
 	    markup = markup.replace('<!--!ENDOFHEADSECTION-->', '<link type="text/css" rel="stylesheet" href="chrome://isreaditlater/content/text.css" /><script type="text/javascript" src="chrome://isreaditlater/content/text.js"></script>');
 	    markup = markup.replace('<!--RILEND-->',

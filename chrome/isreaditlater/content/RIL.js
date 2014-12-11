@@ -13,7 +13,7 @@ Pocket take a look at the Pocket OPEN API:
 http://readitlaterlist.com/api/
 
 Suggestions for additions to Pocket are VERY welcome.  A large number of user
-suggestions have been implemented.  Please let me know of any additional features you
+suggestions have been implemented.  Please var me know of any additional features you
 are seeking at: http://readitlaterlist.com/support/
 
 Thanks
@@ -94,7 +94,7 @@ RIL.prototype = {
 		// Setup XUL
 		this.setupKeyStrokes();
 		
-		let defaultSortIndex = this.PREFS.get('default-sort');
+		var defaultSortIndex = this.PREFS.get('default-sort');
 		if (defaultSortIndex < this.xul('sort').itemCount)
 		    this.xul('sort').selectedIndex = defaultSortIndex;
 		
@@ -109,12 +109,12 @@ RIL.prototype = {
 		
 		
 		// Page load event
-		let appcontent = document.getElementById("appcontent");   // browser
+		var appcontent = document.getElementById("appcontent");   // browser
 		if(appcontent)
 		      appcontent.addEventListener("DOMContentLoaded", this.onPageLoad, true);
                       
                 //tc
-		let tabviewdeck = document.getElementById("tab-view-deck");   // browser
+		var tabviewdeck = document.getElementById("tab-view-deck");   // browser
 		if(tabviewdeck)
 		      tabviewdeck.addEventListener("DOMNodeInserted", this.tcLookForLoad, true);
                 
@@ -122,9 +122,9 @@ RIL.prototype = {
                 // Custom theme/platform icons
                 /*if (navigator.userAgent.match(/Firefox\/3/))
                 {
-                   let skinsPrefs =  Components.classes["@mozilla.org/preferences-service;1"]
+                   var skinsPrefs =  Components.classes["@mozilla.org/preferences-service;1"]
                                         .getService(Components.interfaces.nsIPrefService).getBranch("general.skins.");
-                    let currentSkin = skinsPrefs.getCharPref('selectedSkin');
+                    var currentSkin = skinsPrefs.getCharPref('selectedSkin');
                     
                     if (currentSkin == 'classic/1.0' && this.xul('list'))
                     {
@@ -182,7 +182,7 @@ RIL.prototype = {
 		
 	    } catch(err2) {
 		    
-		//Major failure, couldn't even display nice popups, so log it, let the user find it in the console
+		//Major failure, couldn't even display nice popups, so log it, var the user find it in the console
 		Components.utils.reportError( this.l('couldNotStart') + "\n\n" + e + "\n\n" + err2 );
 		    
 	    }
@@ -228,8 +228,8 @@ RIL.prototype = {
     updateReadList : function(force)
     {   
     	this.APP.d('RIL:updateReadList');
-        let filter = this.getFilter();
-        let sort = this.getSort();
+        var filter = this.getFilter();
+        var sort = this.getSort();
         
         // Check cache
         if (force || !this.readList || this.readFilter != filter || this.readSort != sort || this.readPage != this.curPage || this.readListNeedsRefresh) 
@@ -280,8 +280,8 @@ RIL.prototype = {
     
     getFilter : function()
     {
-        let filterField = this.xul('filter');
-        let filter = filterField.value;
+        var filterField = this.xul('filter');
+        var filter = filterField.value;
 	
 	if (!filter || filter == filterField.emptyText)
 	    filter = false; // do not filter, just return an unfiltered list;
@@ -300,7 +300,7 @@ RIL.prototype = {
 	if (this.selectedListType == 'read')
             return this.updateReadList();
         
-	let filter = this.getFilter();
+	var filter = this.getFilter();
 	
 	this.filteredList = this.APP.filterList(this.selectedListType, filter, this);	
         this.filteredListIndexNeedsUpdate = true;    
@@ -318,7 +318,7 @@ RIL.prototype = {
 	if (this.xul('sort').hidden) return;
 	
         // Sort list
-	let sortValue = this.getSort();	
+	var sortValue = this.getSort();	
 	
 	this.filteredList = this.APP.sortList(this.filteredList, sortValue);
         this.filteredListIndexNeedsUpdate = true;
@@ -330,7 +330,7 @@ RIL.prototype = {
         if (this.filteredListIndexNeedsUpdate || !this.filteredListIndex)
         {
             this.filteredListIndex = {};
-            for(let i in this.filteredList)
+            for(var i in this.filteredList)
             {
                 this.filteredListIndex[this.filteredList[i].itemId] = i;
             }
@@ -532,7 +532,7 @@ RIL.prototype = {
 	if (this.selectedListType != 'tags' || this.selectedTag)
 	{	
 	    // Output list
-	    let row, perPage, start, end;
+	    var row, perPage, start, end;
 	    if (this.getListType()=='pages')
 	    {
                 this.updatePageCounter();
@@ -558,7 +558,7 @@ RIL.prototype = {
 	    // Empty list?
 	    if (!this.filteredList || this.filteredList.length == 0)
 	    {
-		let msg = '';
+		var msg = '';
                 
 		if (RIL.APP.LIST.list.length == 0)
 		    msg = RIL.l('noItemsInList');
@@ -576,7 +576,7 @@ RIL.prototype = {
 		RIL.refreshListType();
 	    }
 	    
-	    for(let i in this.filteredList) {	    
+	    for(var i in this.filteredList) {	    
 		if (i < start || i >= end) continue;
 		
 		row = this.rowForItem( this.filteredList[i], i - start );
@@ -625,7 +625,7 @@ RIL.prototype = {
     
     getPerPage : function()
     {
-	let perPage = this.PREFS.get('list-page');
+	var perPage = this.PREFS.get('list-page');
 	if (!perPage.match(/^[0-9]{1,3}$/))
 	    perPage = 9;
         this.perPage = perPage;
@@ -650,15 +650,15 @@ RIL.prototype = {
 	
         if (!item) return;
         
-	let rowClass, row, favIcon, favIconWrapper, wrapper, subWrapper, spacer, title, titleWraper, titleAnchor, accessory, domain, options;
-	let text, edit, mark;
-	let item, nsURI, host, titleStr, iconUrl, days;
+	var rowClass, row, favIcon, favIconWrapper, wrapper, subWrapper, spacer, title, titleWraper, titleAnchor, accessory, domain, options;
+	var text, edit, mark;
+	var item, nsURI, host, titleStr, iconUrl, days;
 
 	nsURI = this.APP.uri(item.url);
 	if (!nsURI || !nsURI.host) return null;
 	host = nsURI.host.replace('www.','');
 	
-        let compact = this.PREFS.get('list-view') == 'cond';
+        var compact = this.PREFS.get('list-view') == 'cond';
         
 	//
 	rowClass = this.XULnamespace + 'row ' + (compact ? this.XULnamespace + 'compact' : '');
@@ -838,7 +838,7 @@ RIL.prototype = {
         }
         
         // Create the element
-        let favIcon = RIL.createNode('image',
+        var favIcon = RIL.createNode('image',
         {
             src	: iconUrl,
             height: 16,
@@ -870,10 +870,10 @@ RIL.prototype = {
     {
         if (RIL.iconsToLoad.length)
         {
-            let iconSet = RIL.iconsToLoad.shift();
+            var iconSet = RIL.iconsToLoad.shift();
             if (iconSet.wrapper && iconSet.item && iconSet.uri)
             {
-                let favIcon = RIL.favIconElement(iconSet.item, iconSet.uri);
+                var favIcon = RIL.favIconElement(iconSet.item, iconSet.uri);
                 iconSet.wrapper.appendChild(favIcon);
             }
         }
@@ -937,9 +937,9 @@ RIL.prototype = {
     },
     
     refreshRow : function(itemId) {
-	let currentRow = this.xul('item_' + itemId);
+	var currentRow = this.xul('item_' + itemId);
 	if (currentRow) {
-	    let newRow = this.rowForItem( this.APP.LIST.itemById( itemId ) );
+	    var newRow = this.rowForItem( this.APP.LIST.itemById( itemId ) );
             if (newRow)
                 this.xul('list_rows').replaceChild(newRow, currentRow);
 	}
@@ -948,9 +948,9 @@ RIL.prototype = {
     refreshTagRow : function(tags)
     {	
 	this.APP.LIST.rebuildTagIndex();
-	let oldRow = this.xul('tag_' + tags.oldTag);
-	let currentRow = this.xul('tag_' + tags.newTag);
-	let newRow = this.rowForTag( tags.newTag );
+	var oldRow = this.xul('tag_' + tags.oldTag);
+	var currentRow = this.xul('tag_' + tags.newTag);
+	var newRow = this.rowForTag( tags.newTag );
 	
 	if (currentRow)
 	{
@@ -984,7 +984,7 @@ RIL.prototype = {
         
         
 	// display tags
-	let i, row;
+	var i, row;
 	for(i in this.APP.LIST.tags)
 	{
 	    if (this.selectedTag && this.APP.LIST.tags[i].tag != this.selectedTag) continue;
@@ -997,11 +997,11 @@ RIL.prototype = {
     rowForTag : function(tag)
     {
 	
-	let rowClass, row, favIcon, wrapper, subWrapper, spacer, title, titleAnchor, accessory, domain, options;
-	let text, edit, mark;
-	let item, nsURI, host, titleStr, iconUrl;
+	var rowClass, row, favIcon, wrapper, subWrapper, spacer, title, titleAnchor, accessory, domain, options;
+	var text, edit, mark;
+	var item, nsURI, host, titleStr, iconUrl;
 	
-	let tagSet = this.APP.LIST.tagByTag(tag);
+	var tagSet = this.APP.LIST.tagByTag(tag);
 	
 	//
 	rowClass = this.XULnamespace+'row ' + this.XULnamespace+'tagRow';
@@ -1125,9 +1125,9 @@ RIL.prototype = {
     
     editTag : function(e) {
 	try {
-	let edit_row = RIL.xul('editTag_row');
-	let tag = this.getAttribute('tag');
-	let row = RIL.xul('tag_'+tag);
+	var edit_row = RIL.xul('editTag_row');
+	var tag = this.getAttribute('tag');
+	var row = RIL.xul('tag_'+tag);
 	
 	// Check if another editing instance is open
 	if (!edit_row.hidden && RIL.editingRow) {
@@ -1158,8 +1158,8 @@ RIL.prototype = {
     
     saveTag : function()
     {
-	let oldTag = this.editingRow.getAttribute('tag');
-	let newTag = RIL.xul('edit_tag').value;	
+	var oldTag = this.editingRow.getAttribute('tag');
+	var newTag = RIL.xul('edit_tag').value;	
 	
 	// Title
 	RIL.APP.LIST.renameTag(oldTag, newTag);
@@ -1188,13 +1188,13 @@ RIL.prototype = {
     {
 	RIL.APP.LIST.rebuildTagIndex();
 	
-	let tag = this.getAttribute('tag');
-	let tagList = RIL.APP.LIST.tagItemIndex[tag];
-	let i;
+	var tag = this.getAttribute('tag');
+	var tagList = RIL.APP.LIST.tagItemIndex[tag];
+	var i;
 	
 	if (tagList)
 	{
-	    let check = {};
+	    var check = {};
 	    if (tagList.length < 5 ||
 		RIL.PREFS.getBool('no-openAllTags-prompt') ||
 		RIL.APP.PROMPT.confirmCheck( RIL.inSidebar ? RILsidebar.w : window, "Pocket", "Are you sure you want to open all "+tagList.length+" items tagged '"+tag+"' into new tabs?", "Do not ask me again", check)
@@ -1212,8 +1212,8 @@ RIL.prototype = {
     
     removeTag : function(e, tag)
     {
-	let tag = tag ? tag : this.getAttribute('tag');
-	let check = {};
+	var tag = tag ? tag : this.getAttribute('tag');
+	var check = {};
 	if (RIL.PREFS.getBool('no-removeTag-prompt') ||
 	    RIL.APP.PROMPT.confirmCheck( RIL.inSidebar ? RILsidebar.w : window, "Pocket", "Are you sure you want to delete the tag '"+tag+"'?  This action is not undoable.", "Do not ask me again", check)
 	    )
@@ -1228,7 +1228,7 @@ RIL.prototype = {
     
     tagClicked : function(e)
     {
-	let tag = this.getAttribute('tag');
+	var tag = this.getAttribute('tag');
 	if (RIL.selectedTag && RIL.selectedTag == tag)
 	{
 	    RIL.selectedTag = false;
@@ -1270,8 +1270,8 @@ RIL.prototype = {
 	
 	refreshListType : function()
 	{
-	let type = this.selectedListType;
-	let label, sortIsHidden, showLogo;
+	var type = this.selectedListType;
+	var label, sortIsHidden, showLogo;
 	switch(type){
 	    
 	    case('current'):
@@ -1373,8 +1373,8 @@ RIL.prototype = {
 		
 	RIL.clearChildren(RIL.xul('genericMessage'));
 	
-	let parts = msg.split(/\n{1,}/g);
-	let i, desc;
+	var parts = msg.split(/\n{1,}/g);
+	var i, desc;
 	for(i=0; i<parts.length; i++)
 	{
 	    desc = RIL.createNode('description')
@@ -1384,8 +1384,8 @@ RIL.prototype = {
 		
 	if (buttons)
 	{
-	    let btn;
-	    let buttonWrapper = RIL.createNode('hbox');
+	    var btn;
+	    var buttonWrapper = RIL.createNode('hbox');
 	    RIL.xul('genericMessage').appendChild( buttonWrapper );
 	    
 	      		
@@ -1438,15 +1438,15 @@ RIL.prototype = {
     textItemClicked : function(e)
     {
         // Get itemId
-        let row = RIL.bubbleToTagName(this, 'row');
-        let itemId = row.getAttribute('itemId');
-        let item;
+        var row = RIL.bubbleToTagName(this, 'row');
+        var itemId = row.getAttribute('itemId');
+        var item;
         
 	// Needs to add item back into list if click is coming from read list.
 	if (RIL.selectedListType == 'read')
 	{
             item = RIL.readList.list[ RIL.readList.iByItem[ itemId ] ];
-	    let listItem = RIL.APP.LIST.itemByUrl( item.url );
+	    var listItem = RIL.APP.LIST.itemByUrl( item.url );
 	    if (!listItem)
 	    {
 		RIL.addReadItem( item, itemId );		
@@ -1461,7 +1461,7 @@ RIL.prototype = {
     },
     
     itemContextSetup : function() {
-	let url = document.popupNode.getAttribute('url') ? document.popupNode.getAttribute('url') : document.popupNode.parentNode.getAttribute('url');
+	var url = document.popupNode.getAttribute('url') ? document.popupNode.getAttribute('url') : document.popupNode.parentNode.getAttribute('url');
 	RIL.xul('item_context').setAttribute('url', url);
 	RIL.contextRow = RIL.bubbleToTagName(document.popupNode, 'row');
 	RIL.xul('item_context_edit').hidden = (RIL.selectedListType == 'read');
@@ -1469,12 +1469,12 @@ RIL.prototype = {
 	// Decide which label to show for x action
 	if (!RIL.contextRow.className.match(RIL.markedRowClass) )
 	{
-	    let label = RIL.selectedListType == 'read' ? RIL.l('AddBackToList') : RIL.l('MarkAsRead');
+	    var label = RIL.selectedListType == 'read' ? RIL.l('AddBackToList') : RIL.l('MarkAsRead');
 	    RIL.xul('content_markAsRead').label = label;	    
 	}
 	else
 	{
-	    let label = RIL.selectedListType == 'read' ? RIL.l('MarkAsRead') : RIL.l('MarkAsUnread');	   
+	    var label = RIL.selectedListType == 'read' ? RIL.l('MarkAsRead') : RIL.l('MarkAsUnread');	   
 	    RIL.xul('content_markAsRead').label = label;
 	} 
     },
@@ -1486,13 +1486,13 @@ RIL.prototype = {
 	
     itemContextDelete : function(obj) {
 	
-	let itemId = RIL.contextRow.getAttribute('itemId');
-	let check = {value:false};
+	var itemId = RIL.contextRow.getAttribute('itemId');
+	var check = {value:false};
 	if (RIL.PREFS.getBool('no-delete-prompt') || RIL.APP.PROMPT.confirmCheck( RIL.inSidebar ? RILsidebar.w : window, "Pocket", "Are you sure you want to delete without archiving?", "Do not ask me again", check)) {	    	    
 	    
             if (RIL.selectedListType == 'read')
             {
-                let item = RIL.readList.list[ RIL.readList.iByItem[ itemId ] ];
+                var item = RIL.readList.list[ RIL.readList.iByItem[ itemId ] ];
                 RIL.APP.SYNC.deleteRemote(item.url, false);
             }
                 
@@ -1513,9 +1513,9 @@ RIL.prototype = {
     
     editItem : function(e, context) {
 	try {
-	let edit_row = RIL.xul('edit_row');
-	let row = context && RIL.contextRow ? RIL.contextRow : RIL.bubbleToTagName(this, 'row');
-	let item = RIL.APP.LIST.itemById( row.getAttribute('itemId') );	
+	var edit_row = RIL.xul('edit_row');
+	var row = context && RIL.contextRow ? RIL.contextRow : RIL.bubbleToTagName(this, 'row');
+	var item = RIL.APP.LIST.itemById( row.getAttribute('itemId') );	
 	
 	// Check if another editing instance is open
 	if (!edit_row.hidden && RIL.editingRow) {
@@ -1545,7 +1545,7 @@ RIL.prototype = {
     },
     
     saveEdit : function() {
-	let itemId = this.editingRow.getAttribute('itemId');
+	var itemId = this.editingRow.getAttribute('itemId');
 	
 	// Title
 	RIL.APP.LIST.saveTitle(itemId, RIL.xul('edit_title').value);
@@ -1586,10 +1586,10 @@ RIL.prototype = {
     
     markListItemAsRead : function(e, context) {
 	
-	let row = context && RIL.contextRow ? RIL.contextRow : RIL.bubbleToTagName(this, 'row');
-        let cls = ' ' + RIL.markedRowClass;
-        let item;
-        let itemId = row.getAttribute('itemId');
+	var row = context && RIL.contextRow ? RIL.contextRow : RIL.bubbleToTagName(this, 'row');
+        var cls = ' ' + RIL.markedRowClass;
+        var item;
+        var itemId = row.getAttribute('itemId');
 	
         if (RIL.selectedListType == 'read')
         {
@@ -1637,8 +1637,8 @@ RIL.prototype = {
 	}
 	
 	
-	let item, itemsModified;
-	for(let itemId in this.markedItems) {
+	var item, itemsModified;
+	for(var itemId in this.markedItems) {
 	    if (this.markedItems[itemId]) {
 		
 		if (RIL.selectedListType == 'read') {
@@ -1687,8 +1687,8 @@ RIL.prototype = {
     
     populateTagAutoComplete : function( listToUse )
     {       
-	let content = RIL.xul('tagAutoCompleteContent');
-	let i, c=0, tempWrapper;
+	var content = RIL.xul('tagAutoCompleteContent');
+	var i, c=0, tempWrapper;
                 
         if (navigator.userAgent.match(/(Macintosh|Linux)/))
         {
@@ -1700,8 +1700,8 @@ RIL.prototype = {
 	RIL.clearChildren( content );
 	RIL.checkboxesForTags = {};
 	
-	let ac = (listToUse && listToUse.length > 0);
-	let results = ac > 0 ? listToUse : RIL.APP.LIST.tags;
+	var ac = (listToUse && listToUse.length > 0);
+	var results = ac > 0 ? listToUse : RIL.APP.LIST.tags;
 	
 	// Top Tags
 	if (!ac)
@@ -1727,7 +1727,7 @@ RIL.prototype = {
 	// All tags
 	content.appendChild( RIL.getTagRowHeader( (listToUse ? 'suggestions' : 'all tags' ) +':') );
 	
-        let cnt = 0;
+        var cnt = 0;
 	for(i in results)
 	{
 	    content.appendChild( RIL.getTagRow(results[i].tag, false, ac) );
@@ -1763,7 +1763,7 @@ RIL.prototype = {
     
     getTagRow : function(tag, top, ac)
     {
-	let row, checkbox, label;
+	var row, checkbox, label;
 	row = this.createNode('hbox', {class:this.XULnamespace + 'tagRow ' + this.XULnamespace + 'top'});
 	
 	checkbox = this.createNode('checkbox', {
@@ -1793,14 +1793,14 @@ RIL.prototype = {
     tagCheckboxAction : function(checkbox, toggleWhenDone)
     {
 	// NOTE: this.checked seems to be reversed, onclick is being called before the checkbox is changed
-	let tag = checkbox.label;
-	let tagRegExSafe = RIL.APP.regexSafe(tag);
-	let field = RIL.xul('edit_tags');
-	let cursorPosition = field.selectionStart;
-	let i;
+	var tag = checkbox.label;
+	var tagRegExSafe = RIL.APP.regexSafe(tag);
+	var field = RIL.xul('edit_tags');
+	var cursorPosition = field.selectionStart;
+	var i;
 	
 	// Does the tag exist in the field?  (Make sure to add slashes to prevent regex issues)
-	let reg = new RegExp('(^|,)\\s*?'+tagRegExSafe+'\\s*?(,|$)', 'i');
+	var reg = new RegExp('(^|,)\\s*?'+tagRegExSafe+'\\s*?(,|$)', 'i');
 	if (field.value.match( reg ))
 	{
 	    // Remove it
@@ -1821,7 +1821,7 @@ RIL.prototype = {
 		    if (RIL.tagAutoCompleteEnterRunStarted)
 		    {
 			// Insert a comma and then append the word to the current cursor position
-			let prefix = RIL.APP.trim(field.value.substr(0, field.selectionStart)).length ? ', ' : '';
+			var prefix = RIL.APP.trim(field.value.substr(0, field.selectionStart)).length ? ', ' : '';
 			field.value =  field.value.substr(0, field.selectionStart) +
 					prefix + tag +
 					field.value.substr(field.selectionStart);
@@ -1831,7 +1831,7 @@ RIL.prototype = {
 		    } else
 		    {
 			// Add it in place of cursor's word and move cursor to end of word
-			let prefix = (RIL.currentTagAutoCompleteStart > 0 ? ' ' : '' );
+			var prefix = (RIL.currentTagAutoCompleteStart > 0 ? ' ' : '' );
 			field.value =  field.value.substr(0, RIL.currentTagAutoCompleteStart) +
 					prefix +
 					tag + 
@@ -1876,8 +1876,8 @@ RIL.prototype = {
     tagAutoCompleteKey : function(key)
     {
 	
-	let field = RIL.xul('edit_tags');
-	let updateList = true;
+	var field = RIL.xul('edit_tags');
+	var updateList = true;
 	
 	
 	// Actions based on key
@@ -1886,7 +1886,7 @@ RIL.prototype = {
 	{
 	    if (RIL.currentTagAutoCompleteRow )
 	    {
-		let checkbox = RIL.currentTagAutoCompleteRow.getElementsByTagName('checkbox')[0];
+		var checkbox = RIL.currentTagAutoCompleteRow.getElementsByTagName('checkbox')[0];
 				
 		RIL.tagCheckboxAction( checkbox, true );
 		
@@ -1906,8 +1906,8 @@ RIL.prototype = {
 	    //move highlight row in list
 	    
 	    // get rows
-	    let content = RIL.xul('tagAutoCompleteContent');
-	    let rows = content.getElementsByTagName('hbox');
+	    var content = RIL.xul('tagAutoCompleteContent');
+	    var rows = content.getElementsByTagName('hbox');
 	    
 	    // unselect previous row
 	    if (RIL.currentTagAutoCompleteRow)
@@ -1931,10 +1931,10 @@ RIL.prototype = {
 	    // scroll to row
 	    // this is a little more involved because contentRow.offsetTop always returns 0, so we have to guess at
 	    // it based on the height of the content area vs. number of rows
-	    let rowHeight = content.scrollHeight / rows.length;
-	    let scrollPadding = rowHeight * 3; //number of rows to buffer when scrolling
-	    let viewableTop = content.clientHeight + content.scrollTop;
-	    let positionOfRow = rowHeight * RIL.currentTagAutoCompleteHighlightIndex+1;
+	    var rowHeight = content.scrollHeight / rows.length;
+	    var scrollPadding = rowHeight * 3; //number of rows to buffer when scrolling
+	    var viewableTop = content.clientHeight + content.scrollTop;
+	    var positionOfRow = rowHeight * RIL.currentTagAutoCompleteHighlightIndex+1;
 	    if (key == 40 && positionOfRow > viewableTop - scrollPadding)
 	    {
 		// needs to scroll down
@@ -1949,11 +1949,11 @@ RIL.prototype = {
 	}
 	
 	// Determine which word the cursor is on (in between commas)
-	let previousCommaPosition = field.value.lastIndexOf(',', field.selectionStart-1);
-	let nextCommaPosition = field.value.indexOf(',', field.selectionStart);
-	let start = previousCommaPosition != -1 ? previousCommaPosition+1 : 0;
-	let length = nextCommaPosition != -1 ? nextCommaPosition - start : field.value.length - start;
-	let word = RIL.APP.trimLeft(field.value.substr( start , length ));
+	var previousCommaPosition = field.value.lastIndexOf(',', field.selectionStart-1);
+	var nextCommaPosition = field.value.indexOf(',', field.selectionStart);
+	var start = previousCommaPosition != -1 ? previousCommaPosition+1 : 0;
+	var length = nextCommaPosition != -1 ? nextCommaPosition - start : field.value.length - start;
+	var word = RIL.APP.trimLeft(field.value.substr( start , length ));
 	
 	// Save indexes for word
 	RIL.currentTagAutoCompleteStart = start;
@@ -1979,7 +1979,7 @@ RIL.prototype = {
     
     updateTagAutoCompleteFilter : function(word)
     {
-	let results, i, set;
+	var results, i, set;
 	
 	if (RIL.previousTagAutoCompleteWordRegexSafe && word.match( new RegExp('^' + RIL.previousTagAutoCpreviousTagAutoCompleteWordRegexSafeompleteWord, 'i' ) ))
 	{	    
@@ -2045,14 +2045,14 @@ RIL.prototype = {
 	{
             this.updateFilteredListIndex();
 	    
-            let i;
-	    let currentItem = RIL.getItemForCurrentPage();
+            var i;
+	    var currentItem = RIL.getItemForCurrentPage();
 	    if (currentItem.item)
 	    {
 		// Current page is in the list, so let's move from here forward    
 		
 		i = this.filteredListIndex[ currentItem.item.itemId ];
-		let nextItem = this.filteredList[i*1+1];
+		var nextItem = this.filteredList[i*1+1];
 		
 		if (nextItem) this.openUrl( nextItem.url );
 		else this.openUrl( this.filteredList[0].url ); // first item		
@@ -2083,7 +2083,7 @@ RIL.prototype = {
     readSomethingRandom : function() {
 	if (this.filteredList.length > 0)
 	{
-	    let i = Math.floor(Math.random() * this.filteredList.length);
+	    var i = Math.floor(Math.random() * this.filteredList.length);
 	    this.openUrl( this.filteredList[i].url );
 	}
     },
@@ -2109,7 +2109,7 @@ RIL.prototype = {
     
     openToRSSFeed : function()
     {
-		let login = this.APP.getLogin();
+		var login = this.APP.getLogin();
 		RIL.APP.getMainWindow().open('http://getpocket.com/users/'+login.username+'/');
     },
     
@@ -2159,7 +2159,7 @@ RIL.prototype = {
     
     onContextSync : function()
     {
-        let syncing = (this.APP.SYNC.syncing && !this.APP.SYNC.syncInBackgroundTillResults);        
+        var syncing = (this.APP.SYNC.syncing && !this.APP.SYNC.syncInBackgroundTillResults);        
         RIL.xul('context_cancelSync').hidden = !syncing;
         RIL.xul('context_normalSync').hidden = 
         RIL.xul('context_fullSync').hidden = syncing;     
@@ -2177,7 +2177,7 @@ RIL.prototype = {
     
     openOfflineWindow : function()
     {
-	let xulRIL = this.getPriorityRIL();
+	var xulRIL = this.getPriorityRIL();
 	
 	xulRIL.xul('offlineOptionDownloadWeb').checked = RIL.PREFS.getBool('getOfflineWeb');
 	xulRIL.xul('offlineOptionDownloadText').checked = RIL.PREFS.getBool('getOfflineText');
@@ -2202,7 +2202,7 @@ RIL.prototype = {
     {
 	if (RIL.PREFS.getBool('autoOffline') && item)
 	{
-	    let views = null;
+	    var views = null;
 	    if (skipDownloadViews)
 	    {
 		views = {web:RIL.PREFS.getBool('getOfflineWeb'), text:RIL.PREFS.getBool('getOfflineText')};
@@ -2217,7 +2217,7 @@ RIL.prototype = {
     offlineStart : function(xulRIL)
     {
 	// launch process from main window window (not sidebar)
-	let mainWindow = RIL.APP.getMainWindow();
+	var mainWindow = RIL.APP.getMainWindow();
 	xulRIL = xulRIL ? xulRIL : RIL;
 		       
 	if (mainWindow != window)
@@ -2242,8 +2242,8 @@ RIL.prototype = {
 	
 	
 	// Carry on	
-	let status, message;
-	let action;
+	var status, message;
+	var action;
 	
 	if (!navigator.onLine)
 	{
@@ -2309,8 +2309,8 @@ RIL.prototype = {
     
     offlineDone : function()
     {
-	let f   = 	RIL.APP.OFFLINE.counters.failed;
-	let msg = 	RIL.l('hasBeenDownloaded') + "\n";
+	var f   = 	RIL.APP.OFFLINE.counters.failed;
+	var msg = 	RIL.l('hasBeenDownloaded') + "\n";
 	if (f)
 	    msg +=	f + ' page' + (f==1?' was':'s were') + " not downloaded because they could not be reached.\n";
 	
@@ -2353,7 +2353,7 @@ RIL.prototype = {
     {
 	if (!this.findNotificationBox('offline')) this.offlineNotificationOff();
 	
-	let msg = RIL.l('pageNotOffline');
+	var msg = RIL.l('pageNotOffline');
 	RIL.currentOfflineNotification = this.offlineNotificationOn( msg + (appendMsg ? appendMsg : '') );
     },
     
@@ -2365,8 +2365,8 @@ RIL.prototype = {
     
     offlineNotificationOn : function(msg)
     {
-	let name	= RIL.XULnamespace + 'offline';
-	let icon	= 'chrome://isreaditlater/skin/disconnect.png';
+	var name	= RIL.XULnamespace + 'offline';
+	var icon	= 'chrome://isreaditlater/skin/disconnect.png';
 	buttons = [{
 		    accessKey : '',
 		    label:  RIL.l('moreInfo'),
@@ -2388,7 +2388,7 @@ RIL.prototype = {
     {
 	if (!this.findNotificationBox('offline')) this.netErrorNotificationOff();
 	
-	let msg = RIL.l('loadedOffline');
+	var msg = RIL.l('loadedOffline');
 	RIL.currentOfflineNotification = this.netErrorNotificationOn( msg + (appendMsg ? appendMsg : '') );
     },
     
@@ -2400,8 +2400,8 @@ RIL.prototype = {
     
     netErrorNotificationOn : function(msg)
     {
-	let name	= RIL.XULnamespace + 'offline';
-	let icon	= 'chrome://isreaditlater/skin/disconnect.png';
+	var name	= RIL.XULnamespace + 'offline';
+	var icon	= 'chrome://isreaditlater/skin/disconnect.png';
 	buttons = [{
 		    accessKey : '',
 		    label:  'Hide',
@@ -2428,8 +2428,8 @@ RIL.prototype = {
     
     checkPage : function(document)
     {	
-	let url = RIL.currentURL();
-	let item;
+	var url = RIL.currentURL();
+	var item;
 
 	if (url != 'about:blank' && RIL.APP.listHasBeenLoadedOnce && (RIL.APP.checkIfValidUrl(url) || url.match(/^(file|chrome):/))) {	    
 
@@ -2484,12 +2484,12 @@ RIL.prototype = {
     checkDocument : function(document)
     {
 	if (!document) return;
-	let location = document.location;	
+	var location = document.location;	
 	
 	if (location != 'about:blank') {
 	    
 	    RIL.currentItem = RIL.getItemForDocument(document);	    
-	    let item = RIL.currentItem.item;
+	    var item = RIL.currentItem.item;
 	    
 	    if (item)
 	    {
@@ -2521,7 +2521,7 @@ RIL.prototype = {
     
     onPageLoad : function(aEvent) {
 	if (aEvent.originalTarget.nodeName == "#document") {
-	    let doc = aEvent.originalTarget;
+	    var doc = aEvent.originalTarget;
 	    
             if (doc.defaultView.frameElement) return false;
 	    if (!doc || !doc.location) return false;
@@ -2540,8 +2540,8 @@ RIL.prototype = {
 	       
 	    
 	    
-	    let currentItem = RIL.getItemForUri( RIL.APP.uri(doc.location), doc );
-	    let item = currentItem.item;
+	    var currentItem = RIL.getItemForUri( RIL.APP.uri(doc.location), doc );
+	    var item = currentItem.item;
 	    
 	    if (item) {
 		
@@ -2555,7 +2555,7 @@ RIL.prototype = {
 		    
 		    if (doc.body)
 		    {
-			let error = RIL.APP.errorPackages[item.itemId];
+			var error = RIL.APP.errorPackages[item.itemId];
 			doc.title = item.title;
 			doc.getElementById('RIL_title').innerHTML = item.title;
 			doc.getElementById('RIL_original').innerHTML = item.url;
@@ -2567,7 +2567,7 @@ RIL.prototype = {
 		}
 		
 		// scroll to
-		let scrollSet = item && RIL.currentItem && item.scroll ? item.scroll[ RIL.currentItem.type ] : null;
+		var scrollSet = item && RIL.currentItem && item.scroll ? item.scroll[ RIL.currentItem.type ] : null;
 		if (scrollSet)
 		{
 		    
@@ -2575,8 +2575,8 @@ RIL.prototype = {
 		    {
 			
 			// find first Element with attribute nodeIndex = i (make sure it's inside less or more based on view)
-			let i, e, av, arrElements;
-			let mode = scrollSet.section == 1 ? 'more' : 'less';
+			var i, e, av, arrElements;
+			var mode = scrollSet.section == 1 ? 'more' : 'less';
 			arrElements = doc.getElementById('RIL_'+mode).getElementsByTagName('*');
 			
 			for(i=0; i<arrElements.length; i++){
@@ -2618,7 +2618,7 @@ RIL.prototype = {
 			    // load saved text view settings
 			    doc.body.setAttribute('o', RIL.PREFS.get('text-options'));
 			    
-			    let evt = doc.createEvent("Events");
+			    var evt = doc.createEvent("Events");
 			    evt.initEvent("settingsloaded", true, false);
 			    doc.body.dispatchEvent(evt);
 			    
@@ -2640,7 +2640,7 @@ RIL.prototype = {
 	if (doc.baseURI.match('about:neterror'))
 	{
 	    doc.netError = true;
-	    let item = RIL.checkDocument(doc);
+	    var item = RIL.checkDocument(doc);
 	    if (item)
 	    {
 		RIL.netErrors[item.itemId] = true;
@@ -2661,10 +2661,10 @@ RIL.prototype = {
     getItemForUri : function(uri, document)
     {
 	try {
-	let item = false;
-	let itemId;
-	let type;
-	let offline = false;
+	var item = false;
+	var itemId;
+	var type;
+	var offline = false;
 	document = document ? document : content.document
 		
 	if (uri.scheme == 'file')
@@ -2757,7 +2757,7 @@ RIL.prototype = {
     
     updateStatusBarIcon : function(id, pref, m1, persist)
     {
-	let pref, hidden;
+	var pref, hidden;
 	if (RIL.xul(id, true))
 	{
 	    pref = RIL.PREFS.get(pref);
@@ -2773,7 +2773,7 @@ RIL.prototype = {
     if (!this.APP.showLoginPromptIfNeeded()) return;
     
 	// Check if the document was branded because the url may be masked on offline pages
-	let url;
+	var url;
 	if (content.document.RIL_item)
 	{
 	    url = content.document.RIL_item.url;
@@ -2785,7 +2785,7 @@ RIL.prototype = {
 	if (!RIL.APP.checkIfValidUrl( url, true )) return false;
 	
 	// Add it
-	let itemId = RIL.APP.LIST.add( {url:url, title:RIL.currentTitle()} );
+	var itemId = RIL.APP.LIST.add( {url:url, title:RIL.currentTitle()} );
 	
 	// If the content document brand exists, update it's item id
 	if (content.document.RIL_item)
@@ -2817,13 +2817,13 @@ RIL.prototype = {
 
     markCurrentAsRead : function() {
 	try {
-	    let currentItem = RIL.getItemForCurrentPage();
+	    var currentItem = RIL.getItemForCurrentPage();
 	    
 	    try {
 		// Post mark as read action:
 		if (!RIL.PREFS.getBool('autoMark')) // actions not allowed when auto mark is enabled, otherwise it can chain them together to remove the entire list one by one
 		{
-		    let action = RIL.PREFS.get('mark');
+		    var action = RIL.PREFS.get('mark');
 		    if (action == 'next') RIL.readNextItemInList(true);
 		    else if (action == 'rand') RIL.readSomethingRandom();
 		    else if (action == 'close' && gBrowser.browsers.length > 1) gBrowser.removeCurrentTab();
@@ -2849,7 +2849,7 @@ RIL.prototype = {
     
     autoMark : function()
     {
-	let currentItem = RIL.getItemForCurrentPage();
+	var currentItem = RIL.getItemForCurrentPage();
 	if (currentItem && currentItem.item && currentItem.item.itemId == RIL.autoMarkItemId)
 	    RIL.markCurrentAsRead();
     },
@@ -2862,7 +2862,7 @@ RIL.prototype = {
 	url 	=  url && gContextMenu 	? gContextMenu.linkURL ? gContextMenu.linkURL : (gContextMenu.link ? gContextMenu.link : url) : url;
 	title 	= !title && gContextMenu 	? gContextMenu.linkText()	: title;
 	
-	let itemId = this.saveItem(url, title, tags);
+	var itemId = this.saveItem(url, title, tags);
 	
 	if (itemId)
 	    this.APP.resolveLink(itemId, url, this.APP.resolveLinkCallback);
@@ -2881,8 +2881,8 @@ RIL.prototype = {
 	// Save the link immediately so the user sees it in their list, then launch a thread
 	// to follow through and resolve it
 	
-	let itemId = this.APP.LIST.add({url:url, title:title});
-	let savedItem;
+	var itemId = this.APP.LIST.add({url:url, title:title});
+	var savedItem;
 	
 	if (!itemId)
 	    savedItem = this.APP.LIST.itemByUrl(url);    
@@ -2899,7 +2899,7 @@ RIL.prototype = {
     
     if (!this.APP.showLoginPromptIfNeeded()) return;
     
-	let num, i, b;
+	var num, i, b;
 	num = gBrowser.browsers.length;
 	for (i = 0; i < num; i++) {
 	    b = gBrowser.getBrowserAtIndex(i);
@@ -2956,22 +2956,22 @@ RIL.prototype = {
     },
     
     scrolled : function(e, immediateFlush) {	
-	let w = content.window;
-	let d = content.document;
+	var w = content.window;
+	var d = content.document;
 	
 	if (!RIL.currentItem || !RIL.currentItem.item) return;
 	
 	if (RIL.currentItem.type == 1)
 	{
 	    // text view scrolling
-	    let windowWidth = w.innerWidth;
-	    let windowHeight = w.innerHeight;
-	    let high 	= d.elementFromPoint(windowWidth/2, 20);
-	    let low 	= d.elementFromPoint(windowWidth/2, 20+25);
-	    let iH 	= high.getAttribute('nodeIndex');
-	    let iL 	= low.getAttribute('nodeIndex');
+	    var windowWidth = w.innerWidth;
+	    var windowHeight = w.innerHeight;
+	    var high 	= d.elementFromPoint(windowWidth/2, 20);
+	    var low 	= d.elementFromPoint(windowWidth/2, 20+25);
+	    var iH 	= high.getAttribute('nodeIndex');
+	    var iL 	= low.getAttribute('nodeIndex');
 	    
-	    let e, i;
+	    var e, i;
 	    if (iH && iH*1 > iL*1) {
 		e = high;
 		i = iH;
@@ -3042,9 +3042,9 @@ RIL.prototype = {
     
     displayNotificationForClickMode : function()
     {
-	let msg 	= this.l('ClickModeNotify');
-	let name	= 'ISRILclickmode';
-	let icon	= 'chrome://isreaditlater/skin/clicksave.png';
+	var msg 	= this.l('ClickModeNotify');
+	var name	= 'ISRILclickmode';
+	var icon	= 'chrome://isreaditlater/skin/clicksave.png';
 	buttons = [{
 		    accessKey : '',
 		    label:  this.l('tags'),
@@ -3060,7 +3060,7 @@ RIL.prototype = {
     },
     
     clickSaveCallback: function(e) {
-	let targ, url, newNode, link, X, Y, title;
+	var targ, url, newNode, link, X, Y, title;
 	
 	// Determine which link was clicked
 	if (gContextMenu) {
@@ -3117,8 +3117,8 @@ RIL.prototype = {
 	
 	if (!RIL.clickModeNodesCounter) RIL.clickModeNodesCounter = 0;
 	
-	let newNode = content.document.createElement('div');
-	let id = 'readitlatersaved' + RIL.clickModeNodesCounter;
+	var newNode = content.document.createElement('div');
+	var id = 'readitlatersaved' + RIL.clickModeNodesCounter;
 	
 	newNode.setAttribute('id', id);
 	newNode.setAttribute('style', 'width:24px;height:24px;position:absolute;font-size:10px;font-weight:bold;color:#000000;background:url(\'chrome://isreaditlater/skin/book24-windows.png\') no-repeat;z-index:100000');
@@ -3149,21 +3149,21 @@ RIL.prototype = {
     // --- Notification Box --- //
     
     getNotificationBox : function(name, msg, icon, buttons) {		
-	let notificationBox = gBrowser.getNotificationBox();
+	var notificationBox = gBrowser.getNotificationBox();
 	if (!notificationBox.getNotificationWithValue(name))
 	    return notificationBox.appendNotification(msg, name, icon, notificationBox.PRIORITY_WARNING_MEDIUM, buttons);    
     },
     
     findNotificationBox : function(name) {
-	let name = name ? name : 'ISRILclickmode';
-	let notificationBox = gBrowser.getNotificationBox();
+	var name = name ? name : 'ISRILclickmode';
+	var notificationBox = gBrowser.getNotificationBox();
 	if (notificationBox.getNotificationWithValue(name))
 	    return notificationBox;
 	
     },
     
     removeNotificationBox : function(name) {	
-	let notificationBox = this.findNotificationBox();
+	var notificationBox = this.findNotificationBox();
 	if (notificationBox)
 	    notificationBox.removeCurrentNotification();
     },
@@ -3174,21 +3174,21 @@ RIL.prototype = {
     
     retrieveAndOpenTextForCurrentUrl : function(refresh)
     {
-	let currentItem = RIL.getItemForCurrentPage();
-	let item = currentItem.item;
-	let url = item ? item.url : 'nonexist';
+	var currentItem = RIL.getItemForCurrentPage();
+	var item = currentItem.item;
+	var url = item ? item.url : 'nonexist';
 	
 	RIL.retrieveAndOpenTextForUrl(url, 'current', content.document, refresh);	
     },
     
     retrieveAndOpenTextForUrl : function(url, target, doc, refresh, title)
     {
-	let item = RIL.APP.LIST.itemByUrl( url );
-	let itemId;
+	var item = RIL.APP.LIST.itemByUrl( url );
+	var itemId;
 	
 	if (target == 'current')
 	{
-	    let currentItem = RIL.getItemForCurrentPage();
+	    var currentItem = RIL.getItemForCurrentPage();
 	    
 	    // if text view is currently open, ask if they'd like to refresh it
 	    if ( (currentItem.type == 1 && currentItem.offline) || currentItem.type == -1)
@@ -3246,7 +3246,7 @@ RIL.prototype = {
 	    }
 	    
 	    // throw a spinner
-	    let spinner = content.document.createElement('div');
+	    var spinner = content.document.createElement('div');
 	    spinner.style.position = 'fixed';
 	    spinner.style.zIndex = '999999999';
 	    spinner.style.left = '0px';
@@ -3280,13 +3280,13 @@ RIL.prototype = {
     
     openTextViewForUrl : function(url, target, doc, error)
     {
-	let target = target ? target : 'current';	
-	let item = RIL.APP.LIST.itemByUrl(url);
-	let path, linkpath;
+	var target = target ? target : 'current';	
+	var item = RIL.APP.LIST.itemByUrl(url);
+	var path, linkpath;
 		
 	if (item.offlineText != 1)
 	{
-	    let errorMessage;
+	    var errorMessage;
 	    
 	    if (error)
 	    {
@@ -3301,20 +3301,20 @@ RIL.prototype = {
 	    {
 		errorMessage = '<p>The text generator could not reach the original article.</p>\
 				<p>You may have been trying to download too many articles at once.  Please wait a little while before trying again.</p>\
-				<p>Otherwise, if you continue you have problems, <a href="http://readitlaterlist.com/support/">please let me know</a>.  Thanks!</p>';
+				<p>Otherwise, if you continue you have problems, <a href="http://readitlaterlist.com/support/">please var me know</a>.  Thanks!</p>';
 	    }
 	    else if (!navigator.onLine)
 	    {
 		errorMessage = '<p>Pocket was not able to reach the original article the last time it tried to download this page.</p>\
 				<p>Next time you are connected to the internet, double check that the page is still available online and try then again.</p>\
-				<p>Otherwise, if you continue you have problems, <a href="http://readitlaterlist.com/support/">please let me know</a>.  Thanks!</p>'; 
+				<p>Otherwise, if you continue you have problems, <a href="http://readitlaterlist.com/support/">please var me know</a>.  Thanks!</p>'; 
 	    }
 	    else
 	    {		
 		errorMessage = '<p>The text generator could not reach the original article.</p>\
 				<p>You can see if the site is down by viewing the article here: <a target="_blank" href="'+item.url+'">'+item.url+'</a></p>\
 				<p>If you are able to view the original article, try generating the text again.</p>\
-				<p>Otherwise, if you continue you have problems, <a href="http://readitlaterlist.com/support/">please let me know</a>.  Thanks!</p>';
+				<p>Otherwise, if you continue you have problems, <a href="http://readitlaterlist.com/support/">please var me know</a>.  Thanks!</p>';
 	    }
 	    
 	    RIL.APP.errorPackages[item.itemId] = {
@@ -3346,7 +3346,7 @@ RIL.prototype = {
     textSettingsChanged : function(e)
     {	
 	// get the document
-	let o = content.document.body.getAttribute('o');
+	var o = content.document.body.getAttribute('o');
 	
 	if (o)
 	    RIL.PREFS.set('text-options', o);	
@@ -3354,7 +3354,7 @@ RIL.prototype = {
     
     loadOfflineWebView : function(itemId, inDocument)
     {	
-	let path = RIL.APP.ASSETS.folderPathForItemId( itemId , true ) + 'web.html';
+	var path = RIL.APP.ASSETS.folderPathForItemId( itemId , true ) + 'web.html';
 	
 	if (inDocument)
 	    inDocument.location = path;    
@@ -3386,7 +3386,7 @@ RIL.prototype = {
     	}
     	
 		o.targ = ((o.targ)?(o.targ):('current'));
-		let w = this.inSidebar ? RILsidebar.w : PKTmainWindow;
+		var w = this.inSidebar ? RILsidebar.w : PKTmainWindow;
 		w.openUILinkIn(url, o.targ, null, null, o.ref?RIL.APP.uri(o.ref):null);
     },
     
@@ -3423,12 +3423,12 @@ RIL.prototype = {
     addToToolbar : function() {
 
 	// --- Add Buttons if not on UI --- //
-	let id = this.XULnamespace + 'toolbar_button';
+	var id = this.XULnamespace + 'toolbar_button';
 	if (!this.PREFS.getBool('toolbar-btn-added') && !this.xulId(id, true)) {
-	    let navbar = this.xulId("nav-bar", true);
+	    var navbar = this.xulId("nav-bar", true);
 	    if (navbar)
 	    {
-		let curSet = navbar.currentSet;
+		var curSet = navbar.currentSet;
 		if (curSet.indexOf( id ) == -1) {
 		    var set = curSet + "," + id;
 		    navbar.setAttribute("currentset", set);
@@ -3464,7 +3464,7 @@ RIL.prototype = {
     // -- Key set -- //
     
     setupKeyStrokes : function() {
-	let keySet = this.xulId('mainKeyset', true);
+	var keySet = this.xulId('mainKeyset', true);
 	if (keySet && !this.xul('key_toggle', true)) {
 	    
 	    this.newKey(keySet, 'hotkey_toggle', "RIL.hotKeyToggle()" );
@@ -3494,11 +3494,11 @@ RIL.prototype = {
 	
     newKey : function(keySet, key, oncommand) {
 	
-	let currentKey = RIL.xul(key);
+	var currentKey = RIL.xul(key);
 	if (currentKey) this.removeNode(currentKey);
 	
-	let keyPair;
-	let pref = RIL.PREFS.get(key);
+	var keyPair;
+	var pref = RIL.PREFS.get(key);
 	if (pref && pref.length) {
 	    keyPair = pref.split('||');
 	    key = this.createNode('key', {
@@ -3515,7 +3515,7 @@ RIL.prototype = {
     },
 	
     hotKeyToggle : function() {
-	let currentItem = RIL.getItemForCurrentPage();
+	var currentItem = RIL.getItemForCurrentPage();
 	if (currentItem && currentItem.item)
 	{
 	    RIL.markCurrentAsRead();
@@ -3538,9 +3538,9 @@ RIL.prototype = {
     },	
     
     hotkeyText : function(p) {
-	let key;
-	let keycode;
-	let keySet = RIL.PREFS.get('hotkey_'+p).split('||');
+	var key;
+	var keycode;
+	var keySet = RIL.PREFS.get('hotkey_'+p).split('||');
 	if (keySet[0].length > 1) {
 	    key = null;
 	    keycode = keySet[1];
@@ -3558,12 +3558,12 @@ RIL.prototype = {
     // inMainWindow  means it should be in the main window, not the current document scope
     // for example: document inside of a sidebar is different then document inside of the main window
     xul : function(id, inMainWindow) {
-	let doc = inMainWindow && this.inSidebar && RILsidebar ? RILsidebar.w.document : document;
+	var doc = inMainWindow && this.inSidebar && RILsidebar ? RILsidebar.w.document : document;
         return doc.getElementById( this.XULnamespace + id );
     },
     
     xulId : function(id, inMainWindow) {
-	let doc = inMainWindow && this.inSidebar && RILsidebar ? RILsidebar.w.document : document;
+	var doc = inMainWindow && this.inSidebar && RILsidebar ? RILsidebar.w.document : document;
 	return doc.getElementById( id );	
     },
     
@@ -3608,7 +3608,7 @@ RIL.prototype = {
 	selected = selected ? selected - min : 0 ;
 	obj.removeAllItems();
 	
-	for(let i=min; i<=max; i++)
+	for(var i=min; i<=max; i++)
 	{
 	    obj.insertItemAt(i - 1, i, i);
 	}
@@ -3640,7 +3640,7 @@ RIL.prototype = {
     // #bug 520617 - https://bugzilla.mozilla.org/show_bug.cgi?id=520617
     wbrThisString : function(str, obj)
     {
-	let longRegex = /[a-z0-9_\?\%\=\&]{30}/i;
+	var longRegex = /[a-z0-9_\?\%\=\&]{30}/i;
 	
 	if (!str.match(longRegex))
 	{
@@ -3648,9 +3648,9 @@ RIL.prototype = {
 	} else
 	{
 	    // Walk through string and add wbr tags at the end of each long text section	    
-	    let strRemainder = str;	    
-	    let match = longRegex.exec(strRemainder);
-	    let stringPart;
+	    var strRemainder = str;	    
+	    var match = longRegex.exec(strRemainder);
+	    var stringPart;
 	    
 	    while(match)
 	    {   	    
@@ -3668,7 +3668,7 @@ RIL.prototype = {
     
     addWbrToObjectForString : function(obj, string)
     {		
-	let part = RIL.createNode('span', false, true);
+	var part = RIL.createNode('span', false, true);
 	part.textContent = '|'+string;
 	obj.appendChild( part );
 	obj.appendChild( RIL.createNode('wbr' , false, true ) );	
@@ -3682,7 +3682,7 @@ RIL.prototype = {
     
     whatIsTheClickTarget : function(e, defaultPref) {
 	var targ;
-        let userSetting = false;
+        var userSetting = false;
 	if (e.which != 3) {
 	    if (e.which == 1) {
 		if (e.ctrlKey || RIL.keyStates[224]) {//224
@@ -3703,7 +3703,7 @@ RIL.prototype = {
     },
         
     findPos : function (obj) {
-	let curleft = curtop = 0;
+	var curleft = curtop = 0;
 	if (obj.offsetParent) {
 	    curleft = obj.offsetLeft
 	    curtop = obj.offsetTop
@@ -3716,8 +3716,8 @@ RIL.prototype = {
     },
 	
     bubbleToTagName : function(obj, tagName) {
-	let maxlvls = 10;
-	let lvl = 1;
+	var maxlvls = 10;
+	var lvl = 1;
 	while (obj.tagName != tagName) {
 	    if (obj.parentNode) { 
 		obj = obj.parentNode;
@@ -3766,7 +3766,7 @@ RIL.prototype = {
     
     currentURL : function(checkForOffline) { //checkForOffline will look for the real url if the currentURL is an offline url
 	if (checkForOffline) {
-	    let currentItem = RIL.getItemForCurrentPage();
+	    var currentItem = RIL.getItemForCurrentPage();
 	    if (currentItem && currentItem.item && currentItem.offline)
 	    {
 		return currentItem.item.url;

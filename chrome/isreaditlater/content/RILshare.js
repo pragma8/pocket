@@ -8,8 +8,8 @@ RILshare.prototype = {
     {
         /*
         // move contents of share popup
-        let fromNodes = RIL.xul('share').childNodes;
-        let to = RIL.xul('item_shareContent')
+        var fromNodes = RIL.xul('share').childNodes;
+        var to = RIL.xul('item_shareContent')
         if (to.childNodes.length < 2)
         {
             while( fromNodes[ 0 ] )
@@ -25,9 +25,9 @@ RILshare.prototype = {
         this.sortSites();
         this.getTopList();
         
-        let content = RIL.xul('shareContent' + (fromContext ? 'Context' : '') );
-        let moreContent = RIL.xul('shareMoreContent' + (fromContext ? 'Context' : '') );
-        let i, node;
+        var content = RIL.xul('shareContent' + (fromContext ? 'Context' : '') );
+        var moreContent = RIL.xul('shareMoreContent' + (fromContext ? 'Context' : '') );
+        var i, node;
         
 	RIL.clearChildren( content );
 	RIL.clearChildren( moreContent );
@@ -40,8 +40,8 @@ RILshare.prototype = {
             if (i > 5) break;
         }        
         
-        let categoryContainers = {};
-        let menu;
+        var categoryContainers = {};
+        var menu;
         
         for(i in this.categories)
         {
@@ -52,7 +52,7 @@ RILshare.prototype = {
             menu.appendChild( categoryContainers[i] );           
         }
         
-        let site, cats, j;
+        var site, cats, j;
         for(i in this.siteIndex)
         {
             site = this.siteIndex[i];
@@ -75,7 +75,7 @@ RILshare.prototype = {
     {
         if (this.sorted) return;
         
-        let id;
+        var id;
         this.siteIndex = [];
         for(id in this.siteDirectory)
         {
@@ -96,18 +96,18 @@ RILshare.prototype = {
     getTopList : function()
     {        
         RIL.APP.PREFS.setIfDoesNotExist('share-top-sites', 'delicious|twitter|facebook|google_reader|email');
-        let str = RIL.APP.PREFS.get('share-top-sites');
+        var str = RIL.APP.PREFS.get('share-top-sites');
         this.topSiteIds = str.split('|');
     },
     
     moveSiteToTop : function(site)
     {
-        let i = this.topSiteIds.indexOf( site.id );
+        var i = this.topSiteIds.indexOf( site.id );
         
         if (i >= 0)
             this.topSiteIds.splice(i, 1);
         
-        let str = site.id + '|' + this.topSiteIds.slice(0,5).join('|');
+        var str = site.id + '|' + this.topSiteIds.slice(0,5).join('|');
         RIL.APP.PREFS.set('share-top-sites', str);
     },
     
@@ -115,7 +115,7 @@ RILshare.prototype = {
     
     shareSiteSelected : function(e)
     {
-        let site;
+        var site;
         if (this.getAttribute('siteId'))
         {
             site = RILshare.siteDirectory[ this.getAttribute('siteId') ];
@@ -130,14 +130,14 @@ RILshare.prototype = {
     {
         try
         {
-        let title;
+        var title;
         if (!url)
         {
             url = RIL.currentURL(true);
             title = RIL.currentTitle();
         }
         else {
-            let item = RIL.APP.LIST.itemByUrl(url);
+            var item = RIL.APP.LIST.itemByUrl(url);
             title = item ? item.title : '';
         }
         
@@ -145,7 +145,7 @@ RILshare.prototype = {
         // Basic - open url
         if (site.url)
         {
-            let shareurl = this.replaceUrlStringTags(site.url, url, title);
+            var shareurl = this.replaceUrlStringTags(site.url, url, title);
             if (shareurl)
                 RIL.openUrl(shareurl, {targ:(site.sameTab ? 'current' : 'tab'), ig:true});                
         }
@@ -183,9 +183,9 @@ RILshare.prototype = {
         shareurl = shareurl.replace('{!URL}', encodeURIComponent(url));        
         shareurl = shareurl.replace('{!TITLE}', encodeURIComponent(title));
         
-        let selectReplaced = false;
-        let selection = window.getSelection();
-        let text;
+        var selectReplaced = false;
+        var selection = window.getSelection();
+        var text;
         if (selection && selection.toString.length > 0)
         {
             text = RIL.APP.e(selection.toString);

@@ -22,8 +22,8 @@ RILlogin.prototype = {
         
         login : function()
         {
-                let username = RIL.xul('login_username').value;
-                let password = RIL.xul('login_password').value;					
+                var username = RIL.xul('login_username').value;
+                var password = RIL.xul('login_password').value;					
                 
                 if (username.length == 0 || password.length == 0)
                 {
@@ -48,7 +48,7 @@ RILlogin.prototype = {
                         // Sync and show list
                         try {
                                 
-                                let w = this.getTopWindow();	
+                                var w = this.getTopWindow();	
                                 
                                 w.RIL.openListAfterLogin();
                                 
@@ -70,9 +70,9 @@ RILlogin.prototype = {
         
         signup : function()
         {
-                let username 			= RIL.xul('signup_username').value;
-                let password 			= RIL.xul('signup_password').value;	
-                let email 			= RIL.xul('signup_email').value;					
+                var username 			= RIL.xul('signup_username').value;
+                var password 			= RIL.xul('signup_password').value;	
+                var email 			= RIL.xul('signup_email').value;					
                 
                 if (username.length == 0 || password.length == 0)
                 {
@@ -96,7 +96,7 @@ RILlogin.prototype = {
                         // Sync and show list
                         try {
                                 
-                                let w = this.getTopWindow();	
+                                var w = this.getTopWindow();	
                                 
                                 w.RIL.openListAfterLogin();
                                 
@@ -116,7 +116,7 @@ RILlogin.prototype = {
 
         noAccount : function(request)
         {                
-                let w = this.getTopWindow();	
+                var w = this.getTopWindow();	
                 
                 w.RIL.openListAfterLogin();
                 
@@ -130,12 +130,12 @@ RILlogin.prototype = {
         
         handleError : function(request, action)
         {
-                let check = {value: false};
+                var check = {value: false};
                 var flags = RIL.APP.PROMPT.BUTTON_POS_0 * RIL.APP.PROMPT.BUTTON_TITLE_OK +
                                         RIL.APP.PROMPT.BUTTON_POS_1 * RIL.APP.PROMPT.BUTTON_TITLE_IS_STRING;
 
 
-                let button = RIL.APP.PROMPT.confirmEx(window, "Pocket",
+                var button = RIL.APP.PROMPT.confirmEx(window, "Pocket",
                                         "There was a problem "+action+":\n\n"+request.error,
                                         flags, 
                                          "", "Get Help", "",
@@ -149,9 +149,9 @@ RILlogin.prototype = {
         
         getTopWindow : function()
         {
-                let wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
                                 .getService(Components.interfaces.nsIWindowMediator);
-                let w = wm.getMostRecentWindow("navigator:browser");
+                var w = wm.getMostRecentWindow("navigator:browser");
 
                 return w ? w : window.opener;
         }

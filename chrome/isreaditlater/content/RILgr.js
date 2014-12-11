@@ -95,7 +95,7 @@ RILgr.prototype = {
                         }
                     
                         //Set Checkmark attributes
-                        let inList = RIL.APP.LIST.itemByUrl(url);
+                        var inList = RIL.APP.LIST.itemByUrl(url);
                         checkmark.src = inList ? this.full : this.empty;
                         checkmark.width = 15;
                         checkmark.height = 15;
@@ -133,10 +133,10 @@ RILgr.prototype = {
         {
             RILgr.listWasRefreshed = false;
             
-            let marks = content.document.getElementsByClassName('RIL-checkmark');
-            let url, checkmark;
+            var marks = content.document.getElementsByClassName('RIL-checkmark');
+            var url, checkmark;
             
-            for(let i=0; i<=marks.length; i++)
+            for(var i=0; i<=marks.length; i++)
             {
                 checkmark = marks[i];
                 
@@ -156,7 +156,7 @@ RILgr.prototype = {
             obj = this;
         }
         if (obj.src == RILgr.full) {
-            let item = RIL.APP.LIST.itemByUrl( obj.getAttribute('url') );
+            var item = RIL.APP.LIST.itemByUrl( obj.getAttribute('url') );
             if (item)
                 RIL.APP.LIST.mark( item.itemId );
             else

@@ -43,9 +43,9 @@ RILlist.prototype = {
                 this.intervals[c] = true;
                 var interval = this.setInterval(function()
                 {                
-                    let row;
+                    var row;
                     
-                    for(let i=0; i<this.rowsPerInterval; i++)
+                    for(var i=0; i<this.rowsPerInterval; i++)
                     {
                         row = aResultSet.getNextRow();
                     
@@ -59,7 +59,7 @@ RILlist.prototype = {
                             
                             // check if all intervals have completed
                             // start at end, assuming they get completed from first to last
-                            for(let i=this.intervals.length-1; i>=0; i--)
+                            for(var i=this.intervals.length-1; i>=0; i--)
                             {
                                 if (this.intervals[i])
                                     return;
@@ -78,8 +78,8 @@ RILlist.prototype = {
     
             setInterval : function(func, time)
             {
-                let callback = {obj:this, notify:function(){func.call(this.obj)}};                
-                let timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
+                var callback = {obj:this, notify:function(){func.call(this.obj)}};                
+                var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
                 timer.initWithCallback(callback, time, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
                 return timer;
             },
@@ -160,11 +160,11 @@ RILlist.prototype = {
     
     fetchTable : function(key)
     {
-        let query;
+        var query;
         
         this.fetchKeys[key] = false;
         
-        let handler = new this.aSyncSelectStatementCallback();
+        var handler = new this.aSyncSelectStatementCallback();
         handler.list = this;
         handler.key = key;
         handler.status = true;
@@ -214,15 +214,15 @@ RILlist.prototype = {
             query = "SELECT item_id, tag FROM tags";
             handler.handleRow = function(row)
             {
-                let itemId = row.getResultByName('item_id');
-                let item = this.fetchStore.list[ this.fetchStore.iByItemId[itemId] ];
+                var itemId = row.getResultByName('item_id');
+                var item = this.fetchStore.list[ this.fetchStore.iByItemId[itemId] ];
                 
                 if (item)
                 {
                     if (!item.tags)     item.tags = [];
                     if (!item.tagList)  item.tagList = '';
                     
-                    let tag = row.getResultByName('tag');
+                    var tag = row.getResultByName('tag');
                     
                     if (tag)
                     {
@@ -241,8 +241,8 @@ RILlist.prototype = {
             var sSelf = this;
             handler.handleRow = function(row)
             {
-                let itemId = row.getResultByName('item_id');
-                let item = this.fetchStore.list[ this.fetchStore.iByItemId[itemId] ];
+                var itemId = row.getResultByName('item_id');
+                var item = this.fetchStore.list[ this.fetchStore.iByItemId[itemId] ];
                 
 				if (item)
                 { 
@@ -266,8 +266,8 @@ RILlist.prototype = {
             query = "SELECT item_id, url FROM resolver";
             handler.handleRow = function(row)
             {
-                let itemId = row.getResultByName('item_id');
-                let i = this.fetchStore.iByItemId[ itemId ];
+                var itemId = row.getResultByName('item_id');
+                var i = this.fetchStore.iByItemId[ itemId ];
                 if (i >= 0) // make sure item still exists //TODO - clean up entries that don't anymore?
                 {
                     this.fetchStore.iByUrl[ this.fetchStore.APP.parseUrl(row.getResultByName('url'), true) ] = i;
@@ -352,7 +352,7 @@ RILlist.prototype = {
         this.APP.d('cleanupAssets');
         var query = "SELECT assets.asset_domain AS asset_domain, COUNT(assets_items.item_id) AS retain FROM assets LEFT OUTER JOIN assets_items ON assets.asset_domain = assets_items.asset_domain GROUP BY assets.asset_domain";
         
-        let callback = new this.aSyncSelectStatementCallback();
+        var callback = new this.aSyncSelectStatementCallback();
         callback.cleanUpBatch = [];
         callback.APP = this.APP;
         callback.handleRow = function (row)
@@ -377,7 +377,7 @@ RILlist.prototype = {
     
     addNewItemToMemoryList : function(item)
     {                   
-        let i = this.list.length;
+        var i = this.list.length;
         
         this.list[ i ] = item;
         
@@ -396,14 +396,14 @@ RILlist.prototype = {
     // List Lookup
         
     itemById : function(item_id) {
-        let i = this.iByItemId[item_id];
+        var i = this.iByItemId[item_id];
         if (i >= 0) return this.list[i];
     },
     
     itemByUrl : function(url) {
         if (!url) return;
-        let parsedUrl = this.APP.parseUrl(url, true);
-        let i = this.iByUrl[parsedUrl];
+        var parsedUrl = this.APP.parseUrl(url, true);
+        var i = this.iByUrl[parsedUrl];
         if (i >= 0) return this.list[i]; 
     },
     
@@ -413,17 +413,17 @@ RILlist.prototype = {
         this.APP.d('rebuildIindex');
         
         // -- Main list -- //
-        let i, n;
+        var i, n;
         
         this.iByUrl = {};
         this.iByItemId = {};
         
         // Make a copy of the list
-        let old = this.list.slice();
+        var old = this.list.slice();
         this.list = [];
         
         // Go through old list to rebuild list and indexes
-        let newI=0;
+        var newI=0;
         for(i in old) {
             
             if (old[i])
@@ -472,10 +472,10 @@ RILlist.prototype = {
     {
         if (this.tagIndexNeedsRebuild)
         {
-            let index = {};
-            let tagList = [];
-            let tempIndex = {};
-            let i, ti, t, tag, tags;
+            var index = {};
+            var tagList = [];
+            var tempIndex = {};
+            var i, ti, t, tag, tags;
             
             for(i=0; i<this.list.length; i++)
             {
@@ -540,8 +540,8 @@ RILlist.prototype = {
         this.rebuildTagIndex();
         if (!this.tagToTagIndex)
         {
-            let tagToTagIndex = {};
-            let i;
+            var tagToTagIndex = {};
+            var i;
             for(i=0; i<this.tags.length; i++)
             {
                 tagToTagIndex[ this.tags[i].tag ] = i;
@@ -580,17 +580,17 @@ RILlist.prototype = {
         
         // Not a valid link PARSER
         // TODO use isValidUrl()
-        let parsed = this.APP.parseUri(item.url);
+        var parsed = this.APP.parseUri(item.url);
 	if (parsed.protocol != 'http' && parsed.protocol != 'https') return false;
 	
         
         // Temp passing around
         // This is done because when item is added to memory list, it would set.tagList = new value, so when saveTags is called below and it
         // checks the new tags verus existing, they would match, and therefore not be saved.
-        let tagList = item.tagList;
+        var tagList = item.tagList;
         delete item.tagList;
         // positions may have the same issue as tags
-        let positions = item.positions;
+        var positions = item.positions;
         delete item.positions;
         
         
@@ -607,7 +607,7 @@ RILlist.prototype = {
         this.addNewItemToMemoryList.call(this,item);
         
         // Save to database
-        let statement = this.APP.DB.createStatement("INSERT INTO items (item_id,unique_id,url,title,time_updated,offline_web,offline_text,percent) VALUES (:itemId,:uniqueId,:url,:title,:timeUpdated,:offlineWeb,:offlineText,:percent) ");
+        var statement = this.APP.DB.createStatement("INSERT INTO items (item_id,unique_id,url,title,time_updated,offline_web,offline_text,percent) VALUES (:itemId,:uniqueId,:url,:title,:timeUpdated,:offlineWeb,:offlineText,:percent) ");
         statement.params.itemId         = item.itemId;
         statement.params.uniqueId       = item.uniqueId;
         statement.params.url            = item.url;
@@ -653,9 +653,9 @@ RILlist.prototype = {
     },
     
     mark : function(itemId, batch, noSync, deleteIt) {
-        let item = this.itemById(itemId);
+        var item = this.itemById(itemId);
         if (!item) return;
-        let url = item.url; // needs this for sync queue
+        var url = item.url; // needs this for sync queue
         
         // Remove item from memory list
         if (item.tagList && item.tagList.length > 0)
@@ -668,7 +668,7 @@ RILlist.prototype = {
         // Save change to database
         
         // remove item entry
-        let statement = this.APP.DB.createStatement("DELETE FROM items WHERE item_id = :itemId");
+        var statement = this.APP.DB.createStatement("DELETE FROM items WHERE item_id = :itemId");
         statement.params.itemId = itemId;        
         this.batch.push( statement );
         
@@ -704,14 +704,14 @@ RILlist.prototype = {
     
     saveTitle : function(itemId, title, batch, noSync, syncWait) {               
         
-        let item = this.itemById(itemId);
+        var item = this.itemById(itemId);
         if (item.title != title)
         {
             // Update Memory List
             item.title = title;
             
             // Save Change to Database
-            let statement = this.APP.DB.createStatement("UPDATE items SET title = :title WHERE item_id = :itemId");
+            var statement = this.APP.DB.createStatement("UPDATE items SET title = :title WHERE item_id = :itemId");
             statement.params.title = title;
             statement.params.itemId = itemId;
             
@@ -730,14 +730,14 @@ RILlist.prototype = {
     saveTags : function(itemId, tagList, batch, noSync, syncWait) { 
     
         this.APP.d('{}--');
-        let item = this.itemById(itemId);
+        var item = this.itemById(itemId);
         
         if (!item) return false;
 
         if (this.APP.trim(item.tagList?item.tagList:'') != this.APP.trim(tagList))
         {
-            let statement, tag;
-            let tags = tagList.split(/,\s*?/);
+            var statement, tag;
+            var tags = tagList.split(/,\s*?/);
                                     
             // Clear all tags for item
             item.tags = [];
@@ -747,7 +747,7 @@ RILlist.prototype = {
             this.batch.push( statement );
             
             // Create new tags
-            for(let i in tags)
+            for(var i in tags)
             {                
                 tag = this.APP.trim(tags[i]);
                 if (!tag || tag.length == 0) continue;
@@ -783,7 +783,7 @@ RILlist.prototype = {
 	this.rebuildTagIndex();
         
         
-        let i, item, reg, newReg, statement;
+        var i, item, reg, newReg, statement;
         for(i in this.tagItemIndex[tag])
         {            
             reg = new RegExp('(^|,)(\\s*)?'+this.APP.regexSafe(tag)+'(\\s*)?(,|$)', 'i');
@@ -834,7 +834,7 @@ RILlist.prototype = {
         
 	this.rebuildTagIndex();        
         
-        let i, item, reg, newReg, existsInItem, statement;
+        var i, item, reg, newReg, existsInItem, statement;
         for(i in this.tagItemIndex[tag])
         {            
             reg = new RegExp('(^|,)(\\s*)?'+this.APP.regexSafe(tag)+'(\\s*)?(,|$)', 'i');
@@ -865,11 +865,11 @@ RILlist.prototype = {
     compareAndUpdateTags : function(itemId, newTags, oldTags, batch)
     {
         if (!newTags) return;
-        let newList;
-        let oldList;
+        var newList;
+        var oldList;
         
         // Just need to find out if the tag lists are different.  Each list may be in a completely different order
-        let updateTags = false;
+        var updateTags = false;
         
         // Quick checks
         // - compare number of items (if they are equal, we still need to keep checking)
@@ -887,7 +887,7 @@ RILlist.prototype = {
         // - loop through newTags and look in oldTags for each (stop when one is not found)
         if (!updateTags && newList)
         {
-            let i;
+            var i;
             for(i=newList.length-1; i>=0; i--) // go backwards assuming newer tags will more likely be at the end
             {
                 if (newList[i] && !oldTags.match(newList[i]))
@@ -905,8 +905,8 @@ RILlist.prototype = {
     
     changeURL : function(itemId, newUrl, batch, noSync) {               
         //TODO see mod of this in app, if/else's are wrong
-        let item = this.itemById(itemId);
-        let oldUrl = item.url;
+        var item = this.itemById(itemId);
+        var oldUrl = item.url;
         if (oldUrl != newUrl)
         {   
      
@@ -918,7 +918,7 @@ RILlist.prototype = {
             //  This syncs a delete to the server for the old entry if it's not in the send queue
             //  This syncs a new to the server for the old entry if it's not in the send queue
                 
-            let newItem = this.itemByUrl(newUrl);
+            var newItem = this.itemByUrl(newUrl);
             if (newItem && newItem.itemId != itemId)
             {
                 // if the new url already exists in the list, delete the old (duplicate) entry but still add old url to resolver
@@ -935,7 +935,7 @@ RILlist.prototype = {
                 item.url = newUrl;
             
                 // Save Change to Database
-                let statement = this.APP.DB.createStatement("UPDATE items SET url = :url WHERE item_id = :itemId");
+                var statement = this.APP.DB.createStatement("UPDATE items SET url = :url WHERE item_id = :itemId");
                 statement.params.url = newUrl;
                 statement.params.itemId = itemId;
             
@@ -969,13 +969,13 @@ RILlist.prototype = {
     
     updateTimeUpdated : function(itemId, timeUpdated, batch) {
         
-        let item = this.itemById(itemId);
+        var item = this.itemById(itemId);
 
         // Update Memory List
         item.timeUpdated = timeUpdated;
         
         // Save Change to Database
-        let statement = this.APP.DB.createStatement("UPDATE items SET time_updated = :timeUpdated WHERE item_id = :itemId");
+        var statement = this.APP.DB.createStatement("UPDATE items SET time_updated = :timeUpdated WHERE item_id = :itemId");
         statement.params.timeUpdated = timeUpdated;
         statement.params.itemId = itemId;
         
@@ -989,13 +989,13 @@ RILlist.prototype = {
     
     updateItemId : function(itemId, newItemId, batch) {
         /* is this ness??
-        let item = this.itemById(itemId);
+        var item = this.itemById(itemId);
 
         // Update Memory List
         item.itemId = newItemId;
         
         // Save Change to Database
-        let statement = RIL.DB.createStatement("UPDATE items SET item_id = :newItemId WHERE item_id = :itemId");
+        var statement = RIL.DB.createStatement("UPDATE items SET item_id = :newItemId WHERE item_id = :itemId");
         statement.params.newItemId = newItemId;
         statement.params.itemId = itemId;
         
@@ -1016,7 +1016,7 @@ RILlist.prototype = {
     resetOffline : function()
     {
         // Update local list
-        let i;
+        var i;
         for(i in this.list)
         {
             this.list[i].offlineWeb = 0;
@@ -1024,7 +1024,7 @@ RILlist.prototype = {
         }
         
         // Update database
-        let statement = this.APP.DB.createStatement("UPDATE items SET offline_web = 0,  offline_text = 0");
+        var statement = this.APP.DB.createStatement("UPDATE items SET offline_web = 0,  offline_text = 0");
         this.batch.push( statement );
         statement = this.APP.DB.createStatement("DELETE FROM assets");
         this.batch.push( statement );
@@ -1036,8 +1036,8 @@ RILlist.prototype = {
     updateOffline : function(itemId, type, setting, retainDomains, batch)
     {
         
-        let statement;
-        let item = this.itemById(itemId);
+        var statement;
+        var item = this.itemById(itemId);
         
         if (type == 2)
         {
@@ -1064,8 +1064,8 @@ RILlist.prototype = {
         this.batch.push( statement );
         
         // Update asset retain database
-        let retainDomain;
-        for(let i in retainDomains)
+        var retainDomain;
+        for(var i in retainDomains)
         {
             retainDomain = retainDomains[i];
             
@@ -1089,7 +1089,7 @@ RILlist.prototype = {
     {
         if (!itemId || !positions) return;
         
-        let position, p;
+        var position, p;
         for(p in positions)
         {
             position = positions[p];
@@ -1110,13 +1110,13 @@ RILlist.prototype = {
     updateScrollPosition : function(itemId, view, section, page, nodeIndex, percent, timeUpdated, batch, noSync, delay) {
         
         // Update Memory List
-        let item = this.itemById(itemId);
+        var item = this.itemById(itemId);
         if (!item) return;
         
         if (!item.scroll) item.scroll = {};
         
         // check if scroll position is different than current
-        let oldPosition = item.scroll[view];        
+        var oldPosition = item.scroll[view];        
         if (oldPosition)
         {
             if (oldPosition.nodeIndex == nodeIndex) return false; // same, no need to do anything
@@ -1164,10 +1164,10 @@ RILlist.prototype = {
     
     flushScrollPositions : function() {
         
-        let positions = this.pendingScrollPositions;
+        var positions = this.pendingScrollPositions;
         
-        let position;
-        for(let i in positions) {
+        var position;
+        for(var i in positions) {
             position = positions[i];
             this.updateScrollPosition(position.itemId, position.view, position.section, 1, position.nodeIndex, Math.ceil( position.percent < 1 ? 0 : ( position.percent > 100 ? 100 : position.percent) ), null, true, false, true);
         }
@@ -1203,13 +1203,13 @@ RILlist.prototype = {
     flushBatch : function(callback) {        
         
 	// grab a snapshot of the batch and then clear it
-	let batch = this.batch.slice();
+	var batch = this.batch.slice();
 	this.batch = [];
         
         // Flush changes to DB
         if (this.uniqueIdNeedsFlush)
         {
-           let statement = this.APP.DB.createStatement("UPDATE vars SET unique_id = :uniqueId");
+           var statement = this.APP.DB.createStatement("UPDATE vars SET unique_id = :uniqueId");
            statement.params.uniqueId = this.uniqueId; 
            batch.push( statement );
         }
@@ -1243,7 +1243,7 @@ RILlist.prototype = {
         if (!doNotSaveToDB)
         {
             // Add original to resolver
-            let statement = this.APP.DB.createStatement("REPLACE INTO resolver (item_id, url) VALUES (:itemId, :url)");
+            var statement = this.APP.DB.createStatement("REPLACE INTO resolver (item_id, url) VALUES (:itemId, :url)");
             statement.params.itemId = itemId;
             statement.params.url = url;  
             
@@ -1255,7 +1255,7 @@ RILlist.prototype = {
         
 	
 	// Add to resolver in memory
-	let i = this.iByItemId[ itemId ];
+	var i = this.iByItemId[ itemId ];
         if (i) this.iByUrl[ this.APP.parseUrl(url), true ] = i;
         this.resolver.push( {itemId:itemId, url:url} );
     },

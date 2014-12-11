@@ -13,7 +13,7 @@ Pocket take a look at the Pocket OPEN API:
 http://readitlaterlist.com/api/
 
 Suggestions for additions to Pocket are VERY welcome.  A large number of user
-suggestions have been implemented.  Please let me know of any additional features you
+suggestions have been implemented.  Please var me know of any additional features you
 are seeking at: http://readitlaterlist.com/support/
 
 Thanks
@@ -100,7 +100,7 @@ RILwebDownloader.prototype = {
     request : function(url, isBinary, delegate, callback, itemInfo, wait)
     {
         //this.APP.d('request');
-        let request = new this.fileDownloader(url, isBinary, delegate, callback);
+        var request = new this.fileDownloader(url, isBinary, delegate, callback);
         request.itemInfo = itemInfo;
         this.requests.push(request);
         if (!wait) this.popRequest();
@@ -112,7 +112,7 @@ RILwebDownloader.prototype = {
         if (this.requests && this.activeRequests <= this.maxActiveRequests && this.requests.length > 0 && !this.finished)
         {
             this.activeRequests++;
-            let request = this.requests.shift();
+            var request = this.requests.shift();
             if (request) request.start();
         }
     },
@@ -122,8 +122,8 @@ RILwebDownloader.prototype = {
         if (this.finished) return;
         
         //this.APP.d('requestAsset');
-        let itemInfo = data.itemInfo;
-        let type = data.type;
+        var itemInfo = data.itemInfo;
+        var type = data.type;
                 
         // If still under max asset caps (should this be a byte level cap rather than #)?
         if ( (type == 1 && this.imageCount < this.maxImages) || (type == 2 && this.stylesheetCount < this.maxStylesheets) ) {
@@ -134,7 +134,7 @@ RILwebDownloader.prototype = {
             //if ( !this.dupeCheckAbsolute[ itemInfo.absolute ] ) //for testing to skip exists check
             {
                 
-                let request = this.request(itemInfo.absolute, (type==1), this, type==1?this.imageAssetFinished:this.stylesheetAssetFinished, itemInfo, true);
+                var request = this.request(itemInfo.absolute, (type==1), this, type==1?this.imageAssetFinished:this.stylesheetAssetFinished, itemInfo, true);
             
                 // Add to queue
                 if (type == 1)
@@ -381,7 +381,7 @@ RILwebDownloader.prototype = {
     shutdownThreads : function()
     {
         try {
-            for(let i in this.threads)
+            for(var i in this.threads)
             {
                 if (this.threads[i])
                 {
