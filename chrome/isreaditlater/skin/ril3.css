@@ -1,0 +1,583 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+
+/* -- Forcing color styles here to prevent incompatible themes from making a mess -- */
+
+#RIL_list,
+#RIL_list_inner
+{
+    background: #FFFFFF !important;
+}
+#RIL_listPageNumber
+{
+    color: #000000 !important;
+}
+.RIL_item_title,
+.RIL_tag_title,
+.RIL_item_title html|a,
+.RIL_tag_title html|a,
+#RIL_listPrevious,
+#RIL_listNext,
+#RIL_offline > label,
+#RIL_offline > description
+{
+    color: #000000 !important;
+}
+
+/*
+ -- Help block out elements in the list for fixing spacing issues in themes
+.RIL_favIconWrapper { background: #FF0000; }
+.RIL_item_title { background: #FF6600; }
+.RIL_item_title html|a { background: #00FF00; }
+.RIL_subWrapper { background: #0000FF;  }
+.RIL_item_domain { background: #CCCCCC; margin: 0px; padding: 0px; }
+*/
+
+
+
+/* -- Basics -- */
+
+.RIL_dim { opacity: 0.4; }
+
+
+/* -- List -- */
+
+#RIL_list {
+    width: 300px;
+}
+
+#RIL_menu {
+    height: 34px;
+    background: #000000;
+}
+
+#RIL_menu hbox {  
+    padding: 0px 9px 0px 9px;
+}
+
+#RIL_chooser {
+    padding: 9px 22px 0px 0px;
+    color: #FFF;
+    font-size: 11px;
+    cursor: pointer;
+    background: #000000 url("chrome://isreaditlater/skin/i_dropdown.png") right center no-repeat;  
+}
+#RIL_chooser:hover {
+    text-decoration: underline;    
+}
+
+#RIL_menu_btns label {
+    width: 20px;
+    height: 35px;
+    cursor: pointer;
+    background: center no-repeat;
+}
+
+#RIL_menu_btns label#RIL_btnSync {      background-image: url("chrome://isreaditlater/skin/i_sync.png"); }
+#RIL_menu_btns label#RIL_btnDown {      background-image: url("chrome://isreaditlater/skin/i_down.png"); }
+#RIL_menu_btns label#RIL_btnOptions {   background-image: url("chrome://isreaditlater/skin/i_cog.png"); }
+
+/* -- */
+
+#RIL_list_body {
+    padding: 13px 11px 11px 14px;
+    background: #FFFFFF;
+}
+
+/* -- */
+
+#RIL_filter,
+#RIL_edit_tags,
+#RIL_edit_title {
+    -moz-appearance: none;
+    border: 1px solid;
+    -moz-border-top-colors: #7f9db9 -moz-Field;
+    -moz-border-bottom-colors: #7f9db9 -moz-Field;
+    -moz-border-right-colors: #7f9db9 -moz-Field;
+    -moz-border-left-colors: #7f9db9 -moz-Field;
+    -moz-background-clip: border !important;
+}
+#RIL_filter {
+    padding-left: 21px;
+    background: url("chrome://global/skin/icons/search-textbox.png") -moz-Field no-repeat 1px center;
+    background: url("chrome://isreaditlater/skin/i_search.png") left center no-repeat !important;    
+}
+#RIL_edit_tags {
+    padding: 5px 0px 5px 21px;
+    background: url("chrome://isreaditlater/skin/tag_yellow.png") left center no-repeat !important;    
+}
+#RIL_edit_title {
+    padding: 5px 0px 5px 3px;
+}
+
+/* ROUNDED
+#RIL_filter {
+-moz-appearance: none;
+border: 3px solid;
+-moz-border-top-colors: #676767 #C5C5C5 -moz-Field;
+-moz-border-bottom-colors: #C2C2C2 #A4A4A4 -moz-Field;
+-moz-border-right-colors: #969696 #C5C5C5 -moz-Field;
+-moz-border-left-colors: #969696 #C5C5C5 -moz-Field;
+-moz-border-radius: 11.5px;
+background: url("chrome://global/skin/icons/search-textbox.png") -moz-Field no-repeat 1px center;
+-moz-background-clip: border !important;
+padding: 0 8px;
+-moz-padding-start: 16px;
+}*/
+#RIL_sort {
+    width: 105px;
+}
+
+/* -- */
+
+#RIL_list_grid {
+    padding-top: 15px;    
+}
+.RIL_scroll #RIL_list_grid,
+.RIL_listType_tags #RIL_list_grid {	
+    overflow: auto;
+    height: 300px;
+    padding-right: 12px;
+    margin-bottom: 0px;
+}
+#RIL_sidebar .RIL_scroll #RIL_list_grid,
+#RIL_sidebar .RIL_listType_tags #RIL_list_grid { height: auto; overflow: visible; }
+
+
+#RIL_list_rows row {
+    padding-bottom: 12px;    
+}
+#RIL_list_rows row.RIL_compact
+{
+    padding-bottom: 3px;
+}
+#RIL_list_rows row .RIL_action {
+    margin-top: -5px;
+    width: 14px;
+    height: 14px;
+    cursor: pointer !important;
+    visibility: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#RIL_list_rows row.RIL_compact .RIL_action
+{
+    margin-top: 0px;
+}
+
+#RIL_list_rows row:hover .RIL_action {  
+    visibility: visible;
+    cursor: pointer !important;
+}
+
+#RIL_list_rows row.RIL_compact .RIL_subWrapper,
+#RIL_list_rows row.RIL_compact:hover .RIL_item_accessory
+{
+    display: none;    
+}
+
+#RIL_list_rows row.RIL_compact:hover .RIL_subWrapper
+{
+    display: inherit;
+}
+
+.RIL_i_text { background-image: url("chrome://isreaditlater/skin/i_text.png"); }
+.RIL_i_edit { background-image: url("chrome://isreaditlater/skin/i_edit.png"); }
+.RIL_i_delete { background-image: url("chrome://isreaditlater/skin/i_delete.png"); }
+.RIL_i_openAll { width:16px !important; background-image: url("chrome://isreaditlater/skin/i_openAll.png"); }
+
+/* --- reverse these in the read settings below -- */
+.RIL_i_x { background-image: url("chrome://isreaditlater/skin/i_x_sml.png"); }
+.RIL_marked_row .RIL_i_x { background-image: url("chrome://isreaditlater/skin/plus_empty_16.png"); }
+
+.RIL_favIconWrapper {
+    width: 16px;
+    margin-right: 13px;
+    padding: 4px 0px 0px 0px;
+}
+.RIL_compact .RIL_favIconWrapper
+{
+    padding-top: 0px;    
+}
+.RIL_tagRow .RIL_favIconWrapper {
+    padding-top: 1px;
+}
+.RIL_tagRow .RIL_favIconWrapper image {
+    cursor: pointer;
+    max-width: 16px;
+    max-height: 16px;
+}
+
+.RIL_item_domain {
+    color: #909090;
+    font-size: 9px;  
+    cursor: pointer;
+    margin-left: 0px;
+}
+
+.RIL_item_domain:hover,
+.RIL_item_title:hover,
+.RIL_tag_title:hover {
+    text-decoration: underline !important;
+}
+
+.RIL_item_title
+{
+    margin-left: 0px;
+}
+
+.RIL_item_title html|a,
+.RIL_tag_title html|a {
+    width: 300px;
+    cursor: pointer;
+}
+
+.RIL_marked_row .RIL_item_domain,
+.RIL_marked_row .RIL_item_title,
+.RIL_marked_row .RIL_favIconWrapper image {
+    opacity: 0.4;
+    text-decoration: line-through;
+}
+.RIL_marked_row html|a { text-decoration: line-through; }
+
+.RIL_item_accessory,
+.RIL_listType_current .RIL_compact .RIL_item_accessory {
+    opacity: 0.55;
+    font-size: 9px;
+}
+.RIL_listType_current .RIL_item_accessory {
+    font-size: 12px;
+}
+
+
+.RIL_tag_title {
+    font-weight: bold;
+}
+
+/* --- */
+
+#RIL_tagAutoComplete {
+    font-size: 10px;
+    font-family: sans-serif;
+    min-width: 150px;
+    max-height: 200px;
+}
+#RIL_tagAutoComplete * {
+    padding: 0px;
+    margin: 0px;    
+}
+#RIL_tagAutoCompleteContent {
+    overflow: auto;
+    height: 175px;
+    max-height: 175px;
+}
+#RIL_tagAutoComplete .RIL_tagRowHeader {
+    padding: 1px 0px 1px 7px;
+    margin: 0px 0px 2px 0px;
+    color: #c0c0c0;
+    font-size: 10px;
+    background: #000000;
+}
+#RIL_tagAutoComplete .RIL_topWrapper {
+    margin-bottom: 2px;
+}
+#RIL_tagAutoComplete .RIL_tagRow {
+    margin: 1px 0px 2px 0px;
+}
+#RIL_tagAutoComplete checkbox {
+    color: #969696;
+    outline: none !important;
+}
+#RIL_tagAutoComplete label {
+    padding-left: 5px;
+    color: #969696;
+    font-size: 10px;
+    cursor: pointer;
+    line-height: 4px;
+}
+#RIL_tagAutoComplete .RIL_top label {
+    color: #000000;
+}
+#RIL_tagAutoComplete .RIL_highlighted {
+    background: #EBEBF0;
+}
+
+/* --- */
+
+#RIL_listMessage {
+    display: none;
+    text-align: center;
+}
+
+.RIL_loading #RIL_listMessage {
+    display: block;
+    background: url("chrome://isreaditlater/skin/syncing.png") center no-repeat;
+    padding-top: 60px;
+}
+.RIL_loading #RIL_list_grid,
+.RIL_loading #RIL_listFooter,
+.RIL_loading #RIL_listLoadMore {
+    display: none;
+    visibility: hidden;
+}
+
+/* --- */
+
+#RIL_genericMessage {
+    display: none;
+}
+.RIL_genericMessage #RIL_genericMessage {
+    padding-top: 20px;
+}
+.RIL_genericMessage #RIL_genericMessage,
+.RIL_genericMessageOverAll #RIL_genericMessage  {
+    display: block;
+}
+.RIL_genericMessageOverAll #RIL_filters,
+.RIL_genericMessageOverAll #RIL_list_grid,
+.RIL_genericMessageOverAll #RIL_listFooter,
+.RIL_genericMessage #RIL_listFooter,
+.RIL_genericMessage #RIL_listLoadMore,
+.RIL_genericMessageOverAll #RIL_listLoadMore,
+.RIL_genericMessageOverAll #RIL_listMessage {
+    display: none !important;
+}
+
+/* ---  Read List --- */
+
+
+/* --- Tags List --- */
+
+.RIL_listType_tags #RIL_filters,
+.RIL_listType_tags #RIL_listFooter {
+    display: none;
+}
+
+
+.RIL_listType_read .RIL_i_x { background-image: url("chrome://isreaditlater/skin/plus_empty_16.png"); }
+.RIL_listType_read .RIL_marked_row .RIL_i_x { background-image: url("chrome://isreaditlater/skin/i_x_sml.png"); }
+.RIL_listType_read .RIL_i_edit { display: none; }
+
+.RIL_listType_read .RIL_marked_row .RIL_item_domain,
+.RIL_listType_read .RIL_marked_row .RIL_item_title {
+    text-decoration: none;
+}
+.RIL_listType_read .RIL_marked_row html|a { text-decoration: none; }
+
+
+/* --- */
+
+#RIL_listMore {
+    padding-top: 18px;
+    font-size: 10px;
+}
+#RIL_listPrevious {
+    min-width: 45px;
+    max-width: 45px;
+    font-size: 10px;
+    text-align: right;
+}
+#RIL_listNext {
+    min-width: 24px;
+    max-width: 24px;
+    font-size: 10px;
+    text-align: right;
+}
+#RIL_listPageNumber {
+    min-width: 30px;
+    max-width: 30px;
+    padding: 0px;
+    margin: 0px;
+    font-size: 10px;
+    padding-top: 5px;
+}
+#RIL_listPage {
+    width: 74px;
+}
+
+
+/* -- Sidebar List -- */
+
+#RIL_sidebar {
+    overflow: auto;
+    background: #FFFFFF;    
+}
+#RIL_sidebar #RIL_list {
+    height: auto;    
+}
+
+
+/* --- Click to save -- */
+
+#RIL_clickToSaveTags {
+    width: 170px;    
+}
+
+
+/* --- Offline --- */
+
+#RIL_offlineProgress {
+    list-style-image: url("chrome://isreaditlater/skin/book16.png");
+    padding:0 5px 0 5px;
+}
+
+#RIL_offline {
+    display: none;
+}
+
+.RIL_offline #RIL_offline {
+    display: block;
+}
+.RIL_offline #RIL_listFooter,
+.RIL_offline #RIL_list_grid,
+.RIL_offline #RIL_filters,
+.RIL_offline #RIL_listMessage {
+    display: none;
+}
+
+
+
+
+/* --- Status bar --- */
+
+#RIL_clickToSaveButton { 
+    list-style-image: url("chrome://isreaditlater/skin/clicksave.png");
+    padding:0 5px 0 5px;
+}
+#RIL_textStatusButton { 
+    list-style-image: url("chrome://isreaditlater/skin/i_text_dark.png");
+    padding:0 5px 0 5px;
+}
+#RIL_shareStatusButton { 
+    list-style-image: url("chrome://isreaditlater/skin/link_go.png");
+    /*list-style-image: url("chrome://isreaditlater/skin/page_white_go.png");*/
+    padding:0 5px 0 5px;
+}
+
+
+/* --- Login --- */
+
+#RIL_login
+{
+    padding: 0px;
+    margin: 0px;
+    width: 570px;
+    height: 309px;
+}
+
+#RIL_login_wrapper
+{
+    display: block;
+    width: 570px;
+    min-height: 310px;
+    padding: 0px;
+    margin: 0px;
+    background: #2b2b2b url("chrome://isreaditlater/skin/loginSpinner.gif") center no-repeat;
+}
+
+#RIL_login_wrapper_inner
+{
+    display: block;
+    width: 570px;
+    height: 300px;
+    background: #2b2b2b url("chrome://isreaditlater/skin/iconLogin.png") left center no-repeat;  
+}
+
+.RIL_loading #RIL_login_wrapper
+{    
+    background: #2b2b2b url("chrome://isreaditlater/skin/loginSpinner.gif") center no-repeat;    
+}
+.RIL_loading #RIL_login_wrapper *
+{
+    opacity: 0.25;    
+}
+
+.RIL_login_panel
+{
+    margin: 57px 24px 0px 250px;
+    min-width: 288px;
+}
+label.RIL_main_label,
+label.RIL_field_label
+{
+    margin-bottom: 25px;
+    text-align: left;
+    font-size: 13px;
+    color: #bdbdbd;
+    font-family: helvetica, arial, sans-serif;
+}
+label.RIL_field_label
+{
+    display: block;
+    margin-top: 7px;
+}
+.RIL_panel_footer label
+{
+    text-align: center;
+    font-size: 11px;
+    color: #bdbdbd;
+    font-family: helvetica, arial, sans-serif;
+}
+.RIL_panel_footer label.text-link
+{
+    color: #a1a1a1;
+    font-size: 12px;
+}
+
+#RIL_logo
+{
+    display: block;
+    width: 260px;
+    height: 60px;
+    background: url("chrome://isreaditlater/skin/logoText.png") top center no-repeat;      
+}
+#RIL_login_panel_choice .RIL_panel_footer
+{
+    margin-top: 25px;
+    text-align: center;
+}
+#RIL_login_panel_login .RIL_panel_footer,
+#RIL_login_panel_signup .RIL_panel_footer
+{
+    margin-top: 15px;
+}
+
+.RIL_login_panel textbox
+{
+    font-size: 11px !important;
+}
+
+
+
+/* --- Options --- */
+
+#RIL_options {
+    width: 600px;
+    height: 350px;
+}
+
+#RIL_options_menu {
+    max-width: 170px;
+}
+
+.RIL_option_tab {
+    height: 240px;
+    overflow: auto;
+}
+.RIL_option_tab groupbox {
+    width: auto;
+    padding: 8px 5px 10px 2px;
+    margin-bottom: 15px;
+}
+.RIL_options_col1 {
+    min-width: 130px;
+}
+
+
+/* --- */
+
+#RIL_share label,
+#RIL_share menuitem {
+    font-size: 11px;
+}

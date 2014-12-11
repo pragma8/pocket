@@ -1,0 +1,127 @@
+
+/* --- Checkmark in Location Bar --- */
+
+#RIL_urlbar_mark-share { width:6px; padding:1px 0px 1px 0px; list-style-image: url("chrome://isreaditlater/skin/x_share_16.png"); }
+
+#RIL_urlbar_add,
+#RIL_urlbar_mark {
+    padding: 0px 2px 0px 2px;
+    list-style-image: url("chrome://isreaditlater/skin/book16_hollow.png");
+    -moz-image-region: rect(0px 16px 16px 0px);
+}
+/*#RIL_urlbar_add:hover { list-style-image: url("chrome://isreaditlater/skin/urlbar-plus-hover.png"); }*/
+
+#RIL_urlbar_mark { 
+    list-style-image: url("chrome://isreaditlater/skin/book16_urlbar.png");
+}
+
+
+
+/* --- Main toolbar button --- */
+
+.RIL_drop
+{
+    padding: 20px 0px 0px 0px;    
+}
+.RIL_FF4 .RIL_drop
+{
+    width: auto;
+    height: 5px;
+    padding: 0px;
+    background: url("chrome://isreaditlater/skin/arrow-dn.gif") center no-repeat;
+}
+
+.RIL_unread_count
+{
+    padding: 10px 0px 0px 0px;
+    font-size: 9px;
+}
+.RIL_FF4 .RIL_unread_count
+{
+    margin: 0px 0px 0px 0px !important;
+    padding: 0px !important;
+    font-size: 8px;
+    text-align: center;
+}
+.RIL_FF30plus .RIL_unread_count
+{
+	padding-left: 6px !important;
+	padding-right: 6px !important;
+}
+
+#navigator-toolbox[iconsize="small"] #nav-bar #RIL_toolbar_button.RIL_FF3 .RIL_drop
+{
+	padding: 13px 0px 0px 0px;
+	margin:0px 3px 0px 0px;
+}
+.RIL_FF3 RIL_unread_count,
+#navigator-toolbox[iconsize="small"] #nav-bar #RIL_toolbar_button.RIL_FF3 .RIL_unread_count
+{
+	margin: 0px 3px 0px 0px;
+	padding: 5px 0px 0px 0px;
+	font-size: 8px;
+}
+
+
+#main-window #RIL_toolbar_button.RIL_show_count.RIL_FF3
+{
+	-moz-binding: url("chrome://isreaditlater/content/bindings3.xml#toolbarbutton");
+}
+#main-window .RIL_FF3 .RIL_list_drop
+{
+	-moz-binding: url("chrome://isreaditlater/content/bindings3.xml#RIL_list_drop");
+}
+
+#main-window #RIL_toolbar_button.RIL_show_count.RIL_FF4  {
+	-moz-binding: url("chrome://isreaditlater/content/bindings.xml#toolbarbutton");
+}
+#main-window .RIL_FF4 .RIL_list_drop {
+	-moz-binding: url("chrome://isreaditlater/content/bindings.xml#RIL_list_drop");
+}
+
+
+/* -- Default Theme -- */
+
+#RIL_toolbar_button,
+#navigator-toolbox[iconsize="small"] #nav-bar #RIL_toolbar_button,
+#nav-bar #RIL_toolbar_button
+{
+    list-style-image: url("chrome://isreaditlater/skin/logo_btn_4_mac.png");
+}
+
+#RIL_toolbar_button.RIL_FF3,
+#navigator-toolbox[iconsize="small"] #nav-bar #RIL_toolbar_button.RIL_FF3
+{
+	height: 20px;
+  	list-style-image: url("chrome://isreaditlater/skin/book16.png");
+}
+#nav-bar #RIL_toolbar_button.RIL_FF3
+{
+	list-style-image: url("chrome://isreaditlater/skin/book24.png");
+}
+
+
+
+/* -- Mac theme -- */
+
+#main-window[RIL_theme="mac"] #RIL_toolbar_button.RIL_FF3,
+#main-window[RIL_theme="mac"] #navigator-toolbox[iconsize="small"] #nav-bar #RIL_toolbar_button.RIL_FF3
+{
+    height: 20px;
+    list-style-image: url("chrome://isreaditlater/skin/book16-mac.png");
+}
+#main-window[RIL_theme="mac"] #nav-bar #RIL_toolbar_button.RIL_FF3
+{
+    list-style-image: url("chrome://isreaditlater/skin/book24-mac.png");
+} 
+
+
+/* -- Windows theme -- */
+
+#main-window[RIL_theme="win"] #nav-bar #RIL_toolbar_button.RIL_FF3
+{
+    list-style-image: url("chrome://isreaditlater/skin/book24-windows.png");
+}
+
+
+

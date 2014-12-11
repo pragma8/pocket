@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://isreaditlater/locale/isreaditlater.dtd">
+
+<overlay id="RIL_placesOverlay"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+     <popup id="placesContext">
+
+        <!--<menuitem id="RIL_saveFolder"
+               oncommand="RILplaces.saveView(PlacesUIUtils.getViewForNode(document.popupNode), event)"
+               label="Save All to Pocket"
+               selectiontype="single"               
+               selection="folder|query"/>-->
+    </popup> 
+    
+    
+    <script type="application/x-javascript" src="chrome://isreaditlater/content/RILplaces.js" />
+    
+</overlay>

@@ -1,0 +1,536 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE window SYSTEM "chrome://isreaditlater/locale/isreaditlater.dtd">
+
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://isreaditlater/skin/ril.css" type="text/css"?>
+
+
+<dialog id="RIL_options"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        title="&ril.Options;"
+        buttons="accept,cancel"
+        ondialogaccept="return RILoptions.accept();"
+        ondialogcancel="return RILoptions.cancel();"
+        onload="RILoptions.init();"
+        persist="screenX screenY">
+	
+	
+	<hbox id="RIL_options_content" flex="1">
+        <listbox id="RIL_options_menu" onselect="RILoptions.selectTab(this.value)">
+			<listitem class="listitem-iconic" image="chrome://isreaditlater/skin/book16_square.png" label="&ril.account;" selected="true" value="account" id="RIL_options_menu_account" />
+                        <listitem class="listitem-iconic" image="chrome://isreaditlater/skin/brick_add.png" label="&ril.applications;" value="apps" id="RIL_options_menu_apps" />
+			<listitem class="listitem-iconic" image="chrome://isreaditlater/skin/wrench_orange.png" label="&ril.appearance;" value="appearance" id="RIL_options_menu_appearance" />
+			<listitem class="listitem-iconic" image="chrome://isreaditlater/skin/disconnect.png" label="&ril.offline;" value="offline" id="RIL_options_menu_offline" />			
+			<listitem class="listitem-iconic" image="chrome://isreaditlater/skin/keyboard.png" label="&ril.KeyboardShortcuts;" value="keyboard" id="RIL_options_menu_keyboard" />
+			<listitem class="listitem-iconic" image="chrome://isreaditlater/skin/cog_graphic.png" label="Advanced" value="tweaks" id="RIL_options_menu_tweaks" />
+			<listitem class="listitem-iconic" image="chrome://isreaditlater/skin/comment.png" label="&ril.helpSupport;" value="help" id="RIL_options_menu_help" />
+			<listitem class="listitem-iconic" image="chrome://isreaditlater/skin/heart.png" label="For Lovers" value="love" id="RIL_options_menu_love" />
+			<listitem hidden="true" class="listitem-iconic" image="chrome://isreaditlater/skin/wrench_orange.png" label="Debug" value="debug" id="RIL_options_menu_debug" />
+        </listbox>
+		
+		
+		<!-- Tab : Account -->
+			
+		<vbox hidden="true" id="RIL_options_account" flex="1" class="RIL_option_tab">                        
+			
+			<vbox id="RIL_optionsForSignedOut" hidden="true">
+				<groupbox>
+					<caption label="&ril.signInto;" />
+					
+					<hbox>
+                                                <button label="Log In" oncommand="RIL.openLogin();window.close()" />
+                                                <button label="Sign Up" oncommand="RIL.openLogin();window.close()" />
+					</hbox>
+				</groupbox>
+				
+				<groupbox>
+					<caption label="&ril.myData;" />
+					
+					<hbox>
+						<button label="&ril.eraseLocal;" oncommand="RILoptions.clearLocalData()"  />						
+					</hbox>
+				</groupbox>
+			</vbox>
+			
+			<vbox id="RIL_optionsForSignedIn" hidden="true">
+				<groupbox>
+					<caption id="RIL_options_username_label" />
+					
+					<hbox>
+                                                <button label="&ril.rssFeed;" oncommand="RIL.openToRSSFeed()" />
+                                                <button label="&ril.onlineList;" oncommand="RIL.APP.openSitePage('a', true)" />					
+                                                <button label="&ril.logout;" oncommand="RILoptions.logout();"  />
+					</hbox>
+				</groupbox>
+                        
+				<groupbox>
+					<caption label="&ril.myAccount;" />
+					
+					<hbox>
+						<button label="&ril.editMyAccount;" oncommand="RIL.APP.openSitePage('options', true);"  />
+						<button label="&ril.privacySettings;" oncommand="RIL.APP.openSitePage('privacy_controls', true)"  />
+					</hbox>
+				</groupbox>
+			</vbox>
+		</vbox>
+		
+		
+		
+		<!--- Tab : Offline Mode -->	
+
+        <vbox hidden="true" id="RIL_options_offline" flex="1" class="RIL_option_tab">
+				
+			<groupbox>
+				<caption label="&ril.offlineOptions;" />
+				
+				<vbox>
+					<checkbox id="RIL_autoOffline" label="&ril.AutoOffline;" />
+					<checkbox id="RIL_offlineOptionDownloadWeb" label="&ril.downloadWeb;" />
+					<checkbox id="RIL_offlineOptionDownloadText" label="&ril.downloadText;" />
+				</vbox>
+				
+			</groupbox>
+			
+			<groupbox>
+				<caption label="&ril.offlineContent;" />
+				
+				<hbox>
+					<button id="RIL_clearOffline" label="&ril.clearOfflineFiles;" oncommand="RILoptions.clearOfflineCache()" />
+				</hbox>
+				
+			</groupbox>
+			
+        </vbox>
+		
+		
+		
+		<!--- Tab : Applications -->	
+
+        <vbox hidden="true" id="RIL_options_apps" flex="1" class="RIL_option_tab">
+			
+			<groupbox>
+				<caption label="Google Reader" />
+                
+				<vbox>
+					<checkbox label="Show Pocket button in Google Reader" id="RIL_optionsGoogleReader" />					
+				</vbox>
+				
+			</groupbox>
+        
+			<groupbox>
+				<caption label="Pocket Apps" />
+                
+				<vbox style="padding-left:6px">
+					The cool thing about Pocket is that it's practically everywhere.  From
+                                        complete desktop and mobile apps to direct support in the applications you use most:
+				</vbox>
+				<vbox>
+                                        <label class="text-link"
+					href="http://getpocket.com/apps/link/pocket-android/?s=FF_LOVERS" 
+                                                onclick="RILoptions.loversAction(12,1,6,1)"
+					value="Android App" />
+					
+                                        <label class="text-link"
+					href="http://getpocket.com/apps/link/pocket-iphone/?s=FF_LOVERS" 
+                                                onclick="RILoptions.loversAction(12,1,1,1)"
+					value="iPhone / iPad App" />
+					
+                                        <label class="text-link"
+					href="http://getpocket.com/apps/link/pocket-amazon/?s=FF_LOVERS" 
+                                                onclick=""
+					value="Kindle Fire App" />
+                                        
+                                        <label class="text-link"
+					href="http://getpocket.com/apps/news/" 
+                                       onclick="RILoptions.loversAction(12,1,3,1)"
+					value="RSS/News Apps" />
+                                        
+                                        <label class="text-link"
+					href="http://getpocket.com/apps/" 
+                                       onclick="RILoptions.loversAction(12,1,4,1)"
+					value="More Apps and Mashups" />
+                                        
+                                        <label class="text-link"
+					href="http://getpocket.com/api/" 
+                                       onclick="RILoptions.loversAction(12,1,5,1)"
+					value="Developer API : Build your own Pocket app!" />
+				</vbox>
+				
+			</groupbox>
+			
+        </vbox>
+
+		
+		<!--- Tab : Keyboard Shortcuts -->	
+
+        <vbox hidden="true" id="RIL_options_keyboard" flex="1" class="RIL_option_tab">
+				
+			<groupbox>
+					<caption label="&ril.KeyboardShortcuts;" />
+					
+					<listbox id="RIL_keyboardShortcuts"
+						rows="6"
+						onselect="RILoptions.selectKey(event)">
+						
+						<listhead>
+							<listheader label="&ril.Action;" style="width:250px"/>
+							<listheader label="&ril.KeyboardShortcut;" flex="1"/>
+						</listhead>
+						<listcols>
+							<listcol/>
+							<listcol flex="1"/>
+						</listcols>
+						
+						<listitem id="RIL_keyboardShortcuttoggle">
+							<listcell label=" Save current page / Remove current page" />
+							<listcell id="RIL_keyboardShortcuttoggle-v" />
+						</listitem>
+						
+						<listitem id="RIL_keyboardShortcutopen_list">
+							<listcell label=" &ril.OpenClose;" />
+							<listcell id="RIL_keyboardShortcutopen_list-v" />
+						</listitem>
+						
+						<listitem id="RIL_keyboardShortcutsidebar">
+							<listcell label=" &ril.OpenCloseSidebar;" />
+							<listcell id="RIL_keyboardShortcutsidebar-v" />
+						</listitem>
+						
+						<listitem id="RIL_keyboardShortcutclick_mode">
+							<listcell label=" &ril.ActivateClick;" />
+							<listcell id="RIL_keyboardShortcutclick_mode-v" />
+						</listitem>
+						
+						<listitem id="RIL_keyboardShortcutpush">
+							<listcell label=" Perform toolbar button action" />
+							<listcell id="RIL_keyboardShortcutpush-v" />
+						</listitem>
+						
+						<listitem id="RIL_keyboardShortcutgr" singleKey="true">
+							<listcell label=" Google Reader: Save selected page " />
+							<listcell id="RIL_keyboardShortcutgr-v" />
+						</listitem>
+						
+					</listbox>
+					<grid>
+						<columns>
+							<column/>
+							<column flex="1"/>
+						</columns>
+						<rows>
+							<row>
+								<vbox align="right">
+									<spacer flex="1"/>
+									<label value="Press Key(s):"/>
+									<spacer flex="1"/>
+								</vbox>
+								<vbox flex="1">
+									<spacer flex="1"/>
+									<textbox id="RIL_newKey"
+                                                                                onkeyup="RILoptions.keyUp(event)"
+                                                                                onkeydown="RILoptions.keyDown(event)"
+										onkeypress="RILoptions.detectKey(event);"
+										disabled="true" />
+									<spacer flex="1"/>
+								</vbox>
+								<hbox>								
+									<button id="RIL_setKey"
+										label="&ril.Set;"
+										disabled="true"
+										oncommand="RILoptions.setKey();"/>								
+									<button id="RIL_disableKey"
+										label="Disable"
+										disabled="true"
+										oncommand="RILoptions.disableKey();"/>
+								</hbox>								
+							</row>
+						</rows>
+					</grid>
+					<hbox>
+						<spacer flex="1"/>
+					</hbox>
+					
+					<description style="padding-top: 10px;font-style: italic;">&ril.ShortcutWarning;.</description>
+										
+				</groupbox>
+									
+				<spacer flex="1" />
+        </vbox>
+		
+		
+		
+		<!-- Tab : Appearance -->
+			
+		<vbox hidden="true" id="RIL_options_appearance" flex="1" class="RIL_option_tab">
+								
+			
+			<groupbox>
+				<caption label="&ril.ReadingList;" />
+				
+				<grid>
+					<columns>
+						<column class="RIL_options_col1" />
+						<column class="RIL_options_col2" flex="1" />
+					</columns>
+					
+					<rows>								
+						<row>
+							<label value="&ril.listLayout;:" />
+							<menulist id="RIL_optionsListLayout">
+								<menupopup>
+									<menuitem label="&ril.compact;" value="cond" />
+									<menuitem label="&ril.expanded;" value="normal" />
+								</menupopup>
+							</menulist>	
+						</row>							
+						<row>
+							<label value="&ril.openListIn;:" />
+							<menulist id="RIL_optionsList">
+								<menupopup>
+									<menuitem label="Popup" value="btn" />
+									<menuitem label="&ril.ShowReadingList-sidebar;" value="sidebar" />
+								</menupopup>
+							</menulist>	
+						</row>								
+						<row>
+							<label value="List format:"  />
+							<menulist id="RIL_optionsListFormat" oncommand="RILoptions.togglePerPage();RILoptions.listSizeWarning()">
+								<menupopup>
+									<menuitem label="&ril.HowToDisplayItems-pages;" value="pages" />
+									<menuitem label="&ril.HowToDisplayItems-list;" value="scroll" />
+								</menupopup>
+							</menulist>	
+						</row>
+						<row>
+							<label value="&ril.itemsPerPage;:" />
+							<textbox id="RIL_optionsPerPage" emptytext="Enter a number" />
+						</row>
+						<row>
+							<label value="&ril.showUnreadCount;:" />
+							<checkbox id="RIL_optionsUnreadCount" label="" />
+						</row>
+						<row>
+							<label value="Show date:" />
+							<checkbox id="RIL_optionsShowDate" label="" />
+						</row>
+					</rows>
+					
+				</grid>
+			</groupbox>	
+			<groupbox>
+				<caption label="&ril.statusBarIcons;" />
+				
+				<grid>
+					<columns>
+						<column class="RIL_options_col1" />
+						<column class="RIL_options_col2" flex="1" />
+					</columns>
+					
+					<rows>
+						<row>
+							<label value="&ril.textView;:" />
+							<menulist id="RIL_optionsTextView">
+								<menupopup>
+									<menuitem label="&ril.show;" value="show" />
+									<menuitem label="&ril.onSavedPages;" value="item" />
+									<menuitem label="&ril.hide;" value="hide" />
+								</menupopup>
+							</menulist>	
+						</row>
+						<row>
+							<label value="Share:" />
+							<menulist id="RIL_optionsShare">
+								<menupopup>
+									<menuitem label="&ril.show;" value="show" />
+									<menuitem label="&ril.onSavedPages;" value="item" />
+									<menuitem label="&ril.hide;" value="hide" />
+								</menupopup>
+							</menulist>	
+						</row>
+						<row>
+							<label value="Click to Save:" />
+							<menulist id="RIL_optionsClick">
+								<menupopup>
+									<menuitem label="&ril.show;" value="show" />
+									<menuitem label="&ril.hide;" value="hide" />
+								</menupopup>
+							</menulist>	
+						</row>
+					</rows>
+					
+				</grid>
+			</groupbox>
+			
+		</vbox>
+        
+        
+                
+                <!-- Tab : Customize -->
+			
+		<vbox hidden="true" id="RIL_options_tweaks" flex="1" class="RIL_option_tab">
+							
+			<groupbox>
+				<caption label="&ril.actions;" />
+				
+				<grid>
+					<columns>
+						<column class="RIL_options_col1" />
+						<column class="RIL_options_col2" flex="1" />
+					</columns>
+					
+					<rows>								
+						
+						<row>
+							<label value="&ril.toolbarButton;:" />
+							<menulist id="RIL_optionsButton">
+								<menupopup>
+									<menuitem label="&ril.OpensNext;" value="next" />
+									<menuitem label="&ril.OpensRand;" value="rand" />
+									<menuitem label="&ril.OpensList;" value="list" />
+								</menupopup>
+							</menulist>	
+						</row>
+						<row>
+							<label value="&ril.MarkAsRead;:" />
+							<menulist id="RIL_optionsMarkAsRead">
+								<menupopup>
+									<!-- if order of items are changed update RILoptions.toggleAutoMarkRelated-->
+									<menuitem label="&ril.OpenNext;" value="next" />
+									<menuitem label="&ril.OpenRand;" value="rand" />
+									<menuitem label="&ril.CloseCurrentTab;" value="close" />
+									<menuitem label="&ril.DoNothing;" value="null" />
+								</menupopup>
+							</menulist>	
+						</row>
+						<row>
+							<label value="&ril.openItemsIn;:" />
+							<menulist id="RIL_optionsOpenIn">
+								<menupopup>
+									<menuitem label="&ril.OpenCurrent;" value="current" />
+									<menuitem label="&ril.OpenTab;" value="tab" />
+									<menuitem label="&ril.OpenWindow;" value="window" />
+								</menupopup>
+							</menulist>	
+						</row>
+						
+						<row>
+							<label value="&ril.autoMarkAsRead;:" />
+							<checkbox id="RIL_optionsAutoMarkItems" value="1" />
+						</row>
+                                        
+						<row>
+							<label value="&ril.autoClose;:" />
+							<checkbox id="RIL_optionsAutoClose" value="1" />
+						</row>
+					</rows>
+					
+				</grid>
+			</groupbox>
+                
+                                <groupbox>
+				<caption label="Advanced" />
+				
+				<grid>
+					<columns>
+						<column class="RIL_options_col1" />
+						<column class="RIL_options_col2" flex="1" />
+					</columns>
+					
+					<rows>	
+						<row>
+							<label value="&ril.autoSync;:" />
+							<checkbox id="RIL_optionsAutoSync" label="" />
+						</row><row>
+							<label value="Store password securely:" />
+							<checkbox id="RIL_optionsSecurePass" label="" />
+						</row>
+					</rows>
+					
+				</grid>
+			</groupbox>
+			
+		</vbox>
+        
+        
+		<!--- Tab : Lovers -->	
+
+                <vbox hidden="true" id="RIL_options_love" flex="1" class="RIL_option_tab">
+			                       
+                        <groupbox>
+				<caption label="Show Your Love" />
+                                
+                                <label>The most powerful way to support Pocket is simply to tell others.</label>
+                                
+                                <label class="text-link"
+					href="http://getpocket.com/firefox/review"
+                                       onclick="RILoptions.loversAction(1,2,1,1)"
+					value="Write a Review" />
+                        </groupbox>                       
+                        <groupbox>
+				<caption label="Become a Friend" />
+                        
+                                <label class="text-link"
+					href="http://facebook.com/getpocket" 
+                                       onclick="RILoptions.loversAction(9,1,1,1)"
+					value="Facebook" />
+                                <label class="text-link"
+					href="http://twitter.com/pocket" 
+                                       onclick="RILoptions.loversAction(10,1,1,1)"
+					value="Twitter" />
+                                    <label class="text-link"
+                                        href="http://getpocket.com/blog/" 
+                                       onclick="RILoptions.loversAction(11,1,1,1)"
+                                        value="Blog" flex="1" />
+                        </groupbox>	
+                        <groupbox>
+				<caption label="Get Involved" />
+                        
+                                <label class="text-link"
+					href="http://getpocket.com/credits/" 
+					value="Credits" />
+                         </groupbox>
+        </vbox>
+                
+                
+	
+		<!--- Tab : Help / Support -->	
+
+                <vbox hidden="true" id="RIL_options_help" flex="1" class="RIL_option_tab">
+			
+                        <groupbox>
+				<caption label="Help Using Pocket" />
+					
+				<label class="text-link"
+					href="http://getpocket.com/firefox/guide/" 
+					value="Guide to Using Pocket" />
+					
+			</groupbox>                        
+                        <groupbox>
+				<caption label="Talk to a Human" />
+                                
+				<label class="text-link"
+					href="http://getpocket.com/support/" 
+					value="Ask a question or make a suggestion" />
+                         </groupbox>
+        </vbox>
+                
+                
+                <!--- Debug -->	
+
+                <vbox hidden="true" id="RIL_options_debug" flex="1" class="RIL_option_tab">			
+                        <textbox id="RIL_debug_box" style="height:250px" />
+                </vbox>
+		
+    </hbox>
+
+					
+	
+    <stringbundleset id="stringbundleset">
+     <stringbundle id="RIL_strings" src="chrome://isreaditlater/locale/jsstrings.properties"/>
+    </stringbundleset>    
+	
+	<script type="application/x-javascript" src="chrome://isreaditlater/content/RIL.js" />
+	<script type="application/x-javascript" src="chrome://isreaditlater/content/RILoptions.js" />
+	
+</dialog>

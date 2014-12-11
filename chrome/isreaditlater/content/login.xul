@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE window SYSTEM "chrome://isreaditlater/locale/isreaditlater.dtd">
+
+<?xml-stylesheet href='chrome://global/content/xul.css' type="text/css"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://isreaditlater/skin/ril.css" type="text/css"?>
+
+
+<dialog id="RIL_login"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        title="Pocket"
+        buttons="false"
+        onload="return true;"
+        ondialogaccept="RILlogin.checkEnterKey();return false"
+        persist="screenX screenY"
+		class="">
+
+	<vbox id="RIL_login_wrapper">
+		
+                        
+                <hbox class="RIL_rainbowDash" style="width:100%;color:rgba(0,0,0,0);">
+                	<box flex="1" class="RIL_green">a</box>
+                	<box flex="1" class="RIL_blue"> </box>
+                	<box flex="1" class="RIL_red"> </box>
+                	<box flex="1" class="RIL_orange"> </box>
+                </hbox>
+                
+                <hbox id="RIL_login_wrapper_inner">
+                        
+                <vbox id="RIL_login_panel_choice" class="RIL_login_panel" hidden="false" align="center">
+                        
+                
+                        <vbox id="RIL_logo" />
+                         
+                        <label style="text-align:center;line-height:18px;margin-top:30px;margin-bottom:40px;" class="RIL_main_label">When you find something you want to view later, put it in Pocket.</label>
+                        
+                        <hbox align="center">
+                                <spacer flex="1" />
+                                <button oncommand="RILlogin.showPanel('signup');" label="Create an account"  />
+                                <button oncommand="RILlogin.showPanel('login');" label="Login" />
+                                <spacer flex="1" />
+                        </hbox>
+                        
+                </vbox>
+                
+                <vbox id="RIL_login_panel_login" class="RIL_login_panel" hidden="true">
+                        
+                        
+                        
+                        <label class="RIL_main_label">Login into Pocket:</label>
+                                                
+                        <grid>
+                                <columns>
+                                        <column flex="2" />
+                                        <column flex="1" />
+                                </columns>
+                                
+                                <rows>	
+                                        <row>
+                                                <vbox><label class="RIL_field_label" flex="2">&ril.Username;:</label></vbox>
+                                                <textbox flex="1" id="RIL_login_username" style="max-height:20px"/>
+                                        </row>
+                                        <row>
+                                                <vbox><label class="RIL_field_label" flex="2">&ril.Password;:</label></vbox>
+                                                <textbox type="password" flex="1" id="RIL_login_password" style="max-height:20px"/>
+                                        </row>
+                                        <row>
+                                                <label flex="2"> </label>
+                                                <hbox align="right">
+                                                        <spacer flex="1" />
+                                                        <button oncommand="RILlogin.login();" flex="2" label="Login" />
+                                                </hbox>
+                                        </row>
+                                </rows>
+                        </grid>
+                        
+                        <hbox class="RIL_panel_footer" align="center">
+                                <label class="text-link" href="http://getpocket.com/forgot/" value="Forgot your password?" />
+                                <label value=" | " />
+                                <label class="text-link" onclick="RILlogin.showPanel('signup');" value="Need an account instead?" />
+                        </hbox>
+                </vbox>
+                
+                <vbox id="RIL_login_panel_signup" class="RIL_login_panel" hidden="true">
+                        
+                        
+                        <label class="RIL_main_label" value="Create an account:" />
+                        
+                        <grid>
+                                <columns>
+                                        <column flex="2" />
+                                        <column flex="1" />
+                                </columns>
+                                
+                                <rows>	
+                                        <row>
+                                                <vbox><label class="RIL_field_label" flex="2">&ril.Username;:</label></vbox>
+                                                <textbox flex="1" id="RIL_signup_username" style="max-height:20px"/>
+                                        </row>
+                                        <row>
+                                                <vbox><label class="RIL_field_label" flex="2">&ril.Password;:</label></vbox>
+                                                <textbox type="password" flex="1" id="RIL_signup_password" style="max-height:20px"/>
+                                        </row>
+                                        <row>
+                                                <vbox><label class="RIL_field_label" flex="2">Email:</label></vbox>
+                                                <textbox type="email" flex="1" id="RIL_signup_email" style="max-height:20px"/>
+                                        </row>
+                                        <row>
+                                                <label flex="2"> </label>
+                                                <hbox align="right">
+                                                        <spacer flex="1" />
+                                                        <button oncommand="RILlogin.signup();" flex="2" label="Create Account" />
+                                                </hbox>
+                                        </row>
+                                </rows>
+                        </grid>
+                        
+                        <hbox class="RIL_panel_footer" align="center">
+                                <label class="text-link" href="http://getpocket.com/why/" value="Why do I need an account?" />
+                                <label value=" | " />
+                                <label class="text-link" onclick="RILlogin.showPanel('login');" value="Need to login instead?" />
+                        </hbox>
+                        
+                </vbox>		
+                </hbox>
+	</vbox>
+        
+                <stringbundleset id="stringbundleset">
+                <stringbundle id="RIL_strings" src="chrome://isreaditlater/locale/jsstrings.properties"/>
+                </stringbundleset>
+                
+                <script type="application/x-javascript" src="chrome://isreaditlater/content/RIL.js" />
+                <script type="application/x-javascript" src="chrome://isreaditlater/content/RILlogin.js" />
+</dialog>

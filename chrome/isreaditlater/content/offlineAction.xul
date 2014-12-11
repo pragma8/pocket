@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE window SYSTEM "chrome://isreaditlater/locale/isreaditlater.dtd">
+
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://isreaditlater/skin/ril.css" type="text/css"?>
+
+<dialog id="RIL_offlineAction"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        title="Loading..."
+        buttons="cancel"
+        ondialogaccept="return canCancel();"
+        ondialogcancel="return canCancel();"
+		onload="setTimeout(perform,333)"
+        persist="screenX screenY">
+	
+	
+	<label>Depending on how many files you have, this might take a while.</label>
+	<progressmeter mode="undetermined"/>
+				
+	
+	<stringbundleset id="stringbundleset">
+	<stringbundle id="isRitL-strings" src="chrome://isreaditlater/locale/jsstrings.properties"/>
+	</stringbundleset>
+	
+	<script type="application/x-javascript">
+		var thread, action, newFolder;
+		var APP, ASSETS;
+                var INTC=0;
+                var intervals=[];
+		
+		function perform()
+		{
+			action = window.arguments[0];
+			
+			APP = Components.classes['@ril.ideashower.com/rildelegate;1'].getService().wrappedJSObject;
+			ASSETS = Components.classes['@ril.ideashower.com/rilassetmanager;1'].createInstance(Components.interfaces.nsIRILassetManager);
+			ASSETS.init();
+			
+			if ( APP.OFFLINE.clearingOffline || APP.OFFLINE.movingOffline )
+			{
+				// not allowed to do more than one at a time
+				return window.close();
+			}
+			
+			switch(action)
+			{
+				case('clearing'):
+					title = 'Clearing Offline Files...';
+					clearOffline();
+					break;
+				case('moving'):
+					title = 'Moving Offline Files...';
+					moveOffline();
+					break;
+				default:
+					return window.close();
+					break;
+			}
+		
+			document.getElementById('RIL_offlineAction').setAttribute('title', title);
+		}
+		
+		
+		function clearOffline()
+		{
+			// stop the queue if it is running
+			APP.OFFLINE.cancel();
+			
+			// Clear
+			APP.OFFLINE.setOfflineStatus('clearing', true);
+			
+			APP.LIST.resetOffline();			
+			
+                        // enum through RIL_PAGES and RIL_ASSETS
+                        var dirs = [ASSETS.DIR_PAGES, ASSETS.DIR_ASSETS];
+                        for(var i in dirs)
+                        {
+                                var entries = dirs[i].directoryEntries;
+                                while(entries.hasMoreElements())
+                                {
+                                        INTC++;
+                                        var entry = entries.getNext();
+                                        entry.QueryInterface(Components.interfaces.nsIFile);
+                                        intervals.push( setTimeout(function(entry)
+                                        {
+                                                entry.remove(true);
+                                                step('clearing');
+                                        },5, entry) );
+                                }
+                        }
+                        check('clearing');
+                }
+		
+		
+		function moveOffline()
+		{			
+			APP.OFFLINE.setOfflineStatus('moving', true);
+			
+			var close = false;
+			newFolder = movingThread.newFolder = window.arguments[1];
+			
+			var newPathPages = newFolder.path + ASSETS.FD + ASSETS.PAGES_FOLDER_NAME;        
+			var newPathAssets = newFolder.path + ASSETS.FD + ASSETS.ASSETS_FOLDER_NAME;
+			var newPages = APP.ASSETS.file(newPathPages);
+			var newAssets = APP.ASSETS.file(newPathAssets);
+			
+			if (!newPages.exists())
+			{
+				if (!newAssets.exists())			
+				{
+                                        INTC = 2;
+					intervals.push(setTimeout(function(file){file.moveTo( newFolder, null );step('moving');},10,ASSETS.DIR_PAGES));
+					intervals.push(setTimeout(function(file){file.moveTo( newFolder, null );step('moving');},10,ASSETS.DIR_ASSETS));
+				}
+                                
+                                check('moving');
+			}
+			else
+			{
+				// if they do already contain asset folders, flush offline settings of all items (and rebuild by scanning)
+				APP.LIST.resetOffline();
+				
+				// #beta2 start scanning new folder in a thread for files #beta (also update downloader to check for web.html and text.html)
+				
+				APP.OFFLINE.setOfflineStatus('moving', false);
+			
+				// set new directory
+				APP.PREFS.set('offlinePath', newFolder.path);
+				
+				if (close) window.close();
+			}
+			
+		}                
+		
+                
+                function step(action)
+                {
+                        INTC--;
+                        check(action);
+                }
+                
+                function check(action)
+                {
+                       if (INTC == 0)
+                        finish(action);
+                }
+                
+		function canCancel()
+		{
+			try
+                        {
+                                for(var i in intervals)
+                                        clearTimeout(intervals[i]);
+			} catch(e) {
+				Components.utils.reportError(e);
+			}
+			
+			return true;
+		}
+                
+                function finish(action)
+                {
+                        if (action == 'moving')				
+                        	APP.PREFS.set('offlinePath', newFolder.path);
+					
+			APP.OFFLINE.setOfflineStatus(action, false);
+			
+			window.close();
+                }
+
+		
+	</script>
+	
+</dialog>

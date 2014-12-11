@@ -1,0 +1,168 @@
+
+<!-- Toolbar Buttons -->
+<!ENTITY ril.ReadSomething "Read Something">
+<!ENTITY ril.ReadLater "Read Later">
+<!ENTITY ril.MarkAsRead "Mark as Read">
+<!ENTITY ril.ReadingList "Reading List">
+<!ENTITY ril.OpenInNewWindow "Open in new window">
+<!ENTITY ril.OpenInNewTab "Open in new tab">
+
+
+<!-- Context Menus -->
+<!ENTITY ril.ReadThisLink "Read This Link Later">
+<!ENTITY ril.SaveAllTabs "Save All Tabs for Later">
+
+
+<!-- Reading List Menu/Options -->
+<!ENTITY ril.readingList "Home">
+<!ENTITY ril.tileView "Open Web App">
+<!ENTITY ril.currentlyReading "Currently Reading">
+<!ENTITY ril.readArchive "Archive">
+<!ENTITY ril.tags "Tags">
+<!ENTITY ril.selectAList "Main Menu">
+
+<!ENTITY ril.sync "Sync">
+<!ENTITY ril.goOffline "Go Offline">
+<!ENTITY ril.options "Options">
+
+<!ENTITY ril.normalSync "Normal Sync">
+<!ENTITY ril.fullSync "Full Sync">
+<!ENTITY ril.cancelSync "Cancel Sync">
+
+<!ENTITY ril.Options "Options">
+<!ENTITY ril.Next "next">
+<!ENTITY ril.Previous "previous">
+<!ENTITY ril.Page "page">
+
+<!ENTITY ril.emptyFilter "Filter by title, url, or tag">
+
+<!ENTITY ril.newest "Newest">
+<!ENTITY ril.oldest "Oldest">
+<!ENTITY ril.title "Title">
+<!ENTITY ril.site "Site">
+
+<!ENTITY ril.editPageTitle "Enter a page title">
+<!ENTITY ril.editTags "Separate tags with commas">
+<!ENTITY ril.renameTag "Rename this tag">
+<!ENTITY ril.save "Save">
+
+<!ENTITY ril.editTitleTags "Edit title/tags">
+<!ENTITY ril.delete "Delete (do not archive)">
+
+
+<!-- Offline -->
+<!ENTITY ril.offlineDescription "Pocket can download the pages in your reading list so you can view them even without an internet connection.">
+
+<!ENTITY ril.offlineOptions "Download Reading List">
+<!ENTITY ril.AutoOffline "Automatically make all saved pages available offline">
+<!ENTITY ril.downloadReadingList "Download Reading List">
+<!ENTITY ril.downloadWeb "Download web view">
+<!ENTITY ril.downloadText "Download text only view">
+<!ENTITY ril.moreOptions "more options">
+<!ENTITY ril.offlineContent "Offline Content">
+<!ENTITY ril.clearOfflineFiles "Clear Downloaded Files">
+<!ENTITY ril.changeOfflineDirectory "Change Download Directory">
+
+			
+
+<!-- Share -->
+<!ENTITY ril.share "Share">
+<!ENTITY ril.shareOn "Share on">
+<!ENTITY ril.more "More">
+
+
+
+<!-- Click to Save -->
+<!ENTITY ril.clickToSaveTags "Enter tags for all clicked items">
+<!ENTITY ril.clickToSaveMode "Click to Save Mode">
+
+
+<!-- Options Dialog -->
+<!ENTITY ril.Options "Pocket Options">
+
+<!ENTITY ril.OpensNext "opens next item">
+<!ENTITY ril.OpensRand "opens a random item">
+<!ENTITY ril.OpensList "opens reading list">
+
+<!-- Option Group -->
+<!ENTITY ril.OpenNext "open the next item">
+<!ENTITY ril.OpenRand "open a random item">
+<!ENTITY ril.CloseCurrentTab "close the current tab">
+<!ENTITY ril.DoNothing "do nothing else">
+
+<!-- Option Group -->
+<!ENTITY ril.OpenCurrent "open in current window/tab">
+<!ENTITY ril.OpenTab "open in new tab">
+<!ENTITY ril.OpenWindow "open in new window">
+
+
+<!ENTITY ril.account "Account">
+<!ENTITY ril.applications "Applications">
+<!ENTITY ril.offline "Offline">
+<!ENTITY ril.appearance "Appearance">
+<!ENTITY ril.customize "Customize">
+<!ENTITY ril.helpSupport "Help / Support">
+
+<!ENTITY ril.signInto "Sign Into Pocket">
+<!ENTITY ril.myData "My Data">
+<!ENTITY ril.eraseLocal "Erase my local data">
+<!ENTITY ril.eraseOnline "Erase my online data">
+<!ENTITY ril.rssFeed "RSS Feed">
+<!ENTITY ril.onlineList "Online List">
+<!ENTITY ril.logout "Logout">
+<!ENTITY ril.myAccount "My Account">
+<!ENTITY ril.editMyAccount "Edit my account">
+<!ENTITY ril.privacySettings "Privacy Settings">
+
+
+	
+<!-- Keyboard Shortcuts -->	
+<!ENTITY ril.KeyboardShortcuts "Keyboard Shortcuts">
+<!ENTITY ril.KeyboardShortcut "Keyboard Shortcut">
+<!ENTITY ril.Action "Action">
+<!ENTITY ril.OpenClose "Open/Close Reading List">
+<!ENTITY ril.OpenCloseSidebar "Open/Close Reading List in Sidebar">
+<!ENTITY ril.ActivateClick "Activate Click to Save Mode">
+<!ENTITY ril.Set "Set">
+<!ENTITY ril.ShortcutWarning "Note: If you choose a keyboard shortcut that is already taken, the action may not function properly.  Shortcut changes will not take effect until a new browser window is opened or Firefox is restarted">
+
+
+<!-- Customize -->
+<!ENTITY ril.statusBarIcons "Status Bar Icons">
+<!ENTITY ril.textView "Text view">
+<!ENTITY ril.show "Show">
+<!ENTITY ril.onSavedPages "On saved pages">
+<!ENTITY ril.hide "Hide">
+<!ENTITY ril.listLayout "List Layout">
+<!ENTITY ril.compact "Compact">
+<!ENTITY ril.expanded "Expanded">
+<!ENTITY ril.openListIn "Open reading list in">
+<!ENTITY ril.enterANumber "Enter a number">
+<!ENTITY ril.itemsPerPage "Items per page">
+<!ENTITY ril.autoSync "Auto-sync">
+<!ENTITY ril.actions "Actions">
+<!ENTITY ril.toolbarButton "Toolbar Button">
+<!ENTITY ril.openItemsIn "Open items in">
+<!ENTITY ril.autoMarkAsRead "Auto mark as read">
+<!ENTITY ril.autoClose 	"Close tab when saved">
+
+<!ENTITY ril.ShowReadingList "Show Reading List">
+	<!ENTITY ril.ShowReadingList-btn "Under Reading List Button">
+	<!ENTITY ril.ShowReadingList-sidebar "In Sidebar">	
+<!ENTITY ril.HowToDisplayItems "How to display items">
+	<!ENTITY ril.HowToDisplayItems-pages "Separate Pages">
+	<!ENTITY ril.HowToDisplayItems-list "Scrollable List">
+	
+<!ENTITY ril.showUnreadCount "Show unread count">
+
+
+
+
+<!-- Login -->
+<!ENTITY ril.Username "Username">
+<!ENTITY ril.Password "Password">
+<!ENTITY ril.ConfirmPass "Confirm Pass">
+<!ENTITY ril.useNoAccount "Use Pocket without an account">
+
+
+

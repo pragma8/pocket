@@ -1,0 +1,58 @@
+body
+{
+	margin: 0px;
+	padding: 30px 200px 30px 200px;
+	color: #FFFFFF;
+	font-size: 14px;
+	font-family: Arial, Helvetica, sans-serif;
+	background: #333333;
+}
+
+a {
+	color: #FFCC33;
+}
+
+p
+{
+	margin: 0px 0px 15px 0px;
+}
+
+h1 
+{
+	font-size: 26px;
+	margin-bottom: 30px;
+}
+
+
+h3
+{
+	font-size: 18px;
+	padding: 18px 0px 5px 0px;
+	margin: 0px;
+	border-bottom: 1px dotted #62625E;
+}
+
+
+h4 
+{
+	font-size: 16px;
+	margin: 40px 0px 20px 0px;
+}
+
+
+h5 
+{
+	font-size: 14px;
+	font-weight: bold;
+	margin: 5px 0px 4px 0px;
+	padding: 0px;
+	color:#CCCCCC;
+}
+
+.padP { margin-top: 20px; }
+
+img
+{
+	position: relative;
+	top: 5px;
+}

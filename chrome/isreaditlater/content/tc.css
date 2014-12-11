@@ -1,0 +1,22 @@
+.drop-spot
+{
+   position: absolute;
+   cursor: pointer;
+   background: url(chrome://isreaditlater/skin/tabCandyDrop.png) top left no-repeat;
+}
+.drop-spot .logo
+{
+	position: relative;
+	top: 3px;
+    width: 100%;
+    height: 48px;
+    background: url(chrome://isreaditlater/skin/tabCandyDropLogo.png) bottom right no-repeat;    
+}
+.drop-spot.hovered .logo
+{    
+    background-position: top right;
+}
+.drop-spot .close
+{
+    display: none;
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://isreaditlater/locale/isreaditlater.dtd">
+
+<?xml-stylesheet href="chrome://isreaditlater/skin/toolbar.css" type="text/css"?>
+<?xml-stylesheet href="chrome://isreaditlater/skin/ril.css" type="text/css"?>
+
+<overlay id="RIL_overlay"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+    <hbox id="urlbar-icons">
+        <image hidden="true" id="RIL_urlbar_add" insertbefore="go-button" onclick="RIL.addCurrent();RIL.addedFromLocationBar();" tooltiptext="&ril.ReadLater;" />
+        <image hidden="true" id="RIL_urlbar_mark" insertbefore="go-button" onclick="RIL.markCurrentAsRead();" tooltiptext="&ril.MarkAsRead;" />        
+    </hbox>
+    
+    <popupset id="mainPopupSet">	
+		
+		<panel id="RIL_clickToSaveTagsPanel" onpopupshowing="RIL.xul('clickToSaveTags').onkeyup = function(e) {if (e.which == 13)RIL.xul('clickToSaveTagsPanel').hidePopup()}" onpopuphiding="RIL.setTagsForClickToSave();">
+		  <textbox id="RIL_clickToSaveTags" emptytext="&ril.clickToSaveTags;" />	
+		</panel>        
+		
+        <menupopup position="before_end" id="RIL_share" onpopupshowing="RILshare.populateShareMenu();event.stopPropagation();">
+            <label style="font-weight:bold;" value="Share on:" />
+            <vbox id="RIL_shareContent" />
+            <menu label="More...">
+                <menupopup id="RIL_shareMoreContent" onpopupshowing="event.stopPropagation();" />
+            </menu>
+        </menupopup>
+                
+    </popupset>
+	
+    <popup id="contentAreaContextMenu">
+	  <menuitem id="RIL_context_saveLink" insertbefore="context-bookmarklink" label="Save Link to Pocket" oncommand="RIL.clickSaveCallback();event.stopPropagation();"/>
+          
+      <menuitem id="RIL_context_clickMode" insertafter="context-bookmarkpage" label="&ril.clickToSaveMode;" oncommand="RIL.toggleClickToSaveMode();event.stopPropagation();"/>
+      <menuitem id="RIL_context_savePage" insertafter="context-bookmarkpage" label="Save to Pocket" oncommand="RIL.addCurrent();event.stopPropagation();"/>	
+
+      <menuitem id="RIL_context_saveTabs" label="&ril.SaveAllTabs;" oncommand="RIL.saveTabs();event.stopPropagation();"/>
+    </popup>
+
+	
+    <toolbarpalette id="BrowserToolbarPalette">
+        <toolbarbutton id="RIL_toolbar_button" tooltiptext="&ril.ReadSomething;" type="menu-button"
+           label="&ril.ReadingList;" oncommand="RIL.readSomething()" class=" chromeclass-toolbar-additional">
+                <menupopup onpopupshowing="RIL.toggleReadingList();event.stopPropagation();return false;" />
+        </toolbarbutton>		
+    </toolbarpalette>
+	
+    	
+    <statusbar id="status-bar">
+        <statusbarpanel 
+                id="RIL_offlineProgress"
+                class="statusbarpanel-iconic-text chromeclass-toolbar-additional"
+		hidden="true">
+        </statusbarpanel>
+        <statusbarpanel
+		hidden="true"
+                id="RIL_textStatusButton"
+                class="statusbarpanel-menu-iconic chromeclass-toolbar-additional"
+                onclick="RIL.retrieveAndOpenTextForCurrentUrl()">
+        </statusbarpanel>
+        <statusbarpanel
+		hidden="true"
+                id="RIL_shareStatusButton"
+                class="statusbarpanel-menu-iconic chromeclass-toolbar-additional"
+                popup="RIL_share">
+        </statusbarpanel>
+        <statusbarpanel
+		hidden="true"
+                id="RIL_clickToSaveButton"
+                class="statusbarpanel-menu-iconic chromeclass-toolbar-additional"
+                onclick="RIL.toggleClickToSaveMode()">
+        </statusbarpanel>
+    </statusbar>
+    
+    <broadcasterset id="mainBroadcasterSet"> 
+        <broadcaster id="RIL_sidebarlist" 
+                         label="Pocket"
+                         autoCheck="false"
+                         type="checkbox"
+                         group="sidebar"
+                         sidebarurl="chrome://isreaditlater/content/list.xul"
+                         sidebartitle="Pocket"
+                         oncommand="toggleSidebar('RIL_sidebarlist');" />
+    </broadcasterset> 
+        
+    <script type="application/x-javascript" src="chrome://isreaditlater/content/RIL.js" />
+    <script type="application/x-javascript" src="chrome://isreaditlater/content/RILshare.js" />
+    <script type="application/x-javascript" src="chrome://isreaditlater/content/RILgr.js" />	
+	<!-- update RILsidebar to include any new scripts -->
+
+    
+</overlay>

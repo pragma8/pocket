@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 " />
+</head>
+	
+<body>
+	
+	<script type="text/javascript">
+	
+        spinner = document.createElement('div');
+        spinner.style.position = 'fixed';
+        spinner.style.zIndex = '999999999';
+        spinner.style.left = '0px';
+        spinner.style.top = '0px';
+        spinner.style.width = '100%';
+        spinner.style.height = '100%';
+        spinner.style.opacity = '0.85';
+        spinner.style.background = '#FFFFFF url(chrome://isreaditlater/skin/syncing.png) center no-repeat';
+        document.body.appendChild(spinner);
+	
+	function Ajax() {}
+	Ajax.prototype = {
+		
+		GetXmlHttp : function () {
+			{var ajax=null;try{ajax=new XMLHttpRequest();}
+			catch(e){ajax=null;}
+			try{if(!ajax)ajax=new ActiveXObject("Msxml2.XMLHTTP");}
+			catch(e){ajax=null;}
+			try{if(!ajax)ajax=new ActiveXObject("Microsoft.XMLHTTP");}
+			catch(e){ajax=null;}
+			return ajax;}
+		},
+		
+		fire : function (uri, callback, parameters) {
+			this.callback = callback;
+			this.transport = this.GetXmlHttp();
+			this.osc(this);
+			this.transport.open("GET",uri,true);
+			this.transport.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			this.transport.send(parameters);
+		},
+		
+		osc : function (ajaxObj) {
+			ajaxObj.transport.onreadystatechange = function() {
+				try {
+					switch(ajaxObj.transport.readyState) {
+						case(4): ajaxObj.callback(ajaxObj.transport.responseText );
+					}
+				}
+				catch( e ) { //server error
+				}
+			}	
+		}
+	}
+	
+	function postToTwitter(r) {
+		vars['title'] = vars['title'] ? vars['title'] : '';
+		var base = 'http://twitter.com/home/?source=Pocket&status='+vars['title']+' ';
+		if (r.match(/^https?:\/\/is.gd\/[0-9a-z]*$/i))
+			document.location.href = base + r;
+		else
+			document.location.href = base + vars['url'];
+	}
+	
+	try {
+		var parts = document.location.href.split('?');
+		var varStrings = parts[1].split('&');
+		var vars = {};
+		var split;
+		for(var i=0; i<varStrings.length; i++)
+		{
+			split = varStrings[i].split('=');
+			vars[split[0]] = split[1];
+		}	
+		
+		if (vars['url'])
+		{
+			var ajax = new Ajax();
+			ajax.fire('http://is.gd/api.php?longurl='+(vars['url']), postToTwitter);
+		}
+	} catch(e)
+	{
+		spinner.style.opacity = 0;
+		document.write('Error sending to twitter: '+e);
+	}
+	
+	
+	</script>
+
+</body>
+
+</html>

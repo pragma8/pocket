@@ -1,0 +1,232 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://isreaditlater/locale/isreaditlater.dtd">
+
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://isreaditlater/skin/ril.css" type="text/css"?>
+
+<overlay id="overlay"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    
+    <popupset id="mainPopupSet">
+        
+        <menupopup id="RIL_list_chooser_menu" position="after_start">      
+          <menuitem label="&ril.readingList;" oncommand="RIL.switchToList('list');"/>	
+          <menuitem id="RIL_list_chooser_cr" label="&ril.currentlyReading;" oncommand="RIL.switchToList('current');"/>	
+          <menuitem label="&ril.readArchive;" oncommand="RIL.switchToList('read');"/>		
+          <menuitem label="&ril.tags;" oncommand="RIL.switchToList('tags');"/>			
+          <menuseparator />
+          <menuitem label="&ril.tileView;" oncommand="RIL.switchToList('tile');"/>	
+        </menupopup>
+            
+        <panel id="RIL_list" onpopuphiding="RIL.listClosing();" >
+            
+            <vbox id="RIL_list_inner" class="RIL_listType_list" >
+                
+                <hbox class="RIL_rainbowDash">
+                	<box flex="1" class="RIL_green"></box>
+                	<box flex="1" class="RIL_blue"></box>
+                	<box flex="1" class="RIL_red"></box>
+                	<box flex="1" class="RIL_orange"></box>
+                </hbox>
+                	
+                <hbox id="RIL_menu">
+                    
+                    <hbox>
+                        <label tooltiptext="&ril.selectAList;" popup="RIL_list_chooser_menu" id="RIL_chooser" value="" oncommand="RIL.openListChooser()" />                        
+                    </hbox>
+                    <spacer flex="1"/>
+                    <hbox id="RIL_menu_btns" align="right">
+                        <label tooltiptext="&ril.sync;" id="RIL_btnSync" value=" " />
+                        <label tooltiptext="&ril.goOffline;" id="RIL_btnDown" onclick="RIL.openOfflineWindow()" value=" " />
+                        <label tooltiptext="&ril.options;" id="RIL_btnOptions" onclick="RIL.openOptions()" />
+                    </hbox>                        
+                      
+                </hbox>
+                
+                <vbox id="RIL_list_body">
+                    
+                    <hbox id="RIL_filters">
+                        
+                        <textbox flex="1" id="RIL_filter"
+                                clickSelectsAll="true"
+                                onkeyup="RIL.filterUpdated();"
+                                emptytext="&ril.emptyFilter;"
+                                noFilter="true" />
+                        
+                        <menulist tooltiptext="Sort by..." id="RIL_sort" oncommand="RIL.sortUpdated()">
+                            <menupopup id="RIL_sort_items">
+                                <menuitem label="&ril.newest;" value="1" />
+                                <menuitem label="&ril.oldest;" value="2" />
+                                <menuitem label="&ril.title;" value="3" />
+                                <menuitem label="&ril.site;" value="4" />
+                            </menupopup>
+                        </menulist>
+                        
+                    </hbox>
+                    
+                    <vbox id="RIL_listMessage" flex="1">
+                        <label id="RIL_listMessageText" align="center" />
+                    </vbox>
+                    <vbox id="RIL_genericMessage" flex="1" />
+                                                      
+                    <grid id="RIL_list_grid">
+                        <columns>
+                            <column />
+                            <column flex="1" />
+                        </columns>
+                        
+                        <rows id="RIL_list_rows">
+                            
+                            <row id="RIL_edit_row" hidden="true">
+                                <vbox />
+                                <vbox flex="1">
+                                    <textbox id="RIL_edit_title"
+                                        onfocus="RIL.xul('tagAutoComplete').hidePopup()"
+                                        emptytext="&ril.editPageTitle;" />
+                                    <hbox>
+                                        <textbox flex="1" id="RIL_edit_tags"
+                                        onfocus="this.onkeydown=RIL.tagAutoCompletePress;RIL.xul('tagAutoComplete').openPopup(this, 'after_end', 0, 0);"
+                                        emptytext="&ril.editTags;" />
+                                        <button label="&ril.save;" oncommand="RIL.saveEdit();" />
+                                    </hbox>
+                                </vbox>
+                            </row>
+                            
+                            <row id="RIL_editTag_row" hidden="true">
+                                <vbox />
+                                <hbox flex="1">
+                                    <textbox id="RIL_edit_tag"
+                                        emptytext="&ril.renameTag;" flex="1" />
+                                    <button label="&ril.save;" oncommand="RIL.saveTag();" />
+                                </hbox>
+                            </row>
+                            
+                        </rows>
+                    </grid>
+                                        
+                    <vbox id="RIL_listFooter" flex="1">
+                        <hbox align="right">
+                            <label id="RIL_listPrevious" class="RIL_dim" value="&ril.Previous;" onclick="RIL.pageMove(-1)" />
+                            <label id="RIL_listNext" class="text-link" value="&ril.Next;" onclick="RIL.pageMove(1)" />
+                        </hbox>
+                        <hbox align="right">
+                            <label id="RIL_listPageNumber" value="&ril.Page;:" />
+                            <menulist id="RIL_listPage" oncommand="RIL.pageMove()">
+                                <menupopup id="RIL_listPageItems" />
+                            </menulist>					
+                        </hbox>
+                    </vbox>
+                    
+                    <vbox id="RIL_offline">                        
+                        <description>&ril.offlineDescription;</description>
+                        <button oncommand="RIL.offlineStart();" label="&ril.downloadReadingList;" flex="1" />
+                                                
+                        <groupbox>
+                            <caption label="&ril.options;" />
+                            
+                            <checkbox id="RIL_offlineOptionDownloadWeb" label="&ril.downloadWeb;" />
+                            <checkbox id="RIL_offlineOptionDownloadText" label="&ril.downloadText;" />
+                            <label class="text-link" value="&ril.moreOptions;..." onclick="RIL.openOptions('offline')" />
+                        </groupbox>
+                    </vbox>	
+                    
+                    
+                </vbox>
+            </vbox>
+            
+        </panel>
+        
+        <menupopup id="RIL_item_context" onpopupshowing="RIL.itemContextSetup();">                
+                <menuitem id="RIL_item_open_tab"
+                          label="&ril.OpenInNewTab;"
+                          oncommand="RIL.itemContextClick(this, 'tab');event.stopPropagation();"/>
+                <menuitem id="RIL_item_open_window"
+                          label="&ril.OpenInNewWindow;"
+                          oncommand="RIL.itemContextClick(this, 'window');event.stopPropagation();"/>
+                
+               <separator class="groove" /> 
+                
+                <menu id="RIL_item_share" label="&ril.shareOn;">
+                    <menupopup id="RIL_item_shareContent" onpopupshowing="RILshare.populateShareMenu(true, RIL.xul('item_context').getAttribute('url'));event.stopPropagation();">
+                        <label style="font-weight:bold;" value="&ril.shareOn;:" />
+                        <vbox id="RIL_shareContentContext" />
+                        <menu label="&ril.more;...">
+                            <menupopup id="RIL_shareMoreContentContext" onpopupshowing="event.stopPropagation();" />
+                        </menu>
+                    </menupopup>
+                </menu>
+                
+                <separator class="groove" />             
+                
+                <menuitem id="RIL_item_context_edit" label="&ril.editTitleTags;"
+                          oncommand="RIL.editItem(false, true);event.stopPropagation();"/>
+                <menuitem id="RIL_content_markAsRead" label="&ril.MarkAsRead;"
+                          oncommand="RIL.markListItemAsRead(false, true);event.stopPropagation();"/>
+                <menuitem label="&ril.delete;"
+                          oncommand="RIL.itemContextDelete(this);event.stopPropagation();"/>
+                
+        </menupopup>
+        
+        <panel noautohide="true" id="RIL_tagAutoComplete" onpopupshowing="RIL.populateTagAutoComplete();" onpopupshown="RIL.xul('edit_tags').focus()" position="after_start">                
+
+            <vbox id="RIL_tagAutoCompleteContent">
+                <hbox class="RIL_top">
+                    <checkbox minheight="0" maxheight="13" minwidth="0" maxwidth="13" />
+                    <label style="padding-left:5px" value="Recent tag 1" />
+                </hbox>
+                <hbox class="RIL_top">
+                    <checkbox minheight="0" maxheight="13" minwidth="0" maxwidth="13" />
+                    <label style="padding-left:5px" value="Recent tag 1" />
+                </hbox>
+                <hbox class="RIL_top">
+                    <checkbox minheight="0" maxheight="13" minwidth="0" maxwidth="13" />
+                    <label style="padding-left:5px" value="Recent tag 1" />
+                </hbox>
+                <separator class="groove" />
+                <hbox>
+                    <checkbox minheight="0" maxheight="13" minwidth="0" maxwidth="13" />
+                    <label style="padding-left:5px" value="Recent tag 1" />
+                </hbox>
+                <hbox>
+                    <checkbox minheight="0" maxheight="13" minwidth="0" maxwidth="13" />
+                    <label style="padding-left:5px" value="Recent tag 1" />
+                </hbox>
+            </vbox>
+        </panel>
+        
+    </popupset>    
+    
+    <stringbundleset id="stringbundleset">
+     <stringbundle id="RIL_strings" src="chrome://isreaditlater/locale/jsstrings.properties"/>
+    </stringbundleset>    
+	
+    <page id="RIL_sidebar" flex="1">
+        <vbox id="RIL_sidebar_wrapper" flex="1"></vbox>
+    </page>
+            
+    <script type="text/javascript">
+                    
+            var PKTmainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                       .getInterface(Components.interfaces.nsIWebNavigation)
+                       .QueryInterface(Components.interfaces.nsIDocShellTreeItem)
+                       .rootTreeItem
+                       .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                       .getInterface(Components.interfaces.nsIDOMWindow); 
+                       
+            if (PKTmainWindow != window)
+            {
+                var RILLOADEDINSIDEBAR = true;
+                Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+                  .getService(Components.interfaces.mozIJSSubScriptLoader)
+                  .loadSubScript("chrome://isreaditlater/content/RILsidebar.js"); 
+                 
+                RILsidebar._init(PKTmainWindow);  
+            } else {
+                RILsidebar = false;                
+            }
+    
+    </script>
+
+</overlay>
